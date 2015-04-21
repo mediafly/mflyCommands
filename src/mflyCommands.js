@@ -227,7 +227,11 @@ var mflyCommands = function () {
             }
         },
         openItem: function (_id) {
-            doControlStatement(prefix + "item/" + _id);
+            var url = prefix + "item/" + _id;
+            if (_isWeb()) {
+                url += '?returnurl=' + encodeURI(window.location.href);
+            }
+            doControlStatement(url);
         },
 
         openFolder: function (_id) {

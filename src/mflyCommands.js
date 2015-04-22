@@ -229,7 +229,7 @@ var mflyCommands = function () {
         openItem: function (_id) {
             var url = prefix + "item/" + _id;
             if (_isWeb()) {
-                url += '?returnurl=' + encodeURI(window.location.href);
+                url += '?returnurl=' + encodeURIComponent(window.location.href);
             }
             doControlStatement(url);
         },

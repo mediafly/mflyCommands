@@ -38,7 +38,7 @@ var mflyCommands = function () {
     }
 
     // Internal, recursive function to handle retry logic
-    function _internalEmbed(id, page, dfd) {
+    function _internalEmbed(id, dfd, page, size, width, height, maxWidth, maxHeight, rotate) {
         if (_isWindows8()) {
             var pagepos = (typeof page === 'undefined' || page === null) ? '' : '&position=' + page;
 
@@ -55,7 +55,7 @@ var mflyCommands = function () {
                         case 202:
                             var delayFor = request.getResponseHeader("Retry-After") || 3;
                             setTimeout(function () {
-                                _internalEmbed(id, page, dfd);
+                                _internalEmbed(id, dfd, page);
                             }, delayFor * 1000);
                             break;
                         case 301:
@@ -72,10 +72,21 @@ var mflyCommands = function () {
                 }
             });
         } else {
-            var pagepos = (typeof page == 'undefined' || page == null) ? '' : '?position=' + page;
+            // image scale params are only supported on the web
+            var params = [
+                { name: 'position', value: page },
+                { name: 'size', value: size },
+                { name: 'width', value: width },
+                { name: 'height', value: height },
+                { name: 'maxWidth', value: maxWidth },
+                { name: 'maxHeight', value: maxHeight },
+                { name: 'rotate', value: rotate }
+            ].filter(function(x) {
+                return !!x.value;
+            });
 
             $.ajax({
-                url: _transformUrl(prefix + "data/embed/" + id + pagepos),
+                url: _transformUrl(prefix + "data/embed/" + id + '?' + $.param(params)),
                 success: function (data, textStatus, request) {
                     // Check for retry.
                     // iOS returns 202. Due to system limitations, Android returns 200 + blank response body
@@ -83,7 +94,7 @@ var mflyCommands = function () {
                         // Suggested delay amount is set in the Retry-After header on iOS. Default to 3 seconds if not found.
                         var delayFor = request.getResponseHeader("Retry-After") || 3;
                         setTimeout(function () {
-                            _internalEmbed(id, page, dfd);
+                            _internalEmbed(id, dfd, page);
                         }, delayFor * 1000);
                     } else {
                         // Content retrieved. Resolve the promise.
@@ -363,10 +374,10 @@ var mflyCommands = function () {
          * @param id Airship ID of the item to embed.
          * @param page Page number for documents.
          */
-        embed: function ($e, id, page) {
+        embed: function ($e, id, page, size, width, height, maxWidth, maxHeight, rotate) {
             if (_isWindows8()) {
                 $.Deferred(function (dfd) {
-                    _internalEmbed(id, page, dfd);
+                    _internalEmbed(id, dfd);
                 }).done(function (location, responseText, statusCode) {
                     $e.attr('src', location);
                 }).fail(function () {
@@ -374,7 +385,7 @@ var mflyCommands = function () {
                 });
             } else {
                 $.Deferred(function (dfd) {
-                    _internalEmbed(id, page, dfd);
+                    _internalEmbed(id, dfd, page, size, width, height, maxWidth, maxHeight, rotate);
                 }).done(function (url) {
                     if (_isWeb()) {
                         $e.attr('src', url);
@@ -409,7 +420,7 @@ var mflyCommands = function () {
             if (mflyCommands.isWindows8()) {
                 return $.Deferred(function (dfd2) {
                     $.Deferred(function (dfd) {
-                        _internalEmbed(id, null, dfd);
+                        _internalEmbed(id, dfd);
                     }).done(function (location, responseText, statusCode) {
                         if (statusCode === 301) {
                             var url = location;
@@ -427,7 +438,7 @@ var mflyCommands = function () {
                 });
             } else {
                 return $.Deferred(function (dfd) {
-                    _internalEmbed(id, null, dfd);
+                    _internalEmbed(id, dfd);
                 });
             }
         },

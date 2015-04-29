@@ -38,9 +38,11 @@ var mflyCommands = function () {
     }
 
     // Internal, recursive function to handle retry logic
-    function _internalEmbed(id, dfd, page, size, width, height, maxWidth, maxHeight, rotate) {
+    function _internalEmbed(id, dfd, options) {
+        options = (typeof options === 'undefined') ? { } : options;
         if (_isWindows8()) {
-            var pagepos = (typeof page === 'undefined' || page === null) ? '' : '&position=' + page;
+
+            var pagepos = options.page ? '' : '&position=' + page;
 
             $.ajax({
                 url: _transformUrl(prefix + "data/embed/" + id) + '&forceDownload=1' + pagepos,
@@ -55,7 +57,7 @@ var mflyCommands = function () {
                         case 202:
                             var delayFor = request.getResponseHeader("Retry-After") || 3;
                             setTimeout(function () {
-                                _internalEmbed(id, dfd, page);
+                                _internalEmbed(id, dfd, options);
                             }, delayFor * 1000);
                             break;
                         case 301:
@@ -74,13 +76,14 @@ var mflyCommands = function () {
         } else {
             // image scale params are only supported on the web
             var params = [
-                { name: 'position', value: page },
-                { name: 'size', value: size },
-                { name: 'width', value: width },
-                { name: 'height', value: height },
-                { name: 'maxWidth', value: maxWidth },
-                { name: 'maxHeight', value: maxHeight },
-                { name: 'rotate', value: rotate }
+                { name: 'position', value: options.page },
+                { name: 'size', value: options.size },
+                { name: 'width', value: options.width },
+                { name: 'height', value: options.height },
+                { name: 'maxWidth', value: options.maxWidth },
+                { name: 'maxHeight', value: options.maxHeight },
+                { name: 'rotate', value: options.rotate },
+
             ].filter(function(x) {
                 return !!x.value;
             });
@@ -94,7 +97,7 @@ var mflyCommands = function () {
                         // Suggested delay amount is set in the Retry-After header on iOS. Default to 3 seconds if not found.
                         var delayFor = request.getResponseHeader("Retry-After") || 3;
                         setTimeout(function () {
-                            _internalEmbed(id, dfd, page);
+                            _internalEmbed(id, dfd, options);
                         }, delayFor * 1000);
                     } else {
                         // Content retrieved. Resolve the promise.
@@ -374,10 +377,10 @@ var mflyCommands = function () {
          * @param id Airship ID of the item to embed.
          * @param page Page number for documents.
          */
-        embed: function ($e, id, page, size, width, height, maxWidth, maxHeight, rotate) {
+        embed: function ($e, id, page) {
             if (_isWindows8()) {
                 $.Deferred(function (dfd) {
-                    _internalEmbed(id, dfd);
+                    _internalEmbed(id, dfd, {page: page});
                 }).done(function (location, responseText, statusCode) {
                     $e.attr('src', location);
                 }).fail(function () {
@@ -385,7 +388,7 @@ var mflyCommands = function () {
                 });
             } else {
                 $.Deferred(function (dfd) {
-                    _internalEmbed(id, dfd, page, size, width, height, maxWidth, maxHeight, rotate);
+                    _internalEmbed(id, dfd, {page: page});
                 }).done(function (url) {
                     if (_isWeb()) {
                         $e.attr('src', url);
@@ -396,6 +399,32 @@ var mflyCommands = function () {
                     }
                 }).fail(function () {
                     console.log('mflyCommands.js: embed failed. id=' + id + ' page=' + page + ' $e=', $e);
+                });
+            }
+        },
+
+        embedImage: function ($e, id, options) {
+            options = (typeof options === 'undefined') ? { } : options;
+            if (_isWindows8()) {
+                $.Deferred(function (dfd) {
+                    _internalEmbed(id, dfd, options);
+                }).done(function (location, responseText, statusCode) {
+                    $e.attr('src', location);
+                }).fail(function () {
+                    console.log('mflyCommands.js: embed failed. id=' + id + ' $e=', $e);
+                });
+            } else {
+                $.Deferred(function (dfd) {
+                    _internalEmbed(id, dfd, options);
+                }).done(function (url) {
+                    if (_isWeb()) {
+                        $e.attr('src', url);
+                    }
+                    else {
+                        $e.attr('src', prefix + 'data/embed/' + id);
+                    }
+                }).fail(function () {
+                    console.log('mflyCommands.js: embed failed. id=' + id + ' $e=', $e);
                 });
             }
         },

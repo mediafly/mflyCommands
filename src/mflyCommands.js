@@ -1,5 +1,5 @@
 /**
- * mflyCommands v1.4.9 | (c) 2013-2015, Mediafly, Inc.
+ * mflyCommands v1.4.12 | (c) 2013-2015, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
@@ -106,6 +106,11 @@ var mflyCommands = function () {
                 },
                 error: function (data, status, request) {
                     // Content could not be retrieved. Reject the promise.
+                    if (_isWeb() && data.status === 401) {
+                        // Viewer does not have an authenticated session. Take user to Viewer root.
+                        window.location.replace(data.responseJSON.returnUrl);
+                    }
+
                     dfd.reject(this, [request.responseText, request.status]);
                 }
             });
@@ -129,7 +134,13 @@ var mflyCommands = function () {
             },
             error: function (data, status, request) {
                 // Content could not be retrieved. Reject the promise.
+                if (_isWeb() && data.status === 401) {
+                    // Viewer does not have an authenticated session. Take user to Viewer root.
+                    window.location.replace(data.responseJSON.returnUrl);
+                }
+
                 dfd.reject(this, [request, data.status]);
+
             }
         });
     }

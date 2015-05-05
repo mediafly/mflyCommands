@@ -108,6 +108,7 @@ var mflyCommands = function () {
                     // Content could not be retrieved. Reject the promise.
                     if (_isWeb() && data.status === 401) {
                         // Viewer does not have an authenticated session. Take user to Viewer root.
+                        sessionStorage.returnUrl = window.location.href;
                         window.location.replace(data.responseJSON.returnUrl);
                     }
 
@@ -136,6 +137,7 @@ var mflyCommands = function () {
                 // Content could not be retrieved. Reject the promise.
                 if (_isWeb() && data.status === 401) {
                     // Viewer does not have an authenticated session. Take user to Viewer root.
+                    sessionStorage.returnUrl = window.location.href;
                     window.location.replace(data.responseJSON.returnUrl);
                 }
 

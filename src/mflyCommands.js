@@ -1,5 +1,5 @@
 /**
- * mflyCommands v1.4.12 | (c) 2013-2015, Mediafly, Inc.
+ * (c) 2013-2015, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
@@ -485,7 +485,11 @@ var mflyCommands = function () {
             }
         },
 
-
+        getSyncStatus: function () {
+            return $.Deferred(function (dfd) {
+                _internalGetData('getSyncStatus', null, dfd);
+            });
+        },
         getValue: function (key) {
             return $.Deferred(function (dfd) {
                 if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {

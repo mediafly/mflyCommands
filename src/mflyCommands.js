@@ -4,6 +4,7 @@
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
  */
+"use strict";
 var mflyCommands = function () {
 
     /**

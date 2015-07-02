@@ -43,7 +43,7 @@ var mflyCommands = function () {
         options = (typeof options === 'undefined') ? { } : options;
         if (_isWindows8()) {
 
-            var pagepos = options.page ? '' : '&position=' + page;
+            var pagepos = !options.page ? '' : '&position=' + options.page;
 
             $.ajax({
                 url: _transformUrl(prefix + "data/embed/" + id) + '&forceDownload=1' + pagepos,

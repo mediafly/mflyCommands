@@ -638,7 +638,7 @@ var mflyCommands = function () {
          */
         search: function (term) {
             return $.Deferred(function (dfd) {
-                _internalGetData('search?term=' + term, null, dfd)
+                _internalGetData('search?term=' + encodeURIComponent(term), null, dfd)
             });
         },
 

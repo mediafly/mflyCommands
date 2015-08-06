@@ -687,6 +687,17 @@ var mflyCommands = function () {
             if (prefix == "mfly://" && _isWindows8()) {
                 doControlStatement(prefix + "control/ready");
             }
+        },
+
+        logout: function () {
+            if (mflyCommands.getDeviceType() == mflyCommands.deviceTypes.web) {
+                doControlStatement(prefix + "control/logout");
+            }
+            else if (mflyCommands.getDeviceType() == mflyCommands.deviceTypes.mobile) {
+                return $.Deferred(function (dfd) {
+                    _internalGetData('logout', null, dfd);
+                });
+            }
         }
     }
 }();

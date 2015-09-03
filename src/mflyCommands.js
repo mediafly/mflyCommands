@@ -27,7 +27,16 @@ var mflyCommands = function () {
         return false;
     }
 
+    function _appendVersion(url) {
+        var re = new RegExp('mfly://(.*)?(.*)=(.*)');
+        var hasQueryParams = re.test(url);
+        var separator = hasQueryParams ? '&' : '?';
+        return url + separator + 'version=5';
+    }
+
     function doControlStatement(url) {
+        _appendVersion(url);
+
         if (_isWindows8()) {
             window.external.notify(url);
         } else if (_isWeb()) {
@@ -44,9 +53,11 @@ var mflyCommands = function () {
         if (_isWindows8()) {
 
             var pagepos = !options.page ? '' : '&position=' + options.page;
+            var url = _transformUrl(prefix + "data/embed/" + id) + '&forceDownload=1' + pagepos;
+            url = _appendVersion(url);
 
             $.ajax({
-                url: _transformUrl(prefix + "data/embed/" + id) + '&forceDownload=1' + pagepos,
+                url: url,
                 contentType: "text/plain; charset=utf-8",
                 dataType: "text",
                 success: function (data, textStatus, request) {
@@ -89,8 +100,10 @@ var mflyCommands = function () {
                 return !!x.value;
             });
 
+            var url = _transformUrl(prefix + "data/embed/" + id + '?' + $.param(params));
+            url = _appendVersion(url);
             $.ajax({
-                url: _transformUrl(prefix + "data/embed/" + id + '?' + $.param(params)),
+                url: url,
                 success: function (data, textStatus, request) {
                     // Check for retry.
                     // iOS returns 202. Due to system limitations, Android returns 200 + blank response body
@@ -121,9 +134,11 @@ var mflyCommands = function () {
 
     function _internalGetData(func, param, dfd, expectJson) {
         if (expectJson === undefined) expectJson = true;
+        var url = _transformUrl(prefix + "data/" + func + (param == null ? "" : "/" + param));
+        url = _appendVersion(url);
 
         $.ajax({
-            url: _transformUrl(prefix + "data/" + func + (param == null ? "" : "/" + param)),
+            url: url,
             success: function (data, textStatus, request) {
                 // Content retrieved. Transform to JSON if supposed to.
                 if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
@@ -153,9 +168,11 @@ var mflyCommands = function () {
             localStorage.setItem(key, value);
             dfd.resolveWith(this, ['', 200]);
         } else {
+            var url = _transformUrl(prefix + "data/info/" + key);
+            url = _appendVersion(url);
             $.ajax({
                 type: "GET",
-                url: _transformUrl(prefix + "data/info/" + key),
+                url: url,
                 contentType: "text/plain; charset=utf-8",
                 data: "value=" + encodeURIComponent(value) + "&method=PUT",
                 dataType: "text",

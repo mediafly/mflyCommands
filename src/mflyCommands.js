@@ -28,14 +28,14 @@ var mflyCommands = function () {
     }
 
     function _appendVersion(url) {
-        var re = new RegExp('mfly://(.*)?(.*)=(.*)');
+        var re = new RegExp(prefix + '(.*)?(.*)=(.*)');
         var hasQueryParams = re.test(url);
         var separator = hasQueryParams ? '&' : '?';
         return url + separator + 'version=5';
     }
 
     function doControlStatement(url) {
-        _appendVersion(url);
+        url = _appendVersion(url);
 
         if (_isWindows8()) {
             window.external.notify(url);

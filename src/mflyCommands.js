@@ -31,11 +31,11 @@ var mflyCommands = function () {
         var re = new RegExp(prefix + '(.*)?(.*)=(.*)');
         var hasQueryParams = re.test(url);
         var separator = hasQueryParams ? '&' : '?';
-        return url + separator + 'version=5';
+        url += separator + 'version=5';
     }
 
     function doControlStatement(url) {
-        url = _appendVersion(url);
+        _appendVersion(url);
 
         if (_isWindows8()) {
             window.external.notify(url);
@@ -54,7 +54,7 @@ var mflyCommands = function () {
 
             var pagepos = !options.page ? '' : '&position=' + options.page;
             var url = _transformUrl(prefix + "data/embed/" + id) + '&forceDownload=1' + pagepos;
-            url = _appendVersion(url);
+            _appendVersion(url);
 
             $.ajax({
                 url: url,
@@ -100,8 +100,11 @@ var mflyCommands = function () {
                 return !!x.value;
             });
 
-            var url = _transformUrl(prefix + "data/embed/" + id + '?' + $.param(params));
-            url = _appendVersion(url);
+            var url = prefix + "data/embed/" + id;
+            if (params.length > 0) {
+                url += '?' + $.param(params);
+            }
+            _appendVersion(url);
             $.ajax({
                 url: url,
                 success: function (data, textStatus, request) {
@@ -135,7 +138,7 @@ var mflyCommands = function () {
     function _internalGetData(func, param, dfd, expectJson) {
         if (expectJson === undefined) expectJson = true;
         var url = _transformUrl(prefix + "data/" + func + (param == null ? "" : "/" + param));
-        url = _appendVersion(url);
+        _appendVersion(url);
 
         $.ajax({
             url: url,
@@ -169,7 +172,7 @@ var mflyCommands = function () {
             dfd.resolveWith(this, ['', 200]);
         } else {
             var url = _transformUrl(prefix + "data/info/" + key);
-            url = _appendVersion(url);
+            _appendVersion(url);
             $.ajax({
                 type: "GET",
                 url: url,

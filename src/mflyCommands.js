@@ -189,6 +189,29 @@ var mflyCommands = function () {
         }
     }
 
+    function _internalDeleteKey(key, dfd) {
+        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+            localStorage.removeItem(key);
+            dfd.resolveWith(this, ['', 200]);
+        } else {
+            var url = _transformUrl(prefix + "data/info/" + key);
+            url = _appendVersion(url);
+            url += '&method=DELETE'
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType: "text/plain; charset=utf-8",
+                success: function (data, textStatus, request) {
+                    // PUT successful. Resolve the promise.
+                    dfd.resolveWith(this, [data, request.status]);
+                },
+                error: function (data, status, request) {
+                    // PUT failed. Reject the promise.
+                    dfd.reject(this, [request, data.status]);
+                }
+            });
+        }
+    }
 
     function _parseQueryParameters(x, y, w, h) {
         var qp = '?';
@@ -566,6 +589,11 @@ var mflyCommands = function () {
             });
         },
 
+        deleteKey: function (key) {
+            return $.Deferred(function (dfd) {
+                _internalDeleteKey(key, dfd);
+            })
+        },
 
         getOnlineStatus: function () {
             return $.Deferred(function (dfd) {

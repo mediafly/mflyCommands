@@ -28,14 +28,12 @@ var mflyCommands = function () {
     }
 
     function _appendVersion(url) {
-        var re = new RegExp(prefix + '(.*)?(.*)=(.*)');
-        var hasQueryParams = re.test(url);
-        var separator = hasQueryParams ? '&' : '?';
-        url += separator + 'version=5';
+        var separator = url.indexOf('?') !== -1 ? "&" : "?";
+        return url + separator + 'version=5';
     }
 
     function doControlStatement(url) {
-        _appendVersion(url);
+        url = _appendVersion(url);
 
         if (_isWindows8()) {
             window.external.notify(url);
@@ -54,7 +52,7 @@ var mflyCommands = function () {
 
             var pagepos = !options.page ? '' : '&position=' + options.page;
             var url = _transformUrl(prefix + "data/embed/" + id) + '&forceDownload=1' + pagepos;
-            _appendVersion(url);
+            url = _appendVersion(url);
 
             $.ajax({
                 url: url,
@@ -104,7 +102,7 @@ var mflyCommands = function () {
             if (params.length > 0) {
                 url += '?' + $.param(params);
             }
-            _appendVersion(url);
+            url = _appendVersion(url);
             $.ajax({
                 url: url,
                 success: function (data, textStatus, request) {
@@ -138,7 +136,7 @@ var mflyCommands = function () {
     function _internalGetData(func, param, dfd, expectJson) {
         if (expectJson === undefined) expectJson = true;
         var url = _transformUrl(prefix + "data/" + func + (param == null ? "" : "/" + param));
-        _appendVersion(url);
+        url = _appendVersion(url);
 
         $.ajax({
             url: url,
@@ -172,7 +170,7 @@ var mflyCommands = function () {
             dfd.resolveWith(this, ['', 200]);
         } else {
             var url = _transformUrl(prefix + "data/info/" + key);
-            _appendVersion(url);
+            url = _appendVersion(url);
             $.ajax({
                 type: "GET",
                 url: url,

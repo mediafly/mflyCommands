@@ -1,9 +1,9 @@
 {
   "name": "mfly-commands",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "authors": [
-      "nachiket mehta <nmehta@mediafly.com>",
-      "jason shah <jshah@mediafly.com>"
+    "nachiket mehta <nmehta@mediafly.com>",
+    "jason shah <jshah@mediafly.com>"
   ],
   "description": "A set of commands for interactives to interface with apps",
   "moduleType": [

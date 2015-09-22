@@ -655,6 +655,16 @@ var mflyCommands = function () {
         },
 
         /**
+         * Remove item from Collection
+         */
+        removeItemFromCollection: function (collectionId, itemId) {
+            return $.Deferred(function (dfd) {
+                // Call internalGetData, but ensure that we do NOT expect JSON in the response.
+                _internalGetData('removeItemFromCollection?id=' + collectionId + '&item=' + itemId, null, dfd, false);
+            });
+        },
+
+        /**
          * Get notification status for an item.
          */
         getNotificationStatus: function (id) {

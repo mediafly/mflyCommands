@@ -708,7 +708,7 @@ var mflyCommands = function () {
                 var qs = "";
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
-                        qs = qs + key + '=' + obj[key] + '&';
+                        qs = qs + encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]) + '&';
                     }
                 }
                 _internalGetData('filter?' + qs.slice(0, -1), null, dfd)

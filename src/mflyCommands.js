@@ -664,6 +664,12 @@ var mflyCommands = function () {
             });
         },
 
+        deleteCollection: function (collectionId, shared) {
+            return $.Deferred(function (dfd) {
+                _internalGetData('deleteCollection?id=' + collectionId + '&shared=' + !!shared, null, dfd);
+            });
+        },
+
         /**
          * Get notification status for an item.
          */

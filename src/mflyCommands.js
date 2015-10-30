@@ -666,7 +666,13 @@ var mflyCommands = function () {
 
         deleteCollection: function (collectionId, shared) {
             return $.Deferred(function (dfd) {
-                _internalGetData('deleteCollection?id=' + collectionId + '&shared=' + !!shared, null, dfd);
+                _internalGetData('deleteCollection', collectionId + '?shared=' + !!shared, dfd);
+            });
+        },
+
+        reorderItemsInCollection: function (collectionId, items) {
+            return $.Deferred(function (dfd) {
+                _internalGetData('reorderItemsInCollection?id=' + collectionId, null, dfd);
             });
         },
 

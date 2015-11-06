@@ -426,6 +426,17 @@ var mflyCommands = function () {
         },
 
         /**
+         * Get a JSON object with the share settings for an item.
+         * @param id Airship ID of the folder for which more information is requested.
+         * @return a deferred that will resolve with a JSON object with the share settings for the item.
+         */
+        getShare: function (id) {
+            return $.Deferred(function (dfd) {
+                _internalGetData('share', id, dfd);
+            });
+        },
+
+        /**
          * Run the embed function and replace the src of jQuery element $e with the results.
          * @param $e jQuery element whose src element will get replace when the embeddable content
          * is ready for the Interactive.

@@ -670,9 +670,9 @@ var mflyCommands = function () {
             });
         },
 
-        reorderItemsInCollection: function (collectionId, items) {
+        reorderItemInCollection: function (collectionId, itemId, position) {
             return $.Deferred(function (dfd) {
-                _internalGetData('reorderItemsInCollection?id=' + collectionId, null, dfd);
+                _internalGetData('reorderItemInCollection', collectionId + '?id=' + itemId + '&position=' + position, dfd);
             });
         },
 

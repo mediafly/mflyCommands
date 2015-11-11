@@ -324,7 +324,14 @@ var mflyCommands = function () {
         },
 
         close: function () {
-            doControlStatement(prefix + "control/done");
+            var url = 'control/done';
+            if (_isWeb() && !!sessionStorage.viewerInteractiveContext) {
+                var interactiveContext = JSON.parse(sessionStorage.viewerInteractiveContext);
+                if (interactiveContext.type === 'collection') {
+                    url += '?collection=' + interactiveContext.id;
+                }
+            }
+            doControlStatement(prefix + url);
         },
 
         browse: function () {

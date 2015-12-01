@@ -330,6 +330,9 @@ var mflyCommands = function () {
                 if (interactiveContext.type === 'collection') {
                     url += '?collection=' + interactiveContext.id;
                 }
+                if (interactiveContext.type === 'search') {
+                    url += '?term=' + interactiveContext.term;
+                }
             }
             doControlStatement(prefix + url);
         },

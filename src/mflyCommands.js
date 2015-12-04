@@ -537,6 +537,23 @@ var mflyCommands = function () {
         },
 
         /**
+         * Post the action to Mediafly Reporting.
+         * @param options are per device API's actions call
+         */
+        postAction: function(options) {
+            return $.Deferred(function (dfd) {
+                var params = 'actions?type=' + options.type;
+                if (options.id) {
+                    params += '&slug=' + options.id;
+                }
+                if (options.term) {
+                    params += '&term=' + encodeURIComponent(options.term);
+                }
+                _internalGetData(params, null, dfd);
+            });
+        },
+
+        /**
         * Get raw data of Interactive via the embed function.
         * @param id Airship ID of the item to embed. Currently limited to images and other Interactives
         * @return a deferred that will resolve with body and status code on completion.

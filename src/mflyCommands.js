@@ -532,7 +532,7 @@ var mflyCommands = function () {
          */
         postPageView: function(id, page) {
             return $.Deferred(function (dfd) {
-                _internalGetData("postaction", id + "?page=" + page, dfd);
+                _internalGetData("postaction", id + "?page=" + page, dfd, false);
             });
         },
 

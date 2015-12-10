@@ -532,7 +532,7 @@ var mflyCommands = function () {
          */
         postPageView: function(id, page) {
             return $.Deferred(function (dfd) {
-                _internalGetData("postaction", id + "?page=" + page, dfd, false);
+                _internalGetData("postaction", id + "?page=" + page, dfd);
             });
         },
 
@@ -549,7 +549,7 @@ var mflyCommands = function () {
                 if (options.term) {
                     params += '&term=' + encodeURIComponent(options.term);
                 }
-                _internalGetData(params, null, dfd);
+                _internalGetData(params, null, dfd, false);
             });
         },
 

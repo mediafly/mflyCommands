@@ -764,7 +764,7 @@ var mflyCommands = function () {
          */
         search: function (term) {
             return $.Deferred(function (dfd) {
-                _internalGetData('search?term=' + encodeURIComponent(term), null, dfd)
+                _internalGetData('search?term=' + encodeURIComponent(term), null, dfd);
             });
         },
 
@@ -773,16 +773,34 @@ var mflyCommands = function () {
          * Parameter: JSON object of key/value combinations. E.g. { { "type": "folder", "isPresent": true } }
          */
         filter: function (obj) {
-            return $.Deferred(function (dfd) {
-                console.log("obj=",obj);
-                var qs = "";
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        qs = qs + encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]) + '&';
+
+            var dfd1 = $.Deferred();
+            var result = [];
+            obj.offset = 0;
+            obj.limit = 500;
+
+            var getPage = function () {
+                var dfd2 = $.Deferred();
+                var qs = $.param(obj);
+
+                _internalGetData('filter?' + qs, null, dfd2);
+
+                dfd2.promise().done(function (data) {
+                    result = result.concat(data);
+                    if (data.length < obj.limit) {
+                        dfd1.resolve(result);
+                    } else {
+                        obj.offset += obj.limit;
+                        getPage();
                     }
-                }
-                _internalGetData('filter?' + qs.slice(0, -1), null, dfd)
-            });
+                }).fail(function () {
+                    dfd1.reject();
+                });
+            };
+
+            getPage(obj.offset, obj.limit);
+
+            return dfd1.promise();
         },
 
         /**

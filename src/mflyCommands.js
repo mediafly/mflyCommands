@@ -777,7 +777,7 @@ var mflyCommands = function () {
             var dfd1 = $.Deferred();
             var result = [];
             obj.offset = 0;
-            obj.limit = 500;
+            obj.limit = 100;
 
             var getPage = function () {
                 var dfd2 = $.Deferred();

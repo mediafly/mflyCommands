@@ -734,6 +734,12 @@ var mflyCommands = function () {
             });
         },
 
+        renameCollection: function (collectionId, name) {
+            return $.Deferred(function (dfd) {
+                _internalGetData('renameCollection', collectionId + '?name=' + name, dfd);
+            });
+        },
+
         /**
          * Get notification status for an item.
          */

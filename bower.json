@@ -13,6 +13,7 @@
     "mflycommands",
     "mediafly"
   ],
+  "main": "src/mflyCommands.js",
   "license": "MIT",
   "homepage": "http://devdocs.mediafly.com/interactives/",
   "ignore": [

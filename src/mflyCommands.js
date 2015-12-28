@@ -698,7 +698,7 @@ var mflyCommands = function () {
          */
         createCollection: function (name) {
             return $.Deferred(function (dfd) {
-                _internalGetData('createCollection?name=' + name, null, dfd);
+                _internalGetData('createCollection?name=' + encodeURIComponent(name), null, dfd);
             });
         },
 
@@ -736,7 +736,7 @@ var mflyCommands = function () {
 
         renameCollection: function (collectionId, name) {
             return $.Deferred(function (dfd) {
-                _internalGetData('renameCollection', collectionId + '?name=' + name, dfd);
+                _internalGetData('renameCollection', collectionId + '?name=' + encodeURIComponent(name), dfd);
             });
         },
 

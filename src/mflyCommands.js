@@ -295,11 +295,17 @@ var mflyCommands = function () {
                 return $.getJSON('mflyManifest.json');
             }
         },
-        openItem: function (_id) {
+        openItem: function (_id, bookmark) {
             var url = prefix + "item/" + _id;
+			var params = {};
+
             if (_isWeb()) {
-                url += '?returnurl=' + encodeURIComponent(window.location.href);
+				params.returnurl = window.location.href;
             }
+			if (bookmark) {
+				params.bookmark = bookmark;
+			}
+			url += '?' + $.param(params);
             doControlStatement(url);
         },
 

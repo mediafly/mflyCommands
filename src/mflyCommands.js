@@ -295,17 +295,24 @@ var mflyCommands = function () {
                 return $.getJSON('mflyManifest.json');
             }
         },
-        openItem: function (_id, bookmark) {
+        openItem: function (_id) {
             var url = prefix + "item/" + _id;
-			var params = {};
-
             if (_isWeb()) {
-				params.returnurl = window.location.href;
+                url += '?returnurl=' + encodeURIComponent(window.location.href);
             }
-			if (bookmark) {
-				params.bookmark = bookmark;
-			}
-			url += '?' + $.param(params);
+            doControlStatement(url);
+        },
+
+        open: function (_id, bookmark) {
+            var url = prefix + "control/item/" + _id;
+            var params = {};
+            if (_isWeb()) {
+                params.returnurl = window.location.href;
+            }
+            if (bookmark) {
+                params.bookmark = bookmark;
+            }
+            url += '?' + $.param(params);
             doControlStatement(url);
         },
 

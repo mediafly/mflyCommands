@@ -1,0 +1,8 @@
+{
+    "predef": [
+        "$",
+        "navigator",
+        "setTimeout",
+        "window"
+    ]
+}

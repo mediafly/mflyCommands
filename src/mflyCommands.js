@@ -303,6 +303,19 @@ var mflyCommands = function () {
             doControlStatement(url);
         },
 
+        open: function (_id, bookmark) {
+            var url = prefix + "control/item/" + _id;
+            var params = {};
+            if (_isWeb()) {
+                params.returnurl = window.location.href;
+            }
+            if (bookmark) {
+                params.bookmark = bookmark;
+            }
+            url += '?' + $.param(params);
+            doControlStatement(url);
+        },
+
         openFolder: function (_id) {
             doControlStatement(prefix + "folder/" + _id);
         },

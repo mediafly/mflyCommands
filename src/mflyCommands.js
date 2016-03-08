@@ -213,6 +213,41 @@ var mflyCommands = function () {
         }
     }
 
+    function _internalDeleteSyncedKey(key, dfd) {
+        var url = _transformUrl(prefix + "data/syncedinfo/" + key);
+        url = _appendVersion(url);
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            success: function (data, textStatus, request) {
+                // PUT successful. Resolve the promise.
+                dfd.resolveWith(this, [data, request.status]);
+            },
+            error: function (data, status, request) {
+                // PUT failed. Reject the promise.
+                dfd.reject(this, [request, data.status]);
+            }
+        });
+    }
+
+    function _internalSaveSyncedKeyData(key, value, dfd) {
+        var url = _transformUrl(prefix + "data/syncedinfo/" + key);
+        url = _appendVersion(url);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { key: key, value: JSON.stringify(value) },
+            success: function (data, textStatus, request) {
+                // PUT successful. Resolve the promise.
+                dfd.resolveWith(this, [data, request.status]);
+            },
+            error: function (data, status, request) {
+                // PUT failed. Reject the promise.
+                dfd.reject(this, [request, data.status]);
+            }
+        });
+    }
+
     function _parseQueryParameters(x, y, w, h) {
         var qp = '?';
         if (typeof x != 'undefined') qp += 'x=' + x + '&';
@@ -665,6 +700,47 @@ var mflyCommands = function () {
                 _internalDeleteKey(key, dfd);
             })
         },
+
+        //Synced key value pairs
+        getSyncedValue: function (key) {
+            return $.Deferred(function (dfd) {
+                _internalGetData('syncedinfo', key, dfd, false);
+            }).then(JSON.parse);
+        },
+
+        getSyncedValues: function (prefix) {
+            var values;
+            if (typeof prefix != 'undefined') {
+                // Get values with specified prefix    
+                values = $.Deferred(function (dfd) {
+                    _internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
+                });
+                
+            } else {
+                // Get ALL values
+                values = $.Deferred(function (dfd) {
+                    _internalGetData('syncedinfo', null, dfd);
+                });
+            }
+            return values.then(function(x) {
+                return x.map(function(pair) {
+                    return { key: pair.key, value: JSON.parse(pair.value) };
+                });
+            });
+        },
+
+        saveSyncedValue: function (key, value) {
+            return $.Deferred(function (dfd) {
+                _internalSaveSyncedKeyData(key, value, dfd);
+            });
+        },
+
+        deleteSyncedKey: function (key) {
+            return $.Deferred(function (dfd) {
+                _internalDeleteSyncedKey(key, dfd);
+            })
+        },
+        //Synced key value pairs
 
         getOnlineStatus: function () {
             return $.Deferred(function (dfd) {

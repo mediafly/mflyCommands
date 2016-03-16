@@ -863,7 +863,7 @@ var mflyCommands = function () {
             }
         },
 
-        lastViewed: function() {
+        getLastViewedContent: function() {
             return $.Deferred(function (dfd) {
                 _internalGetData('lastviewed', null, dfd);
             });

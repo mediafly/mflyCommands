@@ -861,6 +861,12 @@ var mflyCommands = function () {
                     _internalGetData('logout', null, dfd);
                 });
             }
+        },
+
+        getLastViewedContent: function() {
+            return $.Deferred(function (dfd) {
+                _internalGetData('lastviewed', null, dfd);
+            });
         }
     }
 }();

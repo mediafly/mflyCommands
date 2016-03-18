@@ -48,7 +48,7 @@
 				var separator = url.indexOf('?') !== -1 ? "&" : "?";
 				return url + separator + 'version=5';
 			}
-   
+
       $('#testForm').submit(function(ev) {
           ev.preventDefault();
           $('#result').html("Executing ...");
@@ -57,7 +57,7 @@
           var url = $('#url').val();
           var body = $('#body').val();
           body = $("#body").val();
-          
+
           url = _appendVersion(url);
 
           $.ajax({
@@ -75,17 +75,21 @@
 	        });
       });
 
-      mflyCommands.getLastViewedContent().done(function(data) {
-            $('#lastviewed').text(JSON.stringify(data, null, 2));
-      });
+	  mflyCommands.getLastViewedContent().done(function(data) {
+		  $('#lastviewed').text(JSON.stringify(data, null, 2));
+	  });
+
+	  mflyCommands.getRecentlyCreatedContent().done(function(data) {
+		  $('#recentlycreated').text(JSON.stringify(data, null, 2));
+	  });
+
   </script>
+
+  <h1>Recently Created Content</h1>
+  <textarea id="recentlycreated" style="width: 500px; height: 300px;"></textarea>
 
 	<h1>Last Viewed Content</h1>
   <textarea id="lastviewed" style="width: 500px; height: 300px;"></textarea>
-
-  <script>
-      
-  </script>
 
 </body>
 </html>

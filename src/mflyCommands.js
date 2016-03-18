@@ -863,12 +863,17 @@ var mflyCommands = function () {
             }
         },
 
+        getRecentlyCreatedContent: function () {
+            return $.Deferred(function (dfd) {
+                _internalGetData('recentlycreated', null, dfd);
+			});
+		},
         getLastViewedContent: function() {
             return $.Deferred(function (dfd) {
                 _internalGetData('lastviewed', null, dfd);
             });
         }
-    }
+    };
 }();
 
 /**

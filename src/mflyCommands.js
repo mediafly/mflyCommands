@@ -164,12 +164,12 @@ var mflyCommands = function () {
         });
     }
 
-    function _internalPutKeyData(key, value, dfd) {
-        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+    function _internalPutKeyData(method, key, value, dfd) {
+        if (method === 'info' && mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
             localStorage.setItem(key, value);
             dfd.resolveWith(this, ['', 200]);
         } else {
-            var url = _transformUrl(prefix + "data/info/" + key);
+            var url = _transformUrl(prefix + 'data/' + method + '/' + key);
             url = _appendVersion(url);
             $.ajax({
                 type: "GET",
@@ -189,12 +189,12 @@ var mflyCommands = function () {
         }
     }
 
-    function _internalDeleteKey(key, dfd) {
-        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+    function _internalDeleteKey(method, key, dfd) {
+        if (method === 'info' && mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
             localStorage.removeItem(key);
             dfd.resolveWith(this, ['', 200]);
         } else {
-            var url = _transformUrl(prefix + "data/info/" + key);
+            var url = _transformUrl(prefix + 'data/' + method + '/' + key);
             url = _appendVersion(url);
             url += '&method=DELETE'
             $.ajax({
@@ -211,41 +211,6 @@ var mflyCommands = function () {
                 }
             });
         }
-    }
-
-    function _internalDeleteSyncedKey(key, dfd) {
-        var url = _transformUrl(prefix + "data/syncedinfo/" + key);
-        url = _appendVersion(url);
-        $.ajax({
-            type: "DELETE",
-            url: url,
-            success: function (data, textStatus, request) {
-                // PUT successful. Resolve the promise.
-                dfd.resolveWith(this, [data, request.status]);
-            },
-            error: function (data, status, request) {
-                // PUT failed. Reject the promise.
-                dfd.reject(this, [request, data.status]);
-            }
-        });
-    }
-
-    function _internalSaveSyncedKeyData(key, value, dfd) {
-        var url = _transformUrl(prefix + "data/syncedinfo/" + key);
-        url = _appendVersion(url);
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: { key: key, value: JSON.stringify(value) },
-            success: function (data, textStatus, request) {
-                // PUT successful. Resolve the promise.
-                dfd.resolveWith(this, [data, request.status]);
-            },
-            error: function (data, status, request) {
-                // PUT failed. Reject the promise.
-                dfd.reject(this, [request, data.status]);
-            }
-        });
     }
 
     function _parseQueryParameters(x, y, w, h) {
@@ -681,7 +646,7 @@ var mflyCommands = function () {
                             all[key] = localStorage.getItem(key);
                         }
                         dfd.resolveWith(this, [all, 200]);
-                    })
+                    });
                 } else {
                     return $.Deferred(function (dfd) {
                         _internalGetData('info', null, dfd);
@@ -691,14 +656,14 @@ var mflyCommands = function () {
         },
         putValue: function (key, value) {
             return $.Deferred(function (dfd) {
-                _internalPutKeyData(key, value, dfd);
+                _internalPutKeyData('info', key, value, dfd);
             });
         },
 
         deleteKey: function (key) {
             return $.Deferred(function (dfd) {
-                _internalDeleteKey(key, dfd);
-            })
+                _internalDeleteKey('info', key, dfd);
+            });
         },
 
         //Synced key value pairs
@@ -711,11 +676,11 @@ var mflyCommands = function () {
         getSyncedValues: function (prefix) {
             var values;
             if (typeof prefix != 'undefined') {
-                // Get values with specified prefix    
+                // Get values with specified prefix
                 values = $.Deferred(function (dfd) {
                     _internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
                 });
-                
+
             } else {
                 // Get ALL values
                 values = $.Deferred(function (dfd) {
@@ -731,14 +696,14 @@ var mflyCommands = function () {
 
         saveSyncedValue: function (key, value) {
             return $.Deferred(function (dfd) {
-                _internalSaveSyncedKeyData(key, value, dfd);
+                _internalPutKeyData('syncedinfo', key, value, dfd);
             });
         },
 
         deleteSyncedKey: function (key) {
             return $.Deferred(function (dfd) {
-                _internalDeleteSyncedKey(key, dfd);
-            })
+                _internalDeleteKey('syncedinfo', key, dfd);
+            });
         },
         //Synced key value pairs
 

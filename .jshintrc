@@ -1,8 +1,12 @@
 {
     "predef": [
         "$",
+		"dfd",
+		"location",
         "navigator",
+		"sessionStorage",
         "setTimeout",
-        "window"
+        "window",
+		"localStorage"
     ]
 }

@@ -902,8 +902,19 @@ var mflyCommands = function () {
                     _internalGetData('logout', null, dfd);
                 });
             }
+        },
+
+        getRecentlyCreatedContent: function () {
+            return $.Deferred(function (dfd) {
+                _internalGetData('recentlycreated', null, dfd);
+			});
+		},
+        getLastViewedContent: function() {
+            return $.Deferred(function (dfd) {
+                _internalGetData('lastviewed', null, dfd);
+            });
         }
-    }
+    };
 }();
 
 /**

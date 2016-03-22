@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Interactive</title>
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="src/mflyCommands.js"></script>
+	<style type="text/css">
+        .exit					{ background:#ccc; padding:15px; position:absolute; right:20px; top:20px; }
+        .clear 					{ clear:both; }
+        body                    { padding-top: 70px; }
+        div                     { padding: 0 10px 10px 10px; }
+  </style>
+</head>
+<body>
+	<h1>Test a URL endpoint</h1>
+	<button onclick="mflyCommands.close();" class="exit">Exit</button>
+
+  <!-- <h3>PUT</h3> -->
+  <form id="testForm">
+      <div>
+          <p>
+          		mflyCommands Version:
+          		<input type="text" id="version" name="version" placeholder="mflyCommands Version" value="5" style="width: 150px;" />
+          	</p>
+          <p>
+	          Verb: <select id="verb" name="verb" style="width: 100px;">
+	          	<option value="GET" selected>GET</option>
+	          	<option value="PUT">PUT</option>
+	          	<option value="POST">POST</option>
+	          	<option value="DELETE">DELETE</option>
+	          </select>
+          </p>
+          <p>URL: <input type="text" id="url" name="url" placeholder="Enter URL (Unencoded)" style="width: 500px;" /></p>
+          <p>Body: <textarea id="body" name="body" placeholder="Enter Body (PUT/POST only)" style="width: 500px; height: 300px;"></textarea></p>
+          <p>
+            <span>Result: </span>
+            <pre>
+              <code id="response"></code>
+            </pre>
+            <span id="result"></span>
+          </p>
+          <p><input type="submit" value="Submit"/></p>
+      </div>
+  </form>
+
+  <script>
+			function _appendVersion(url) {
+				var separator = url.indexOf('?') !== -1 ? "&" : "?";
+				return url + separator + 'version=5';
+			}
+
+      $('#testForm').submit(function(ev) {
+          ev.preventDefault();
+          $('#result').html("Executing ...");
+          var version = $('#version').val();
+          var verb = $('#verb').val();
+          var url = $('#url').val();
+          var body = $('#body').val();
+          body = $("#body").val();
+
+          url = _appendVersion(url);
+
+          $.ajax({
+	            type: verb,
+	            url: url,
+	            data: !!body ? JSON.parse(body) : body,
+	            success: function (data, textStatus, request) {
+	                $('#result').html("SUCCESS! " + "<br/>Status: " + request.status);
+                  $('#response').text(JSON.stringify(data, undefined, 2));
+	            },
+	            error: function (data, status, request) {
+	                $('#result').html("FAILURE!" + "<br/>Status: " + request.status);
+                  $('#cresponse').text(JSON.stringify(data, undefined, 2));
+	            }
+	        });
+      });
+
+	  mflyCommands.getLastViewedContent().done(function(data) {
+		  $('#lastviewed').text(JSON.stringify(data, null, 2));
+	  });
+
+	  mflyCommands.getRecentlyCreatedContent().done(function(data) {
+		  $('#recentlycreated').text(JSON.stringify(data, null, 2));
+	  });
+
+  </script>
+
+  <h1>Recently Created Content</h1>
+  <textarea id="recentlycreated" style="width: 500px; height: 300px;"></textarea>
+
+	<h1>Last Viewed Content</h1>
+  <textarea id="lastviewed" style="width: 500px; height: 300px;"></textarea>
+
+</body>
+</html>

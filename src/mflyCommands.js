@@ -669,32 +669,27 @@ var mflyCommands = function () {
         //Synced key value pairs
         getSyncedValue: function (key) {
             return $.Deferred(function (dfd) {
-                _internalGetData('syncedinfo', key, dfd, false);
-            }).then(JSON.parse);
+                _internalGetData('syncedinfo', key, dfd);
+            });
         },
 
         getSyncedValues: function (prefix) {
             var values;
             if (typeof prefix != 'undefined') {
                 // Get values with specified prefix
-                values = $.Deferred(function (dfd) {
+                return $.Deferred(function (dfd) {
                     _internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
                 });
 
             } else {
                 // Get ALL values
-                values = $.Deferred(function (dfd) {
+                return $.Deferred(function (dfd) {
                     _internalGetData('syncedinfo', null, dfd);
                 });
             }
-            return values.then(function(x) {
-                return x.map(function(pair) {
-                    return { key: pair.key, value: JSON.parse(pair.value) };
-                });
-            });
         },
 
-        saveSyncedValue: function (key, value) {
+        putSyncedValue: function (key, value) {
             return $.Deferred(function (dfd) {
                 _internalPutKeyData('syncedinfo', key, value, dfd);
             });
@@ -1097,5 +1092,5 @@ var Base64 = function () {
 
             return output;
         }
-    }
+    };
 }();

@@ -164,12 +164,12 @@ var mflyCommands = function () {
         });
     }
 
-    function _internalPutKeyData(method, key, value, dfd) {
-        if (method === 'info' && mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+    function _internalPutKeyData(key, value, dfd) {
+        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
             localStorage.setItem(key, value);
             dfd.resolveWith(this, ['', 200]);
         } else {
-            var url = _transformUrl(prefix + 'data/' + method + '/' + key);
+            var url = _transformUrl(prefix + "data/info/" + key);
             url = _appendVersion(url);
             $.ajax({
                 type: "GET",
@@ -189,12 +189,12 @@ var mflyCommands = function () {
         }
     }
 
-    function _internalDeleteKey(method, key, dfd) {
-        if (method === 'info' && mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+    function _internalDeleteKey(key, dfd) {
+        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
             localStorage.removeItem(key);
             dfd.resolveWith(this, ['', 200]);
         } else {
-            var url = _transformUrl(prefix + 'data/' + method + '/' + key);
+            var url = _transformUrl(prefix + "data/info/" + key);
             url = _appendVersion(url);
             url += '&method=DELETE'
             $.ajax({
@@ -207,6 +207,77 @@ var mflyCommands = function () {
                 },
                 error: function (data, status, request) {
                     // PUT failed. Reject the promise.
+                    dfd.reject(this, [request, data.status]);
+                }
+            });
+        }
+    }
+
+	function _internalSaveSyncedKeyValues(key, value, dfd) {
+        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+			var webUrl = _transformUrl(prefix + "data/syncedinfo");
+            webUrl = _appendVersion(webUrl);
+            $.ajax({
+                type: 'POST',
+                url: webUrl,
+				contentType: 'application/json',
+                data: JSON.stringify([{ key: key, value: value }]),
+                success: function (data, textStatus, request) {
+                    dfd.resolveWith(this, [data, request.status]);
+                },
+                error: function (data, status, request) {
+                    dfd.reject(this, [request, data.status]);
+                }
+            });
+        } else {
+            var url = _transformUrl(prefix + "data/syncedinfo/" + key);
+            url = _appendVersion(url);
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType: "text/plain; charset=utf-8",
+                data: "value=" + encodeURIComponent(value) + "&method=POST",
+                dataType: "text",
+                success: function (data, textStatus, request) {
+                    // PUT successful. Resolve the promise.
+                    dfd.resolveWith(this, [data, request.status]);
+                },
+                error: function (data, status, request) {
+                    // PUT failed. Reject the promise.
+                    dfd.reject(this, [request, data.status]);
+                }
+            });
+        }
+    }
+
+    function _internalDeleteSyncedKeyValues(key, dfd) {
+        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+			var webUrl = _transformUrl(prefix + "data/syncedinfo");
+            webUrl = _appendVersion(webUrl);
+            $.ajax({
+                type: 'DELETE',
+                url: webUrl,
+				contentType: 'application/json',
+                data: JSON.stringify([key]),
+                success: function (data, textStatus, request) {
+                    dfd.resolveWith(this, [data, request.status]);
+                },
+                error: function (data, status, request) {
+                    dfd.reject(this, [request, data.status]);
+                }
+            });
+        } else {
+            var url = _transformUrl(prefix + "data/syncedinfo/" + key);
+            url = _appendVersion(url);
+            url += '&method=DELETE';
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType: "text/plain; charset=utf-8",
+                success: function (data, textStatus, request) {
+                    dfd.resolveWith(this, [data, request.status]);
+                },
+                error: function (data, status, request) {
                     dfd.reject(this, [request, data.status]);
                 }
             });
@@ -646,7 +717,7 @@ var mflyCommands = function () {
                             all[key] = localStorage.getItem(key);
                         }
                         dfd.resolveWith(this, [all, 200]);
-                    });
+                    })
                 } else {
                     return $.Deferred(function (dfd) {
                         _internalGetData('info', null, dfd);
@@ -656,51 +727,50 @@ var mflyCommands = function () {
         },
         putValue: function (key, value) {
             return $.Deferred(function (dfd) {
-                _internalPutKeyData('info', key, value, dfd);
+                _internalPutKeyData(key, value, dfd);
             });
         },
 
         deleteKey: function (key) {
             return $.Deferred(function (dfd) {
-                _internalDeleteKey('info', key, dfd);
+                _internalDeleteKey(key, dfd);
             });
         },
 
-        //Synced key value pairs
-        getSyncedValue: function (key) {
-            return $.Deferred(function (dfd) {
-                _internalGetData('syncedinfo', key, dfd);
-            });
-        },
+		getSyncedValue: function (key) {
+			return $.Deferred(function (dfd) {
+				_internalGetData('syncedinfo/' + key, null, dfd);
+			});
+		},
 
-        getSyncedValues: function (prefix) {
-            var values;
-            if (typeof prefix != 'undefined') {
-                // Get values with specified prefix
-                return $.Deferred(function (dfd) {
-                    _internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
-                });
+		getSyncedValues: function (prefix) {
+			var values;
+			if (typeof prefix != 'undefined') {
+				// Get values with specified prefix
+				return $.Deferred(function (dfd) {
+					_internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
+				});
 
-            } else {
-                // Get ALL values
-                return $.Deferred(function (dfd) {
-                    _internalGetData('syncedinfo', null, dfd);
-                });
-            }
-        },
+			} else {
+				// Get ALL values
+				return $.Deferred(function (dfd) {
+					_internalGetData('syncedinfo', null, dfd);
+				});
+			}
+		},
 
-        putSyncedValue: function (key, value) {
-            return $.Deferred(function (dfd) {
-                _internalPutKeyData('syncedinfo', key, value, dfd);
-            });
-        },
+		saveSyncedValue: function (key, value) {
+			return $.Deferred(function (dfd) {
+				_internalSaveSyncedKeyValues(key, value, dfd);
+			});
+		},
 
-        deleteSyncedKey: function (key) {
-            return $.Deferred(function (dfd) {
-                _internalDeleteKey('syncedinfo', key, dfd);
-            });
-        },
-        //Synced key value pairs
+		deleteSyncedKey: function (key) {
+			return $.Deferred(function (dfd) {
+				_internalDeleteSyncedKeyValues(key, dfd);
+			});
+		},
+
 
         getOnlineStatus: function () {
             return $.Deferred(function (dfd) {
@@ -1092,5 +1162,5 @@ var Base64 = function () {
 
             return output;
         }
-    };
+    }
 }();

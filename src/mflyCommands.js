@@ -40,7 +40,7 @@ var mflyCommands = function () {
         var unsupportedStatements = [
             'control/browse', 
             'control/email', 
-            'contro/goto', 
+            'control/goto', 
             'control/hideControlBars',
             'control/refresh',
             'control/showAddToCollection',

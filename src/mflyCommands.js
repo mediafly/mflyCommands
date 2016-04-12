@@ -4,8 +4,8 @@
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
  */
-"use strict";
 var mflyCommands = function () {
+    "use strict";
 
     /**
      * Private variables and functions
@@ -32,7 +32,38 @@ var mflyCommands = function () {
         return url + separator + 'version=5';
     }
 
+    function isControlStatementUnsupported(url) {
+        if (!_isWeb()) {
+            return false;
+        }
+
+        var unsupportedStatements = [
+            'control/browse', 
+            'control/email', 
+            'control/goto', 
+            'control/hideControlBars',
+            'control/refresh',
+            'control/showAddToCollection',
+            'control/showAnnotations',
+            'control/showCollections',
+            'control/showControlBars',
+            'control/showNotificationsManager',
+            'control/showSearch',
+            'control/secondScreenOptions',
+            'control/showSettings',
+            'control/takeAndEmailScreenshot'
+        ];
+
+        return unsupportedStatements.some(function(statement) {
+            return url.indexOf(statement) > 0;
+        });
+    }
+
     function doControlStatement(url) {
+        if (isControlStatementUnsupported(url)) {
+            throw new Error('This method is not supported on this platform.');
+        }
+
         url = _appendVersion(url);
 
         if (_isWindows8()) {
@@ -1056,5 +1087,5 @@ var Base64 = function () {
 
             return output;
         }
-    }
+    };
 }();

@@ -1,8 +1,10 @@
 {
     "predef": [
         "$",
+        "console",
         "navigator",
         "setTimeout",
-        "window"
+        "window",
+        "sessionStorage"
     ]
 }

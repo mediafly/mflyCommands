@@ -812,10 +812,49 @@ var mflyCommands = function () {
         /**
          * Do incremental search and return search results.
          */
-        search: function (term) {
-            return $.Deferred(function (dfd) {
-                _internalGetData('search?term=' + encodeURIComponent(term), null, dfd);
-            });
+        search: function (term, offset, limit) {
+            var dfd1 = $.Deferred();
+            var result = [];
+
+            var obj = {
+                term: term
+            };
+            
+            if (typeof offset == 'undefined') {
+                obj.offset = 0;
+            } else {
+                obj.offset = offset;
+            }
+
+
+            if (typeof limit == 'undefined') {
+                obj.limit = 100;
+            } else {
+                obj.limit = limit;
+            }
+
+            var getPage = function () {
+                var dfd2 = $.Deferred();
+                var qs = $.param(obj);
+
+                _internalGetData('search?' + qs, null, dfd2);
+
+                dfd2.promise().done(function (data) {
+                    result = result.concat(data);
+                    if (data.length < obj.limit) {
+                        dfd1.resolve(result);
+                    } else {
+                        obj.offset += obj.limit;
+                        getPage();
+                    }
+                }).fail(function () {
+                    dfd1.reject();
+                });
+            };
+
+            getPage(obj.offset, obj.limit);
+
+            return dfd1.promise();
         },
 
         /**

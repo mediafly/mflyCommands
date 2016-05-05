@@ -1,10 +1,33 @@
 {
-    "predef": [
-        "$",
-        "console",
-        "navigator",
-        "setTimeout",
-        "window",
-        "sessionStorage"
-    ]
+  "asi": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "esnext": true,
+  "expr": true,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "indent": 1,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonbsp": true,
+  "nonew": true,
+  "plusplus": true,
+  "undef": true,
+  "unused": true,
+  "predef": [
+    "Base64",
+  	"console",
+    "document",
+    "exports",
+    "location",
+  	"module",
+    "navigator",
+    "window",
+	  "require",
+    "sessionStorage"
+  ]
 }

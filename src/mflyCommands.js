@@ -68,6 +68,53 @@ exports.isWeb = isWeb;
 exports.getDeviceType = getDeviceType;
 
 },{}],2:[function(require,module,exports){
+(function (global){
+'use strict';
+
+// /interactive-api/{version}/items?filter={key1}:{value1},{key2}:{value2}
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+function objToString(obj) {
+	var result = '';
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			result += key + ':' + obj[key] + ',';
+		}
+	}
+	result.slice(0, result.length - 1);
+	return result;
+}
+
+module.exports = function (obj) {
+	var dfd1 = $.Deferred();
+	var result = [];
+	var offset = 0;
+	var limit = 100;
+
+	var getPage = function getPage() {
+		var filter = encodeURIComponent(objToString(obj));
+		return getData('items?filter=' + filter + '&offset=' + offset + '&limit=' + limit, null).done(function (data) {
+			result = result.concat(data);
+			if (data.length < limit) {
+				dfd1.resolve(result);
+			} else {
+				offset += limit;
+				getPage();
+			}
+		}).fail(function () {
+			dfd1.reject();
+		});
+	};
+
+	getPage(offset, limit);
+
+	return dfd1.promise();
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":6}],3:[function(require,module,exports){
 'use strict';
 
 var getData = require('./internalMethods').getData;
@@ -76,7 +123,7 @@ module.exports = function (id) {
   return getData('items', id + '/items');
 };
 
-},{"./internalMethods":5}],3:[function(require,module,exports){
+},{"./internalMethods":6}],4:[function(require,module,exports){
 'use strict';
 
 var getData = require('./internalMethods').getData;
@@ -85,7 +132,7 @@ module.exports = function () {
   return getData('system', 'gps');
 };
 
-},{"./internalMethods":5}],4:[function(require,module,exports){
+},{"./internalMethods":6}],5:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -102,7 +149,7 @@ module.exports = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":1,"./internalMethods":5}],5:[function(require,module,exports){
+},{"./device":1,"./internalMethods":6}],6:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -158,15 +205,13 @@ exports.getData = function _internalGetData(func, param) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":1,"./utils":12}],6:[function(require,module,exports){
-(function (global){
+},{"./device":1,"./utils":13}],7:[function(require,module,exports){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 function get(id) {
-	return getData('items', id, dfd);
+	return getData('items', id);
 }
 
 function getCurrent() {
@@ -176,8 +221,7 @@ function getCurrent() {
 exports.get = get;
 exports.getCurrent = getCurrent;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":5}],7:[function(require,module,exports){
+},{"./internalMethods":6}],8:[function(require,module,exports){
 'use strict';
 
 /**
@@ -196,10 +240,11 @@ module.exports = {
 	getCurrentItem: require('./item').getCurrent,
 	getItem: require('./item').get,
 	getShare: require('./share'),
-	getFolder: require('./folder')
+	getFolder: require('./folder'),
+	filter: require('./filter')
 };
 
-},{"./folder":2,"./gpsCoordinates":3,"./interactiveInfo":4,"./item":6,"./onlineStatus":8,"./share":9,"./systemInfo":10,"./uploadUrl":11}],8:[function(require,module,exports){
+},{"./filter":2,"./folder":3,"./gpsCoordinates":4,"./interactiveInfo":5,"./item":7,"./onlineStatus":9,"./share":10,"./systemInfo":11,"./uploadUrl":12}],9:[function(require,module,exports){
 'use strict';
 
 var getData = require('./internalMethods').getData;
@@ -208,7 +253,7 @@ module.exports = function () {
   return getData('online-status', null);
 };
 
-},{"./internalMethods":5}],9:[function(require,module,exports){
+},{"./internalMethods":6}],10:[function(require,module,exports){
 'use strict';
 
 var getData = require('./internalMethods').getData;
@@ -217,7 +262,7 @@ module.exports = function (id) {
   return getData('items', id + '/share');
 };
 
-},{"./internalMethods":5}],10:[function(require,module,exports){
+},{"./internalMethods":6}],11:[function(require,module,exports){
 'use strict';
 
 var getData = require('./internalMethods').getData;
@@ -226,7 +271,7 @@ module.exports = function () {
   return getData('system', null);
 };
 
-},{"./internalMethods":5}],11:[function(require,module,exports){
+},{"./internalMethods":6}],12:[function(require,module,exports){
 'use strict';
 
 var getData = require('./internalMethods').getData;
@@ -235,7 +280,7 @@ module.exports = function (key) {
   return getData('system', 'uploadurl?key=' + key);
 };
 
-},{"./internalMethods":5}],12:[function(require,module,exports){
+},{"./internalMethods":6}],13:[function(require,module,exports){
 'use strict';
 
 exports.guid = function guid() {
@@ -246,5 +291,5 @@ exports.guid = function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
-},{}]},{},[7])(7)
+},{}]},{},[8])(8)
 });

@@ -71,8 +71,6 @@ exports.getDeviceType = getDeviceType;
 (function (global){
 'use strict';
 
-// /interactive-api/{version}/items?filter={key1}:{value1},{key2}:{value2}
-
 var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
@@ -88,7 +86,7 @@ function objToString(obj) {
 }
 
 module.exports = function (obj) {
-	var dfd1 = $.Deferred();
+	var Deferred = $.Deferred();
 	var result = [];
 	var offset = 0;
 	var limit = 100;
@@ -98,19 +96,19 @@ module.exports = function (obj) {
 		return getData('items?filter=' + filter + '&offset=' + offset + '&limit=' + limit, null).done(function (data) {
 			result = result.concat(data);
 			if (data.length < limit) {
-				dfd1.resolve(result);
+				Deferred.resolve(result);
 			} else {
 				offset += limit;
 				getPage();
 			}
 		}).fail(function () {
-			dfd1.reject();
+			Deferred.reject();
 		});
 	};
 
 	getPage(offset, limit);
 
-	return dfd1.promise();
+	return Deferred.promise();
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

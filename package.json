@@ -13,8 +13,8 @@
     "jquery": "global:$"
   },
   "scripts": {
-    "compile": "babel lib -d src",
-    "babelify": "browserify lib/mflyCommands.js --standalone mflyCommands --outfile src/mflyCommands.js",
+    "compile": "babel lib -d temp",
+    "babelify": "browserify temp/mflyCommands.js --standalone mflyCommands --outfile src/mflyCommands.js",
     "build": "npm run lint; npm run compile; npm run babelify",
     "lint": "jshint lib || true",
     "watch": "npm run build; chokidar lib/**/*.js -c 'npm run build' --polling --poll-interval 100 --verbose"

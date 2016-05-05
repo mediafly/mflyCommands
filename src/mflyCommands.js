@@ -72,10 +72,38 @@ exports.getDeviceType = getDeviceType;
 'use strict';
 
 var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+module.exports = function (id) {
+	return $.Deferred(function (dfd) {
+		getData('items', id + '/items', dfd);
+	});
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],3:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+module.exports = function () {
+	return $.Deferred(function (dfd) {
+		getData('system', 'gps', dfd);
+	});
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],4:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var device = require('./device');
 var getData = require('./internalMethods').getData;
 
-exports.interactiveInfo = function () {
+module.exports = function () {
 	if (device.getDeviceType() === device.deviceTypes.web || device.getDeviceType() === device.deviceTypes.development) {
 		return $.Deferred(function (dfd) {
 			getData('interactive', null, dfd);
@@ -86,7 +114,7 @@ exports.interactiveInfo = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":1,"./internalMethods":3}],3:[function(require,module,exports){
+},{"./device":1,"./internalMethods":5}],5:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -138,7 +166,28 @@ exports.getData = function _internalGetData(func, param, dfd) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":1,"./utils":5}],4:[function(require,module,exports){
+},{"./device":1,"./utils":12}],6:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+function get(id) {
+	return $.Deferred(function (dfd) {
+		getData('items', id, dfd);
+	});
+}
+
+function getCurrent() {
+	return get('__self__');
+}
+
+exports.get = get;
+exports.getCurrent = getCurrent;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],7:[function(require,module,exports){
 'use strict';
 
 /**
@@ -149,10 +198,74 @@ exports.getData = function _internalGetData(func, param, dfd) {
  */
 
 module.exports = {
-  getInteractiveInfo: require('./interactiveInfo').interactiveInfo
+	getInteractiveInfo: require('./interactiveInfo'),
+	getSystemInfo: require('./systemInfo'),
+	getOnlineStatus: require('./onlineStatus'),
+	getGpsCoordinates: require('./gpsCoordinates'),
+	getUploadUrl: require('./uploadUrl'),
+	getCurrentItem: require('./item').getCurrent,
+	getItem: require('./item').get,
+	getShare: require('./share'),
+	getFolder: require('./folder')
 };
 
-},{"./interactiveInfo":2}],5:[function(require,module,exports){
+},{"./folder":2,"./gpsCoordinates":3,"./interactiveInfo":4,"./item":6,"./onlineStatus":8,"./share":9,"./systemInfo":10,"./uploadUrl":11}],8:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+module.exports = function () {
+	return $.Deferred(function (dfd) {
+		getData('online-status', null, dfd);
+	});
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],9:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+module.exports = function (id) {
+	return $.Deferred(function (dfd) {
+		getData('items', id + '/share', dfd);
+	});
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],10:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+module.exports = function () {
+	return $.Deferred(function (dfd) {
+		getData('system', null, dfd);
+	});
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],11:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+var getData = require('./internalMethods').getData;
+
+module.exports = function (key) {
+	return $.Deferred(function (dfd) {
+		getData('system', 'uploadurl?key=' + key, dfd);
+	});
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./internalMethods":5}],12:[function(require,module,exports){
 'use strict';
 
 exports.guid = function guid() {
@@ -163,5 +276,5 @@ exports.guid = function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
-},{}]},{},[4])(4)
+},{}]},{},[7])(7)
 });

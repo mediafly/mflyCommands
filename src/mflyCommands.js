@@ -68,33 +68,23 @@ exports.isWeb = isWeb;
 exports.getDeviceType = getDeviceType;
 
 },{}],2:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 module.exports = function (id) {
-	return $.Deferred(function (dfd) {
-		getData('items', id + '/items', dfd);
-	});
+  return getData('items', id + '/items');
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./internalMethods":5}],3:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 module.exports = function () {
-	return $.Deferred(function (dfd) {
-		getData('system', 'gps', dfd);
-	});
+  return getData('system', 'gps');
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./internalMethods":5}],4:[function(require,module,exports){
 (function (global){
 'use strict';
@@ -105,9 +95,7 @@ var getData = require('./internalMethods').getData;
 
 module.exports = function () {
 	if (device.getDeviceType() === device.deviceTypes.web || device.getDeviceType() === device.deviceTypes.development) {
-		return $.Deferred(function (dfd) {
-			getData('interactive', null, dfd);
-		});
+		return getData('interactive', null);
 	} else {
 		return $.getJSON('mflyManifest.json');
 	}
@@ -134,11 +122,13 @@ function _transformUrl(url) {
     }
 }
 
-exports.getData = function _internalGetData(func, param, dfd) {
-    var expectJson = arguments.length <= 3 || arguments[3] === undefined ? true : arguments[3];
+exports.getData = function _internalGetData(func, param) {
+    var expectJson = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
     var prefix = device.getPrefix();
     var url = _transformUrl(prefix + func + (param === null ? "" : "/" + param));
+
+    var deferred = $.Deferred();
 
     $.ajax({
         url: url,
@@ -150,7 +140,7 @@ exports.getData = function _internalGetData(func, param, dfd) {
             }
 
             // Resolve the promise.
-            dfd.resolveWith(this, [data, request.status]);
+            deferred.resolveWith(this, [data, request.status]);
         },
         error: function error(data, status, request) {
             // Content could not be retrieved. Reject the promise.
@@ -160,9 +150,11 @@ exports.getData = function _internalGetData(func, param, dfd) {
                 window.location.replace(data.responseJSON.returnUrl);
             }
 
-            dfd.reject(this, [request, data.status]);
+            deferred.reject(this, [request, data.status]);
         }
     });
+
+    return deferred.promise();
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -174,9 +166,7 @@ var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefi
 var getData = require('./internalMethods').getData;
 
 function get(id) {
-	return $.Deferred(function (dfd) {
-		getData('items', id, dfd);
-	});
+	return getData('items', id, dfd);
 }
 
 function getCurrent() {
@@ -210,61 +200,41 @@ module.exports = {
 };
 
 },{"./folder":2,"./gpsCoordinates":3,"./interactiveInfo":4,"./item":6,"./onlineStatus":8,"./share":9,"./systemInfo":10,"./uploadUrl":11}],8:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 module.exports = function () {
-	return $.Deferred(function (dfd) {
-		getData('online-status', null, dfd);
-	});
+  return getData('online-status', null);
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./internalMethods":5}],9:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 module.exports = function (id) {
-	return $.Deferred(function (dfd) {
-		getData('items', id + '/share', dfd);
-	});
+  return getData('items', id + '/share');
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./internalMethods":5}],10:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 module.exports = function () {
-	return $.Deferred(function (dfd) {
-		getData('system', null, dfd);
-	});
+  return getData('system', null);
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./internalMethods":5}],11:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var getData = require('./internalMethods').getData;
 
 module.exports = function (key) {
-	return $.Deferred(function (dfd) {
-		getData('system', 'uploadurl?key=' + key, dfd);
-	});
+  return getData('system', 'uploadurl?key=' + key);
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./internalMethods":5}],12:[function(require,module,exports){
 'use strict';
 

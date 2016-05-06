@@ -217,11 +217,11 @@ exports.default = getFolder;
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
-function gpsCoordinates() {
+function getGpsCoordinates() {
     return internalMethods_1.getData('system', 'gps');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = gpsCoordinates;
+exports.default = getGpsCoordinates;
 
 },{"./internalMethods":7}],6:[function(require,module,exports){
 (function (global){
@@ -230,7 +230,7 @@ exports.default = gpsCoordinates;
 var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var device_1 = require('./device');
 var internalMethods_1 = require('./internalMethods');
-function interactiveInfo() {
+function getInteractiveInfo() {
     if (device_1.getDeviceType() === device_1.deviceTypes.web || device_1.getDeviceType() === device_1.deviceTypes.development) {
         return internalMethods_1.getData('interactive', null);
     } else {
@@ -238,7 +238,7 @@ function interactiveInfo() {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = interactiveInfo;
+exports.default = getInteractiveInfo;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./device":2,"./internalMethods":7}],7:[function(require,module,exports){
@@ -305,20 +305,28 @@ function getCurrentItem() {
     return getItem('__self__');
 }
 exports.getCurrentItem = getCurrentItem;
-function shareItem(id) {
+function getShare(id) {
     return internalMethods_1.getData('items', id + '/share');
 }
-exports.shareItem = shareItem;
+exports.getShare = getShare;
+function getLastViewed() {
+    return internalMethods_1.getData('items', '?list=last-viewed');
+}
+exports.getLastViewed = getLastViewed;
+function getRecentlyCreated() {
+    return internalMethods_1.getData('items', '?list=recently-created');
+}
+exports.getRecentlyCreated = getRecentlyCreated;
 
 },{"./internalMethods":7}],9:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
-function onlineStatus(argument) {
+function getOnlineStatus(argument) {
     return internalMethods_1.getData('online-status', null);
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = onlineStatus;
+exports.default = getOnlineStatus;
 
 },{"./internalMethods":7}],10:[function(require,module,exports){
 (function (global){
@@ -365,21 +373,21 @@ exports.default = search;
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
-function systemInfo() {
+function getSystemInfo() {
     return internalMethods_1.getData('system', null);
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = systemInfo;
+exports.default = getSystemInfo;
 
 },{"./internalMethods":7}],12:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
-function uploadUrl(key) {
+function getUploadUrl(key) {
     return internalMethods_1.getData('system', "uploadurl?key=" + key);
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = uploadUrl;
+exports.default = getUploadUrl;
 
 },{"./internalMethods":7}],13:[function(require,module,exports){
 "use strict";
@@ -418,10 +426,12 @@ var mflyCommands = {
     getUploadUrl: uploadUrl_1.default,
     getCurrentItem: item_1.getCurrentItem,
     getItem: item_1.getItem,
-    getShare: item_1.shareItem,
+    getShare: item_1.getShare,
     getFolder: folder_1.default,
     filter: filter_1.default,
-    search: search_1.default
+    search: search_1.default,
+    getLastViewed: item_1.getLastViewed,
+    getRecentlyCreated: item_1.getRecentlyCreated
 };
 module.exports = mflyCommands;
 

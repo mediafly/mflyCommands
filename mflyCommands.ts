@@ -5,28 +5,30 @@
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
  */
 
-import interactiveInfo from './commands/interactiveInfo'
-import systemInfo from './commands/systemInfo'
-import onlineStatus from './commands/onlineStatus'
-import uploadUrl from './commands/uploadUrl'
-import { getCurrentItem, getItem, shareItem } from './commands/item'
+import getInteractiveInfo from './commands/interactiveInfo'
+import getSystemInfo from './commands/systemInfo'
+import getOnlineStatus from './commands/onlineStatus'
+import getUploadUrl from './commands/uploadUrl'
+import { getCurrentItem, getItem, getShare, getLastViewed, getRecentlyCreated } from './commands/item'
 import getFolder from './commands/folder'
 import filter from './commands/filter'
-import gpsCoordinates from './commands/gpsCoordinates'
+import getGpsCoordinates from './commands/gpsCoordinates'
 import search from './commands/search'
 
 var mflyCommands = {
-	getInteractiveInfo: interactiveInfo,
-	getSystemInfo: systemInfo,
-	getOnlineStatus: onlineStatus,
-	getGpsCoordinates: gpsCoordinates,
-	getUploadUrl: uploadUrl,
-	getCurrentItem: getCurrentItem,
-	getItem: getItem,
-	getShare: shareItem,
-	getFolder: getFolder,
-	filter: filter,
-	search: search,
+	getInteractiveInfo,
+	getSystemInfo ,
+	getOnlineStatus,
+	getGpsCoordinates,
+	getUploadUrl,
+	getCurrentItem,
+	getItem,
+	getShare,
+	getFolder,
+	filter,
+	search,
+	getLastViewed,
+	getRecentlyCreated
 }
 
 export = mflyCommands

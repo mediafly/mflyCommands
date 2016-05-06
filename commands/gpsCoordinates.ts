@@ -1,5 +1,5 @@
 import { getData } from './internalMethods'
 
-export default function gpsCoordinates () {
+export default function getGpsCoordinates () {
 	return getData('system', 'gps')
 }

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "outDir": "temp"
+    },
+    "exclude": [
+        "node_modules",
+        "bower_components",
+        "commands",
+        "typings/main/ambient",
+        "typings/main.d.ts"
+    ]
+}

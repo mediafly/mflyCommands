@@ -13,11 +13,13 @@
     "jquery": "global:$"
   },
   "scripts": {
-    "compile": "babel lib -d temp",
+    "clean": "rm -rf temp src; mkdir src",
+    "compile": "tsc",
     "babelify": "browserify temp/mflyCommands.js --standalone mflyCommands --outfile src/mflyCommands.js",
-    "build": "npm run lint; npm run compile; npm run babelify",
-    "lint": "jshint lib || true",
-    "watch": "npm run build; chokidar lib/**/*.js -c 'npm run build' --polling --poll-interval 100 --verbose"
+    "prebuild": "npm run clean",
+    "build": "npm run compile; npm run babelify",
+    "watch": "npm run build; chokidar temp/**/*.js -c 'npm run babelify' --polling --poll-interval 100 --verbose",
+    "postinstall": "typings install"
   },
   "repository": {
     "type": "git",
@@ -39,7 +41,7 @@
     "Interactives"
   ],
   "dependencies": {
-    "jquery": "1.11.0"
+    "jquery": "^1.11.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",

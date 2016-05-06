@@ -1,14 +1,14 @@
 var developmentPrefix = 'http://localhost:8000/'
 var webPrefix = '/interactive-api/v5/'
 var mobilePrefix = 'mfly://'
-var deviceTypes = {
+export var deviceTypes = {
 	development: 'development',
 	mobile: 'mobile',
 	web: 'web',
 	desktop: 'desktop'
 }
 
-var isWindows8 = function () {
+export var isWindows8 = function () {
 	var userAgent = navigator.userAgent.toLowerCase();
 	if (userAgent.indexOf("msie") !== -1) {
 		if (userAgent.indexOf("webview") !== -1) {
@@ -26,24 +26,23 @@ function isLocalhostForDevelopment () {
 	}
 }
 
-function getDeviceType() {
+export function getDeviceType() {
 	if (isLocalhostForDevelopment()) {
 		return deviceTypes.development
 	} else {
-		var deviceTypeCookie = document.cookie.split(';')
-			.find(c => c.split('=')[0].toLowerCase().trim() === 'devicetype')
+		var deviceTypeCookie = document.cookie.split(';').filter(c => c.split('=')[0].toLowerCase().trim() === 'devicetype')
 
-		if (deviceTypeCookie) {
-			return deviceTypeCookie.split('=')[1]
+		if (deviceTypeCookie.length > 0) {
+			return deviceTypeCookie[0].split('=')[1]
 		} else {
 			return deviceTypes.mobile
 		}
 	}
 }
 
-var isWeb = () => getDeviceType() === deviceTypes.web
+export var isWeb = () => getDeviceType() === deviceTypes.web
 
-exports.getPrefix = function() {
+export function getPrefix() {
 	var deviceType = getDeviceType()
 	switch (deviceType) {
 		case deviceTypes.development:
@@ -55,8 +54,3 @@ exports.getPrefix = function() {
 			return mobilePrefix
 	}
 }
-
-exports.deviceTypes = deviceTypes
-exports.isWindows8 = isWindows8
-exports.isWeb = isWeb
-exports.getDeviceType = getDeviceType

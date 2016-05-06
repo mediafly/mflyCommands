@@ -1,5 +1,5 @@
-var $ = require('jquery')
-var getData = require('./internalMethods').getData
+import * as $ from 'jquery'
+import { getData } from './internalMethods'
 
 function objToString(obj) {
 	var result = ''
@@ -12,7 +12,7 @@ function objToString(obj) {
 	return result
 }
 
-module.exports = function(obj) {
+export default function filter(obj) {
 	var Deferred = $.Deferred()
 	var result = []
 	var offset = 0
@@ -21,7 +21,7 @@ module.exports = function(obj) {
 	var getPage = function () {
 		var filter = encodeURIComponent(objToString(obj))
 		return getData(`items?filter=${filter}&offset=${offset}&limit=${limit}`, null)
-			.done(function (data) {
+			.done(function (data: any) {
 				result = result.concat(data)
 				if (data.length < limit) {
 					Deferred.resolve(result)
@@ -34,7 +34,7 @@ module.exports = function(obj) {
 		})
 	}
 
-	getPage(offset, limit)
+	getPage()
 
 	return Deferred.promise()
 }

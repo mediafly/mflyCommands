@@ -14,8 +14,10 @@ import getFolder from './commands/folder'
 import filter from './commands/filter'
 import getGpsCoordinates from './commands/gpsCoordinates'
 import search from './commands/search'
+import close from './commands/close'
 
 var mflyCommands = {
+	close,
 	getInteractiveInfo,
 	getSystemInfo ,
 	getOnlineStatus,

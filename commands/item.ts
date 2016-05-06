@@ -1,10 +1,16 @@
+interface Item {
+	backUrl: string,
+	nextUrl: string,
+	previousUrl: string
+}
+
 import { getData } from './internalMethods'
 
 export function getItem(id) {
 	return getData('items', id)
 }
 
-export function getCurrentItem() {
+export function getCurrentItem() : JQueryPromise<Item> {
 	return getItem('__self__')
 }
 

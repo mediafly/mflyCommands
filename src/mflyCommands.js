@@ -104,6 +104,29 @@ exports.decode = decode;
 },{}],2:[function(require,module,exports){
 "use strict";
 
+var item_1 = require('./item');
+var device_1 = require('./device');
+function close() {
+    item_1.getCurrentItem().then(function (data) {
+        var url = data.backUrl;
+        if (device_1.isWeb() && !!sessionStorage['viewerInteractiveContext']) {
+            var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
+            if (interactiveContext.type === 'collection') {
+                url += '?collection=' + interactiveContext.id;
+            }
+            if (interactiveContext.type === 'search') {
+                url += '?term=' + interactiveContext.term;
+            }
+        }
+        window.location.href = url;
+    });
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = close;
+
+},{"./device":3,"./item":9}],3:[function(require,module,exports){
+"use strict";
+
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
 var mobilePrefix = 'mfly://';
@@ -161,7 +184,7 @@ function getPrefix() {
 }
 exports.getPrefix = getPrefix;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -203,7 +226,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":7}],4:[function(require,module,exports){
+},{"./internalMethods":8}],5:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -213,7 +236,7 @@ function getFolder(id) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
-},{"./internalMethods":7}],5:[function(require,module,exports){
+},{"./internalMethods":8}],6:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -223,7 +246,7 @@ function getGpsCoordinates() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":7}],6:[function(require,module,exports){
+},{"./internalMethods":8}],7:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -241,7 +264,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":2,"./internalMethods":7}],7:[function(require,module,exports){
+},{"./device":3,"./internalMethods":8}],8:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -293,7 +316,7 @@ function getData(func, param, expectJson) {
 exports.getData = getData;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Base64":1,"./device":2,"./utils":13}],8:[function(require,module,exports){
+},{"./Base64":1,"./device":3,"./utils":14}],9:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -318,7 +341,7 @@ function getRecentlyCreated() {
 }
 exports.getRecentlyCreated = getRecentlyCreated;
 
-},{"./internalMethods":7}],9:[function(require,module,exports){
+},{"./internalMethods":8}],10:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -328,7 +351,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":7}],10:[function(require,module,exports){
+},{"./internalMethods":8}],11:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -369,7 +392,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = search;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":7}],11:[function(require,module,exports){
+},{"./internalMethods":8}],12:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -379,7 +402,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":7}],12:[function(require,module,exports){
+},{"./internalMethods":8}],13:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -389,7 +412,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":7}],13:[function(require,module,exports){
+},{"./internalMethods":8}],14:[function(require,module,exports){
 "use strict";
 
 function guid() {
@@ -400,7 +423,7 @@ function guid() {
 }
 exports.guid = guid;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
@@ -418,7 +441,9 @@ var folder_1 = require('./commands/folder');
 var filter_1 = require('./commands/filter');
 var gpsCoordinates_1 = require('./commands/gpsCoordinates');
 var search_1 = require('./commands/search');
+var close_1 = require('./commands/close');
 var mflyCommands = {
+    close: close_1.default,
     getInteractiveInfo: interactiveInfo_1.default,
     getSystemInfo: systemInfo_1.default,
     getOnlineStatus: onlineStatus_1.default,
@@ -435,5 +460,5 @@ var mflyCommands = {
 };
 module.exports = mflyCommands;
 
-},{"./commands/filter":3,"./commands/folder":4,"./commands/gpsCoordinates":5,"./commands/interactiveInfo":6,"./commands/item":8,"./commands/onlineStatus":9,"./commands/search":10,"./commands/systemInfo":11,"./commands/uploadUrl":12}]},{},[14])(14)
+},{"./commands/close":2,"./commands/filter":4,"./commands/folder":5,"./commands/gpsCoordinates":6,"./commands/interactiveInfo":7,"./commands/item":9,"./commands/onlineStatus":10,"./commands/search":11,"./commands/systemInfo":12,"./commands/uploadUrl":13}]},{},[15])(15)
 });

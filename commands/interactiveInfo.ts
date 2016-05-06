@@ -1,10 +1,10 @@
 import * as $ from 'jquery'
 import {getDeviceType, deviceTypes} from './device'
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 export default function getInteractiveInfo () {
 	if (getDeviceType() === deviceTypes.web || getDeviceType() === deviceTypes.development) {
-		return getData('interactive', null)
+		return get('interactive')
 	} else {
 		return $.getJSON('mflyManifest.json')
 	}

@@ -1,5 +1,5 @@
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 export default function getUploadUrl(key) {
-	return getData('system', `uploadurl?key=${key}`)
+	return get('system', `uploadurl?key=${key}`)
 }

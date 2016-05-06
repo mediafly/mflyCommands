@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 export default function search(term, offset = 0, limit = 100) {
 	var dfd1 = $.Deferred()
@@ -14,7 +14,7 @@ export default function search(term, offset = 0, limit = 100) {
 	var getPage = function() {
 		var qs = $.param(obj);
 
-		getData('items?' + qs, null)
+		get('items?' + qs)
 			.done(function(data: any) {
 				result = result.concat(data);
 				if (data.length < obj.limit) {

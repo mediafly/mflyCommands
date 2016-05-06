@@ -1,108 +1,5 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-/**
-*  Base64 encode / decode.
-*  Needed for Windows 8 support.
-*  http://www.webtoolkit.info/
-*
-**/
-
-var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-function _utf8_encode(string) {
-    string = string.replace(/\r\n/g, "\n");
-    var utftext = "";
-    for (var n = 0; n < string.length; n++) {
-        var c = string.charCodeAt(n);
-        if (c < 128) {
-            utftext += String.fromCharCode(c);
-        } else if (c > 127 && c < 2048) {
-            utftext += String.fromCharCode(c >> 6 | 192);
-            utftext += String.fromCharCode(c & 63 | 128);
-        } else {
-            utftext += String.fromCharCode(c >> 12 | 224);
-            utftext += String.fromCharCode(c >> 6 & 63 | 128);
-            utftext += String.fromCharCode(c & 63 | 128);
-        }
-    }
-    return utftext;
-}
-function _utf8_decode(utftext) {
-    var string = "";
-    var i = 0;
-    var c = 0;
-    var c1 = 0;
-    var c2 = 0;
-    var c3 = 0;
-    while (i < utftext.length) {
-        c = utftext.charCodeAt(i);
-        if (c < 128) {
-            string += String.fromCharCode(c);
-            i++;
-        } else if (c > 191 && c < 224) {
-            c2 = utftext.charCodeAt(i + 1);
-            string += String.fromCharCode((c & 31) << 6 | c2 & 63);
-            i += 2;
-        } else {
-            c2 = utftext.charCodeAt(i + 1);
-            c3 = utftext.charCodeAt(i + 2);
-            string += String.fromCharCode((c & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
-            i += 3;
-        }
-    }
-    return string;
-}
-function encode(input) {
-    var output = "";
-    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-    var i = 0;
-    input = _utf8_encode(input);
-    while (i < input.length) {
-        chr1 = input.charCodeAt(i++);
-        chr2 = input.charCodeAt(i++);
-        chr3 = input.charCodeAt(i++);
-        enc1 = chr1 >> 2;
-        enc2 = (chr1 & 3) << 4 | chr2 >> 4;
-        enc3 = (chr2 & 15) << 2 | chr3 >> 6;
-        enc4 = chr3 & 63;
-        if (isNaN(chr2)) {
-            enc3 = enc4 = 64;
-        } else if (isNaN(chr3)) {
-            enc4 = 64;
-        }
-        output = output + _keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
-    }
-    return output;
-}
-exports.encode = encode;
-function decode(input) {
-    var output = "";
-    var chr1, chr2, chr3;
-    var enc1, enc2, enc3, enc4;
-    var i = 0;
-    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-    while (i < input.length) {
-        enc1 = _keyStr.indexOf(input.charAt(i++));
-        enc2 = _keyStr.indexOf(input.charAt(i++));
-        enc3 = _keyStr.indexOf(input.charAt(i++));
-        enc4 = _keyStr.indexOf(input.charAt(i++));
-        chr1 = enc1 << 2 | enc2 >> 4;
-        chr2 = (enc2 & 15) << 4 | enc3 >> 2;
-        chr3 = (enc3 & 3) << 6 | enc4;
-        output = output + String.fromCharCode(chr1);
-        if (enc3 != 64) {
-            output = output + String.fromCharCode(chr2);
-        }
-        if (enc4 != 64) {
-            output = output + String.fromCharCode(chr3);
-        }
-    }
-    output = _utf8_decode(output);
-    return output;
-}
-exports.decode = decode;
-
-},{}],2:[function(require,module,exports){
-"use strict";
 
 var item_1 = require('./item');
 var device_1 = require('./device');
@@ -124,7 +21,44 @@ function close() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = close;
 
-},{"./device":3,"./item":9}],3:[function(require,module,exports){
+},{"./device":3,"./item":9}],2:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
+function getCollections() {
+    return internalMethods_1.get('collections');
+}
+exports.getCollections = getCollections;
+function getCollection(id) {
+    return internalMethods_1.get("collections/" + id, 'items');
+}
+exports.getCollection = getCollection;
+function createCollection(name) {
+    return internalMethods_1.post('collections', { name: name });
+}
+exports.createCollection = createCollection;
+function addItemToCollection(id) {
+    return internalMethods_1.post("collections/" + id + "/items", { ids: [id] });
+}
+exports.addItemToCollection = addItemToCollection;
+function removeItemFromCollection(collectionId, itemId) {
+    return internalMethods_1.ddelete("collections/" + collectionId + "/items/" + itemId);
+}
+exports.removeItemFromCollection = removeItemFromCollection;
+function deleteCollection(id) {
+    return internalMethods_1.ddelete("collections/" + id);
+}
+exports.deleteCollection = deleteCollection;
+function reorderItemInCollection(collectionId, itemId, position) {
+    return internalMethods_1.put("/collections/" + collectionId + "/items/" + itemId + "/reorder?position=" + position);
+}
+exports.reorderItemInCollection = reorderItemInCollection;
+function renameCollection(id, name) {
+    return internalMethods_1.put("/collections/" + id, { name: name });
+}
+exports.renameCollection = renameCollection;
+
+},{"./internalMethods":8}],3:[function(require,module,exports){
 "use strict";
 
 var developmentPrefix = 'http://localhost:8000/';
@@ -207,7 +141,7 @@ function filter(obj) {
     var limit = 100;
     var getPage = function () {
         var filter = encodeURIComponent(objToString(obj));
-        return internalMethods_1.getData("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit, null).done(function (data) {
+        return internalMethods_1.get("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit).done(function (data) {
             result = result.concat(data);
             if (data.length < limit) {
                 Deferred.resolve(result);
@@ -231,7 +165,7 @@ exports.default = filter;
 
 var internalMethods_1 = require('./internalMethods');
 function getFolder(id) {
-    return internalMethods_1.getData('items', id + "/items");
+    return internalMethods_1.get('items', id + "/items");
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
@@ -241,7 +175,7 @@ exports.default = getFolder;
 
 var internalMethods_1 = require('./internalMethods');
 function getGpsCoordinates() {
-    return internalMethods_1.getData('system', 'gps');
+    return internalMethods_1.get('system', 'gps');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
@@ -255,7 +189,7 @@ var device_1 = require('./device');
 var internalMethods_1 = require('./internalMethods');
 function getInteractiveInfo() {
     if (device_1.getDeviceType() === device_1.deviceTypes.web || device_1.getDeviceType() === device_1.deviceTypes.development) {
-        return internalMethods_1.getData('interactive', null);
+        return internalMethods_1.get('interactive');
     } else {
         return $.getJSON('mflyManifest.json');
     }
@@ -269,26 +203,16 @@ exports.default = getInteractiveInfo;
 "use strict";
 
 var device = require('./device');
-var utils_1 = require('./utils');
-var Base64_1 = require('./Base64');
 var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
-function _transformUrl(url) {
-    /**
-     * Required for Windows8 support.
-     */
-    if (device.isWindows8()) {
-        var port = location.port;
-        return "http://localhost:" + port + "/device.windows8.data.ajax?url__VB64__=" + Base64_1.encode(url) + "&newCall=" + utils_1.guid();
-    } else {
-        return url;
+function get(func, param, expectJson) {
+    if (param === void 0) {
+        param = null;
     }
-}
-function getData(func, param, expectJson) {
     if (expectJson === void 0) {
         expectJson = true;
     }
     var prefix = device.getPrefix();
-    var url = _transformUrl(prefix + func + (param === null ? "" : "/" + param));
+    var url = prefix + func + (param === null ? param : '/' + param);
     var deferred = $.Deferred();
     $.ajax({
         url: url,
@@ -313,15 +237,86 @@ function getData(func, param, expectJson) {
     });
     return deferred.promise();
 }
-exports.getData = getData;
+exports.get = get;
+function post(func, data) {
+    var deferred = $.Deferred();
+    var prefix = device.getPrefix();
+    var url = prefix + func;
+    $.ajax({
+        method: 'POST',
+        url: url,
+        data: data,
+        success: function (data, textStatus, request) {
+            deferred.resolveWith(this, [data, request.status]);
+        },
+        error: function (data, status, request) {
+            if (device.isWeb() && data.status === 401) {
+                // Viewer does not have an authenticated session. Take user to Viewer root.
+                sessionStorage.setItem('returnUrl', window.location.href);
+                window.location.replace(data.responseJSON.returnUrl);
+            }
+            deferred.reject(this, [request, data.status]);
+        }
+    });
+    return deferred.promise();
+}
+exports.post = post;
+function ddelete(func) {
+    var deferred = $.Deferred();
+    var prefix = device.getPrefix();
+    var url = prefix + func;
+    $.ajax({
+        method: 'DELETE',
+        url: url,
+        success: function (data, textStatus, request) {
+            deferred.resolveWith(this, [data, request.status]);
+        },
+        error: function (data, status, request) {
+            if (device.isWeb() && data.status === 401) {
+                // Viewer does not have an authenticated session. Take user to Viewer root.
+                sessionStorage.setItem('returnUrl', window.location.href);
+                window.location.replace(data.responseJSON.returnUrl);
+            }
+            deferred.reject(this, [request, data.status]);
+        }
+    });
+    return deferred.promise();
+}
+exports.ddelete = ddelete;
+function put(func, data) {
+    if (data === void 0) {
+        data = null;
+    }
+    var deferred = $.Deferred();
+    var prefix = device.getPrefix();
+    var url = prefix + func;
+    $.ajax({
+        method: 'PUT',
+        data: data,
+        url: url,
+        success: function (data, textStatus, request) {
+            deferred.resolveWith(this, [data, request.status]);
+        },
+        error: function (data, status, request) {
+            if (device.isWeb() && data.status === 401) {
+                // Viewer does not have an authenticated session. Take user to Viewer root.
+                sessionStorage.setItem('returnUrl', window.location.href);
+                window.location.replace(data.responseJSON.returnUrl);
+            }
+            deferred.reject(this, [request, data.status]);
+        }
+    });
+    return deferred.promise();
+}
+exports.put = put;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Base64":1,"./device":3,"./utils":14}],9:[function(require,module,exports){
+},{"./device":3}],9:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
 function getItem(id) {
-    return internalMethods_1.getData('items', id);
+    return internalMethods_1.get('items', id);
 }
 exports.getItem = getItem;
 function getCurrentItem() {
@@ -329,15 +324,15 @@ function getCurrentItem() {
 }
 exports.getCurrentItem = getCurrentItem;
 function getShare(id) {
-    return internalMethods_1.getData('items', id + '/share');
+    return internalMethods_1.get('items', id + '/share');
 }
 exports.getShare = getShare;
 function getLastViewed() {
-    return internalMethods_1.getData('items', '?list=last-viewed');
+    return internalMethods_1.get('items', '?list=last-viewed');
 }
 exports.getLastViewed = getLastViewed;
 function getRecentlyCreated() {
-    return internalMethods_1.getData('items', '?list=recently-created');
+    return internalMethods_1.get('items', '?list=recently-created');
 }
 exports.getRecentlyCreated = getRecentlyCreated;
 
@@ -346,7 +341,7 @@ exports.getRecentlyCreated = getRecentlyCreated;
 
 var internalMethods_1 = require('./internalMethods');
 function getOnlineStatus(argument) {
-    return internalMethods_1.getData('online-status', null);
+    return internalMethods_1.get('online-status');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
@@ -373,7 +368,7 @@ function search(term, offset, limit) {
     };
     var getPage = function () {
         var qs = $.param(obj);
-        internalMethods_1.getData('items?' + qs, null).done(function (data) {
+        internalMethods_1.get('items?' + qs).done(function (data) {
             result = result.concat(data);
             if (data.length < obj.limit) {
                 dfd1.resolve(result);
@@ -397,7 +392,7 @@ exports.default = search;
 
 var internalMethods_1 = require('./internalMethods');
 function getSystemInfo() {
-    return internalMethods_1.getData('system', null);
+    return internalMethods_1.get('system');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
@@ -407,23 +402,12 @@ exports.default = getSystemInfo;
 
 var internalMethods_1 = require('./internalMethods');
 function getUploadUrl(key) {
-    return internalMethods_1.getData('system', "uploadurl?key=" + key);
+    return internalMethods_1.get('system', "uploadurl?key=" + key);
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
 },{"./internalMethods":8}],14:[function(require,module,exports){
-"use strict";
-
-function guid() {
-    function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-}
-exports.guid = guid;
-
-},{}],15:[function(require,module,exports){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
@@ -437,6 +421,7 @@ var systemInfo_1 = require('./commands/systemInfo');
 var onlineStatus_1 = require('./commands/onlineStatus');
 var uploadUrl_1 = require('./commands/uploadUrl');
 var item_1 = require('./commands/item');
+var collections_1 = require('./commands/collections');
 var folder_1 = require('./commands/folder');
 var filter_1 = require('./commands/filter');
 var gpsCoordinates_1 = require('./commands/gpsCoordinates');
@@ -456,9 +441,11 @@ var mflyCommands = {
     filter: filter_1.default,
     search: search_1.default,
     getLastViewed: item_1.getLastViewed,
-    getRecentlyCreated: item_1.getRecentlyCreated
+    getRecentlyCreated: item_1.getRecentlyCreated,
+    getCollections: collections_1.getCollections,
+    getCollection: collections_1.getCollection
 };
 module.exports = mflyCommands;
 
-},{"./commands/close":2,"./commands/filter":4,"./commands/folder":5,"./commands/gpsCoordinates":6,"./commands/interactiveInfo":7,"./commands/item":9,"./commands/onlineStatus":10,"./commands/search":11,"./commands/systemInfo":12,"./commands/uploadUrl":13}]},{},[15])(15)
+},{"./commands/close":1,"./commands/collections":2,"./commands/filter":4,"./commands/folder":5,"./commands/gpsCoordinates":6,"./commands/interactiveInfo":7,"./commands/item":9,"./commands/onlineStatus":10,"./commands/search":11,"./commands/systemInfo":12,"./commands/uploadUrl":13}]},{},[14])(14)
 });

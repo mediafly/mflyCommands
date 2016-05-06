@@ -1,5 +1,5 @@
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 export default function getSystemInfo() {
-	return getData('system', null)
+	return get('system')
 }

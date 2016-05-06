@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 function objToString(obj) {
 	var result = ''
@@ -20,7 +20,7 @@ export default function filter(obj) {
 
 	var getPage = function () {
 		var filter = encodeURIComponent(objToString(obj))
-		return getData(`items?filter=${filter}&offset=${offset}&limit=${limit}`, null)
+		return get(`items?filter=${filter}&offset=${offset}&limit=${limit}`)
 			.done(function (data: any) {
 				result = result.concat(data)
 				if (data.length < limit) {

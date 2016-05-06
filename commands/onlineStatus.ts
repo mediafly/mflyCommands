@@ -1,5 +1,5 @@
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 export default function getOnlineStatus(argument) {
-	return getData('online-status', null)	
+	return get('online-status')
 }

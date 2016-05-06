@@ -3,47 +3,113 @@ import { guid } from './utils'
 import { encode } from './Base64'
 import * as $ from 'jquery'
 
-function _transformUrl(url) {
-    /**
-     * Required for Windows8 support.
-     */
-    if (device.isWindows8()) {
-        var port = location.port
-        return "http://localhost:" + port + "/device.windows8.data.ajax?url__VB64__=" + encode(url) + "&newCall=" + guid()
-    } else {
-        return url
-    }
+export function get(func, param = null, expectJson = true) {
+	var prefix = device.getPrefix()
+	var url = prefix + func + (param === null ? param : '/' + param)
+
+	var deferred = $.Deferred()
+
+	$.ajax({
+		url: url,
+		success: function (data, textStatus, request) {
+			// Content retrieved. Transform to JSON if supposed to.
+			if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
+				// This was sent back as text/html JSON.parse it to a JSON object.
+				data = JSON.parse(data)
+			}
+
+			// Resolve the promise.
+			deferred.resolveWith(this, [data, request.status])
+		},
+		error: function (data, status, request) {
+			// Content could not be retrieved. Reject the promise.
+			if (device.isWeb() && data.status === 401) {
+				// Viewer does not have an authenticated session. Take user to Viewer root.
+				sessionStorage.setItem('returnUrl', window.location.href)
+				window.location.replace(data.responseJSON.returnUrl)
+			}
+
+			deferred.reject(this, [request, data.status])
+		}
+	})
+
+	return deferred.promise()
 }
 
-export function getData(func, param, expectJson = true) {
-    var prefix = device.getPrefix()
-    var url = _transformUrl(prefix + func + (param === null ? "" : "/" + param))
+export function post(func: string, data) {
+	var deferred = $.Deferred()
+	var prefix = device.getPrefix()
+	var url = prefix + func
 
-    var deferred = $.Deferred()
+	$.ajax({
+		method: 'POST',
+		url,
+		data,
+		success: function(data, textStatus, request) {
+			deferred.resolveWith(this, [data, request.status])
+		},
+		error: function (data, status, request) {
+			if (device.isWeb() && data.status === 401) {
+				// Viewer does not have an authenticated session. Take user to Viewer root.
+				sessionStorage.setItem('returnUrl', window.location.href)
+				window.location.replace(data.responseJSON.returnUrl)
+			}
 
-    $.ajax({
-        url: url,
-        success: function (data, textStatus, request) {
-            // Content retrieved. Transform to JSON if supposed to.
-            if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
-                // This was sent back as text/html JSON.parse it to a JSON object.
-                data = JSON.parse(data)
-            }
+			deferred.reject(this, [request, data.status])
+		}
+	})
 
-            // Resolve the promise.
-            deferred.resolveWith(this, [data, request.status])
-        },
-        error: function (data, status, request) {
-            // Content could not be retrieved. Reject the promise.
-            if (device.isWeb() && data.status === 401) {
-                // Viewer does not have an authenticated session. Take user to Viewer root.
-                sessionStorage.setItem('returnUrl', window.location.href)
-                window.location.replace(data.responseJSON.returnUrl)
-            }
-
-            deferred.reject(this, [request, data.status])
-        }
-    })
-
-    return deferred.promise()
+	return deferred.promise()
 }
+
+export function ddelete(func) {
+	var deferred = $.Deferred()
+	var prefix = device.getPrefix()
+	var url = prefix + func
+
+	$.ajax({
+		method: 'DELETE',
+		url,
+		success: function(data, textStatus, request) {
+			deferred.resolveWith(this, [data, request.status])
+		},
+		error: function (data, status, request) {
+			if (device.isWeb() && data.status === 401) {
+				// Viewer does not have an authenticated session. Take user to Viewer root.
+				sessionStorage.setItem('returnUrl', window.location.href)
+				window.location.replace(data.responseJSON.returnUrl)
+			}
+
+			deferred.reject(this, [request, data.status])
+		}
+	})
+
+	return deferred.promise()
+}
+
+export function put(func, data = null) {
+	var deferred = $.Deferred()
+	var prefix = device.getPrefix()
+	var url = prefix + func
+
+	$.ajax({
+		method: 'PUT',
+		data,
+		url,
+		success: function(data, textStatus, request) {
+			deferred.resolveWith(this, [data, request.status])
+		},
+		error: function(data, status, request) {
+			if (device.isWeb() && data.status === 401) {
+				// Viewer does not have an authenticated session. Take user to Viewer root.
+				sessionStorage.setItem('returnUrl', window.location.href)
+				window.location.replace(data.responseJSON.returnUrl)
+			}
+
+			deferred.reject(this, [request, data.status])
+		}
+	})
+
+	return deferred.promise()
+}
+

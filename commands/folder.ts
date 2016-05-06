@@ -1,5 +1,5 @@
-import { getData } from './internalMethods'
+import { get } from './internalMethods'
 
 export default function getFolder(id) {
-	return getData('items', `${id}/items`)
+	return get('items', `${id}/items`)
 }

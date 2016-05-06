@@ -10,6 +10,7 @@ import getSystemInfo from './commands/systemInfo'
 import getOnlineStatus from './commands/onlineStatus'
 import getUploadUrl from './commands/uploadUrl'
 import { getCurrentItem, getItem, getShare, getLastViewed, getRecentlyCreated } from './commands/item'
+import { getCollections, getCollection } from './commands/collections'
 import getFolder from './commands/folder'
 import filter from './commands/filter'
 import getGpsCoordinates from './commands/gpsCoordinates'
@@ -30,7 +31,9 @@ var mflyCommands = {
 	filter,
 	search,
 	getLastViewed,
-	getRecentlyCreated
+	getRecentlyCreated,
+	getCollections,
+	getCollection
 }
 
 export = mflyCommands

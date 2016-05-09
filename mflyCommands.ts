@@ -22,6 +22,7 @@ import * as notification from './commands/notification'
 import * as accountInfo from './commands/accountInfo'
 import * as localKeyValueStorage from './commands/localKeyValueStorage'
 import * as syncedKeyValueStorage from './commands/syncedKeyValueStorage'
+import { embed, embedImage, getData } from './commands/embed'
 
 var mflyCommands = {
 	close,
@@ -33,6 +34,9 @@ var mflyCommands = {
 	getFolder,
 	filter,
 	search,
+	embed,
+	embedImage,
+	getData
 }
 
 extend(mflyCommands, item)

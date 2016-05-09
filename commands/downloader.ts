@@ -1,4 +1,3 @@
-import { isWeb } from './device'
 import { ddelete, get, post } from './internalMethods'
 
 export function showDownloader(x, y, width, height) {

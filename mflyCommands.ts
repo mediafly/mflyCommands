@@ -18,6 +18,7 @@ import getGpsCoordinates from './commands/gpsCoordinates'
 import search from './commands/search'
 import close from './commands/close'
 import * as downloader from './commands/downloader'
+import * as notification from './commands/notification'
 
 var mflyCommands = {
 	close,
@@ -34,5 +35,6 @@ var mflyCommands = {
 extend(mflyCommands, item)
 extend(mflyCommands, collections)
 extend(mflyCommands, downloader)
+extend(mflyCommands, notification)
 
 export = mflyCommands

@@ -397,6 +397,85 @@ exports.getRecentlyCreated = getRecentlyCreated;
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
+var device_1 = require('./device');
+function getValuesWithPrefix(prefix) {
+    if (device_1.isWeb()) {
+        return $.Deferred(function (dfd) {
+            var all = {};
+            for (var key in localStorage) {
+                // Check if key startswith prefix
+                if (key.slice(0, prefix.length) == prefix) {
+                    all[key] = localStorage.getItem(key);
+                }
+            }
+            dfd.resolveWith(this, [all, 200]);
+        });
+    } else {
+        return internalMethods_1.get('info?prefix=' + prefix);
+    }
+}
+function getAllValues() {
+    if (device_1.isWeb()) {
+        var all = {};
+        for (var key in localStorage) {
+            all[key] = localStorage.getItem(key);
+        }
+        return $.when(all);
+    } else {
+        return internalMethods_1.get('info');
+    }
+}
+function getValues(prefix) {
+    if (typeof prefix != 'undefined') {
+        // Get values with specified prefix
+        return getValuesWithPrefix(prefix);
+    } else {
+        return getAllValues();
+    }
+}
+exports.getValues = getValues;
+function getValue(key) {
+    return $.Deferred(function (dfd) {
+        if (device_1.isWeb()) {
+            var value = localStorage.getItem(key);
+            if (value) {
+                dfd.resolveWith(this, [value, 200]);
+            } else {
+                dfd.rejectWith(this, [value, 404]);
+            }
+        } else {
+            internalMethods_1.get('info', key, false);
+        }
+    });
+}
+exports.getValue = getValue;
+function putValue(key, value) {
+    if (device_1.isWeb()) {
+        return $.Deferred(function (dfd) {
+            localStorage.setItem(key, value);
+            dfd.resolveWith(this, ['', 200]);
+        });
+    } else {
+        return internalMethods_1.post("info/" + key, [{ key: key, value: value }]);
+    }
+}
+exports.putValue = putValue;
+function deleteKey(key) {
+    if (device_1.isWeb()) {
+        return $.Deferred(function (dfd) {
+            localStorage.removeItem(key);
+            dfd.resolveWith(this, ['', 200]);
+        });
+    } else {
+        return internalMethods_1.ddelete("info/" + key);
+    }
+}
+exports.deleteKey = deleteKey;
+
+},{"./device":5,"./internalMethods":11}],14:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
 function addNotification(id) {
     return internalMethods_1.post("notifications/" + id, null);
 }
@@ -422,7 +501,7 @@ function showNotificationManager(x, y, width, height) {
 }
 exports.showNotificationManager = showNotificationManager;
 
-},{"./internalMethods":11}],14:[function(require,module,exports){
+},{"./internalMethods":11}],15:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -432,7 +511,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":11}],15:[function(require,module,exports){
+},{"./internalMethods":11}],16:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -473,7 +552,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = search;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":11}],16:[function(require,module,exports){
+},{"./internalMethods":11}],17:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -483,7 +562,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":11}],17:[function(require,module,exports){
+},{"./internalMethods":11}],18:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -493,7 +572,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":11}],18:[function(require,module,exports){
+},{"./internalMethods":11}],19:[function(require,module,exports){
 (function (global){
 /**
  * (c) 2013-2016, Mediafly, Inc.
@@ -518,6 +597,7 @@ var close_1 = require('./commands/close');
 var downloader = require('./commands/downloader');
 var notification = require('./commands/notification');
 var accountInfo = require('./commands/accountInfo');
+var localKeyValueStorage = require('./commands/localKeyValueStorage');
 var mflyCommands = {
     close: close_1.default,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -534,8 +614,9 @@ jquery_1.extend(mflyCommands, collections);
 jquery_1.extend(mflyCommands, downloader);
 jquery_1.extend(mflyCommands, notification);
 jquery_1.extend(mflyCommands, accountInfo);
+jquery_1.extend(mflyCommands, localKeyValueStorage);
 module.exports = mflyCommands;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commands/accountInfo":1,"./commands/close":2,"./commands/collections":3,"./commands/downloader":6,"./commands/filter":7,"./commands/folder":8,"./commands/gpsCoordinates":9,"./commands/interactiveInfo":10,"./commands/item":12,"./commands/notification":13,"./commands/onlineStatus":14,"./commands/search":15,"./commands/systemInfo":16,"./commands/uploadUrl":17}]},{},[18])(18)
+},{"./commands/accountInfo":1,"./commands/close":2,"./commands/collections":3,"./commands/downloader":6,"./commands/filter":7,"./commands/folder":8,"./commands/gpsCoordinates":9,"./commands/interactiveInfo":10,"./commands/item":12,"./commands/localKeyValueStorage":13,"./commands/notification":14,"./commands/onlineStatus":15,"./commands/search":16,"./commands/systemInfo":17,"./commands/uploadUrl":18}]},{},[19])(19)
 });

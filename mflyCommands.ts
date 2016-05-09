@@ -20,6 +20,7 @@ import close from './commands/close'
 import * as downloader from './commands/downloader'
 import * as notification from './commands/notification'
 import * as accountInfo from './commands/accountInfo'
+import * as localKeyValueStorage from './commands/localKeyValueStorage'
 
 var mflyCommands = {
 	close,
@@ -38,5 +39,6 @@ extend(mflyCommands, collections)
 extend(mflyCommands, downloader)
 extend(mflyCommands, notification)
 extend(mflyCommands, accountInfo)
+extend(mflyCommands, localKeyValueStorage)
 
 export = mflyCommands

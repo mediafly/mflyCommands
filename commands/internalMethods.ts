@@ -1,11 +1,16 @@
 import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
+import { isUnsupported } from './commandSupport'
 import * as $ from 'jquery'
 
 export function get(func, param = null, expectJson = true) {
 	var prefix = device.getPrefix()
-	var url = prefix + func + (param === null ? param : '/' + param)
+	var url = prefix + func + (param === null ? '' : '/' + param)
+
+	if(isUnsupported(url)) {
+		throw new Error('This method is not supported on this platform.')
+	}
 
 	var deferred = $.Deferred()
 
@@ -41,10 +46,15 @@ export function post(func: string, data) {
 	var prefix = device.getPrefix()
 	var url = prefix + func
 
+	if (isUnsupported(url)) {
+		throw new Error('This method is not supported on this platform.')
+	}
+
 	$.ajax({
 		method: 'POST',
 		url,
-		data,
+		data: JSON.stringify(data),
+		contentType: 'application/json; charset=utf-8',
 		success: function(data, textStatus, request) {
 			deferred.resolveWith(this, [data, request.status])
 		},
@@ -66,6 +76,10 @@ export function ddelete(func) {
 	var deferred = $.Deferred()
 	var prefix = device.getPrefix()
 	var url = prefix + func
+
+	if (isUnsupported(url)) {
+		throw new Error('This method is not supported on this platform.')
+	}
 
 	$.ajax({
 		method: 'DELETE',
@@ -91,6 +105,10 @@ export function put(func, data = null) {
 	var deferred = $.Deferred()
 	var prefix = device.getPrefix()
 	var url = prefix + func
+
+	if (isUnsupported(url)) {
+		throw new Error('This method is not supported on this platform.')
+	}
 
 	$.ajax({
 		method: 'PUT',

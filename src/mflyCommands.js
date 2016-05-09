@@ -21,7 +21,7 @@ function close() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = close;
 
-},{"./device":3,"./item":9}],2:[function(require,module,exports){
+},{"./device":4,"./item":11}],2:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -37,8 +37,8 @@ function createCollection(name) {
     return internalMethods_1.post('collections', { name: name });
 }
 exports.createCollection = createCollection;
-function addItemToCollection(id) {
-    return internalMethods_1.post("collections/" + id + "/items", { ids: [id] });
+function addItemToCollection(collectionId, itemId) {
+    return internalMethods_1.post("collections/" + collectionId + "/items", { ids: [itemId] });
 }
 exports.addItemToCollection = addItemToCollection;
 function removeItemFromCollection(collectionId, itemId) {
@@ -50,15 +50,30 @@ function deleteCollection(id) {
 }
 exports.deleteCollection = deleteCollection;
 function reorderItemInCollection(collectionId, itemId, position) {
-    return internalMethods_1.put("/collections/" + collectionId + "/items/" + itemId + "/reorder?position=" + position);
+    return internalMethods_1.put("collections/" + collectionId + "/items/" + itemId + "/reorder?position=" + position);
 }
 exports.reorderItemInCollection = reorderItemInCollection;
 function renameCollection(id, name) {
-    return internalMethods_1.put("/collections/" + id, { name: name });
+    return internalMethods_1.put("collections/" + id, { name: name });
 }
 exports.renameCollection = renameCollection;
 
-},{"./internalMethods":8}],3:[function(require,module,exports){
+},{"./internalMethods":10}],3:[function(require,module,exports){
+"use strict";
+
+var device_1 = require('./device');
+function isUnsupported(url) {
+    if (!device_1.isWeb()) {
+        return false;
+    }
+    var unsupportedStatements = ['/interactive-api/v5/control/show-ui'];
+    return unsupportedStatements.some(function (statement) {
+        return url === statement;
+    });
+}
+exports.isUnsupported = isUnsupported;
+
+},{"./device":4}],4:[function(require,module,exports){
 "use strict";
 
 var developmentPrefix = 'http://localhost:8000/';
@@ -118,7 +133,24 @@ function getPrefix() {
 }
 exports.getPrefix = getPrefix;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
+function showDownloader(x, y, width, height) {
+    return internalMethods_1.post('control/show-ui', {
+        ui: 'downloads',
+        position: {
+            x: x,
+            y: y,
+            width: width,
+            height: height
+        }
+    });
+}
+exports.showDownloader = showDownloader;
+
+},{"./internalMethods":10}],6:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -160,7 +192,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":8}],5:[function(require,module,exports){
+},{"./internalMethods":10}],7:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -170,7 +202,7 @@ function getFolder(id) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
-},{"./internalMethods":8}],6:[function(require,module,exports){
+},{"./internalMethods":10}],8:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -180,7 +212,7 @@ function getGpsCoordinates() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":8}],7:[function(require,module,exports){
+},{"./internalMethods":10}],9:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -198,11 +230,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":3,"./internalMethods":8}],8:[function(require,module,exports){
+},{"./device":4,"./internalMethods":10}],10:[function(require,module,exports){
 (function (global){
 "use strict";
 
 var device = require('./device');
+var commandSupport_1 = require('./commandSupport');
 var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 function get(func, param, expectJson) {
     if (param === void 0) {
@@ -212,7 +245,10 @@ function get(func, param, expectJson) {
         expectJson = true;
     }
     var prefix = device.getPrefix();
-    var url = prefix + func + (param === null ? param : '/' + param);
+    var url = prefix + func + (param === null ? '' : '/' + param);
+    if (commandSupport_1.isUnsupported(url)) {
+        throw new Error('This method is not supported on this platform.');
+    }
     var deferred = $.Deferred();
     $.ajax({
         url: url,
@@ -242,10 +278,14 @@ function post(func, data) {
     var deferred = $.Deferred();
     var prefix = device.getPrefix();
     var url = prefix + func;
+    if (commandSupport_1.isUnsupported(url)) {
+        throw new Error('This method is not supported on this platform.');
+    }
     $.ajax({
         method: 'POST',
         url: url,
-        data: data,
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
         success: function (data, textStatus, request) {
             deferred.resolveWith(this, [data, request.status]);
         },
@@ -265,6 +305,9 @@ function ddelete(func) {
     var deferred = $.Deferred();
     var prefix = device.getPrefix();
     var url = prefix + func;
+    if (commandSupport_1.isUnsupported(url)) {
+        throw new Error('This method is not supported on this platform.');
+    }
     $.ajax({
         method: 'DELETE',
         url: url,
@@ -290,6 +333,9 @@ function put(func, data) {
     var deferred = $.Deferred();
     var prefix = device.getPrefix();
     var url = prefix + func;
+    if (commandSupport_1.isUnsupported(url)) {
+        throw new Error('This method is not supported on this platform.');
+    }
     $.ajax({
         method: 'PUT',
         data: data,
@@ -311,7 +357,7 @@ function put(func, data) {
 exports.put = put;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":3}],9:[function(require,module,exports){
+},{"./commandSupport":3,"./device":4}],11:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -336,7 +382,7 @@ function getRecentlyCreated() {
 }
 exports.getRecentlyCreated = getRecentlyCreated;
 
-},{"./internalMethods":8}],10:[function(require,module,exports){
+},{"./internalMethods":10}],12:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -346,7 +392,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":8}],11:[function(require,module,exports){
+},{"./internalMethods":10}],13:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -387,7 +433,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = search;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":8}],12:[function(require,module,exports){
+},{"./internalMethods":10}],14:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -397,7 +443,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":8}],13:[function(require,module,exports){
+},{"./internalMethods":10}],15:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -407,7 +453,8 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":8}],14:[function(require,module,exports){
+},{"./internalMethods":10}],16:[function(require,module,exports){
+(function (global){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
@@ -416,17 +463,19 @@ exports.default = getUploadUrl;
  */
 "use strict";
 
+var jquery_1 = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
 var interactiveInfo_1 = require('./commands/interactiveInfo');
 var systemInfo_1 = require('./commands/systemInfo');
 var onlineStatus_1 = require('./commands/onlineStatus');
 var uploadUrl_1 = require('./commands/uploadUrl');
-var item_1 = require('./commands/item');
-var collections_1 = require('./commands/collections');
+var item = require('./commands/item');
+var collections = require('./commands/collections');
 var folder_1 = require('./commands/folder');
 var filter_1 = require('./commands/filter');
 var gpsCoordinates_1 = require('./commands/gpsCoordinates');
 var search_1 = require('./commands/search');
 var close_1 = require('./commands/close');
+var downloader = require('./commands/downloader');
 var mflyCommands = {
     close: close_1.default,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -434,18 +483,15 @@ var mflyCommands = {
     getOnlineStatus: onlineStatus_1.default,
     getGpsCoordinates: gpsCoordinates_1.default,
     getUploadUrl: uploadUrl_1.default,
-    getCurrentItem: item_1.getCurrentItem,
-    getItem: item_1.getItem,
-    getShare: item_1.getShare,
     getFolder: folder_1.default,
     filter: filter_1.default,
-    search: search_1.default,
-    getLastViewed: item_1.getLastViewed,
-    getRecentlyCreated: item_1.getRecentlyCreated,
-    getCollections: collections_1.getCollections,
-    getCollection: collections_1.getCollection
+    search: search_1.default
 };
+jquery_1.extend(mflyCommands, item);
+jquery_1.extend(mflyCommands, collections);
+jquery_1.extend(mflyCommands, downloader);
 module.exports = mflyCommands;
 
-},{"./commands/close":1,"./commands/collections":2,"./commands/filter":4,"./commands/folder":5,"./commands/gpsCoordinates":6,"./commands/interactiveInfo":7,"./commands/item":9,"./commands/onlineStatus":10,"./commands/search":11,"./commands/systemInfo":12,"./commands/uploadUrl":13}]},{},[14])(14)
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./commands/close":1,"./commands/collections":2,"./commands/downloader":5,"./commands/filter":6,"./commands/folder":7,"./commands/gpsCoordinates":8,"./commands/interactiveInfo":9,"./commands/item":11,"./commands/onlineStatus":12,"./commands/search":13,"./commands/systemInfo":14,"./commands/uploadUrl":15}]},{},[16])(16)
 });

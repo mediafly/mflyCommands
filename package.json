@@ -15,10 +15,10 @@
   "scripts": {
     "clean": "rm -rf temp src; mkdir src",
     "compile": "tsc",
-    "babelify": "browserify temp/mflyCommands.js --standalone mflyCommands --outfile src/mflyCommands.js",
+    "browserify": "browserify temp/mflyCommands.js --standalone mflyCommands --outfile src/mflyCommands.js",
     "prebuild": "npm run clean",
-    "build": "npm run compile; npm run babelify",
-    "watch": "npm run build; chokidar temp/**/*.js -c 'npm run babelify' --polling --poll-interval 100 --verbose",
+    "build": "npm run compile; npm run browserify",
+    "watch": "npm run build; chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose",
     "postinstall": "typings install"
   },
   "repository": {

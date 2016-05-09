@@ -12,8 +12,8 @@ export function createCollection(name) {
 	return post('collections', { name })
 }
 
-export function addItemToCollection(id) {
-	return post(`collections/${id}/items`, { ids: [ id ] })
+export function addItemToCollection(collectionId, itemId) {
+	return post(`collections/${collectionId}/items`, { ids: [ itemId ] })
 }
 
 export function removeItemFromCollection(collectionId, itemId) {
@@ -25,9 +25,9 @@ export function deleteCollection(id) {
 }
 
 export function reorderItemInCollection(collectionId, itemId, position) {
-	return put(`/collections/${collectionId}/items/${itemId}/reorder?position=${position}`)
+	return put(`collections/${collectionId}/items/${itemId}/reorder?position=${position}`)
 }
 
 export function renameCollection(id, name) {
-	return put(`/collections/${id}`, { name })
+	return put(`collections/${id}`, { name })
 }

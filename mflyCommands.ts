@@ -5,17 +5,19 @@
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
  */
 
+import { extend } from 'jquery'
 import getInteractiveInfo from './commands/interactiveInfo'
 import getSystemInfo from './commands/systemInfo'
 import getOnlineStatus from './commands/onlineStatus'
 import getUploadUrl from './commands/uploadUrl'
-import { getCurrentItem, getItem, getShare, getLastViewed, getRecentlyCreated } from './commands/item'
-import { getCollections, getCollection } from './commands/collections'
+import * as item from './commands/item'
+import * as collections from './commands/collections'
 import getFolder from './commands/folder'
 import filter from './commands/filter'
 import getGpsCoordinates from './commands/gpsCoordinates'
 import search from './commands/search'
 import close from './commands/close'
+import * as downloader from './commands/downloader'
 
 var mflyCommands = {
 	close,
@@ -24,16 +26,13 @@ var mflyCommands = {
 	getOnlineStatus,
 	getGpsCoordinates,
 	getUploadUrl,
-	getCurrentItem,
-	getItem,
-	getShare,
 	getFolder,
 	filter,
 	search,
-	getLastViewed,
-	getRecentlyCreated,
-	getCollections,
-	getCollection
 }
+
+extend(mflyCommands, item)
+extend(mflyCommands, collections)
+extend(mflyCommands, downloader)
 
 export = mflyCommands

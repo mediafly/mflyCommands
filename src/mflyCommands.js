@@ -411,7 +411,7 @@ function getValuesWithPrefix(prefix) {
             dfd.resolveWith(this, [all, 200]);
         });
     } else {
-        return internalMethods_1.get('info?prefix=' + prefix);
+        return internalMethods_1.get("info?prefix=" + prefix);
     }
 }
 function getAllValues() {
@@ -456,7 +456,7 @@ function putValue(key, value) {
             dfd.resolveWith(this, ['', 200]);
         });
     } else {
-        return internalMethods_1.post("info/" + key, [{ key: key, value: value }]);
+        return internalMethods_1.post("info", [{ key: key, value: value }]);
     }
 }
 exports.putValue = putValue;
@@ -556,13 +556,45 @@ exports.default = search;
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
+function getValuesWithPrefix(prefix) {
+    return internalMethods_1.get("syncedinfo?prefix=" + prefix);
+}
+function getAllValues() {
+    return internalMethods_1.get('syncedinfo');
+}
+function getSyncedValues(prefix) {
+    if (typeof prefix != 'undefined') {
+        // Get values with specified prefix
+        return getValuesWithPrefix(prefix);
+    } else {
+        return getAllValues();
+    }
+}
+exports.getSyncedValues = getSyncedValues;
+function getSyncedValue(key) {
+    return internalMethods_1.get('syncedinfo', key, false);
+}
+exports.getSyncedValue = getSyncedValue;
+function saveSyncedValue(key, value) {
+    return internalMethods_1.post("syncedinfo", [{ key: key, value: value }]);
+}
+exports.saveSyncedValue = saveSyncedValue;
+function deleteSyncedKey(key) {
+    return internalMethods_1.ddelete("syncedinfo/" + key);
+}
+exports.deleteSyncedKey = deleteSyncedKey;
+
+},{"./internalMethods":11}],18:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
 function getSystemInfo() {
     return internalMethods_1.get('system');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":11}],18:[function(require,module,exports){
+},{"./internalMethods":11}],19:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -572,7 +604,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":11}],19:[function(require,module,exports){
+},{"./internalMethods":11}],20:[function(require,module,exports){
 (function (global){
 /**
  * (c) 2013-2016, Mediafly, Inc.
@@ -598,6 +630,7 @@ var downloader = require('./commands/downloader');
 var notification = require('./commands/notification');
 var accountInfo = require('./commands/accountInfo');
 var localKeyValueStorage = require('./commands/localKeyValueStorage');
+var syncedKeyValueStorage = require('./commands/syncedKeyValueStorage');
 var mflyCommands = {
     close: close_1.default,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -615,8 +648,9 @@ jquery_1.extend(mflyCommands, downloader);
 jquery_1.extend(mflyCommands, notification);
 jquery_1.extend(mflyCommands, accountInfo);
 jquery_1.extend(mflyCommands, localKeyValueStorage);
+jquery_1.extend(mflyCommands, syncedKeyValueStorage);
 module.exports = mflyCommands;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commands/accountInfo":1,"./commands/close":2,"./commands/collections":3,"./commands/downloader":6,"./commands/filter":7,"./commands/folder":8,"./commands/gpsCoordinates":9,"./commands/interactiveInfo":10,"./commands/item":12,"./commands/localKeyValueStorage":13,"./commands/notification":14,"./commands/onlineStatus":15,"./commands/search":16,"./commands/systemInfo":17,"./commands/uploadUrl":18}]},{},[19])(19)
+},{"./commands/accountInfo":1,"./commands/close":2,"./commands/collections":3,"./commands/downloader":6,"./commands/filter":7,"./commands/folder":8,"./commands/gpsCoordinates":9,"./commands/interactiveInfo":10,"./commands/item":12,"./commands/localKeyValueStorage":13,"./commands/notification":14,"./commands/onlineStatus":15,"./commands/search":16,"./commands/syncedKeyValueStorage":17,"./commands/systemInfo":18,"./commands/uploadUrl":19}]},{},[20])(20)
 });

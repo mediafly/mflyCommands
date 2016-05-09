@@ -16,7 +16,7 @@ function getValuesWithPrefix(prefix) {
 			dfd.resolveWith(this, [all, 200])
 		})
 	} else {
-		return get('info?prefix=' + prefix)
+		return get(`info?prefix=${prefix}`)
 	}
 }
 
@@ -66,7 +66,7 @@ export function putValue(key , value) {
 
 		})
 	} else {
-		return post(`info/${key}`, [ { key, value } ])
+		return post(`info`, [ { key, value } ])
 	}
 }
 

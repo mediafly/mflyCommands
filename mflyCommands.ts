@@ -21,6 +21,7 @@ import * as downloader from './commands/downloader'
 import * as notification from './commands/notification'
 import * as accountInfo from './commands/accountInfo'
 import * as localKeyValueStorage from './commands/localKeyValueStorage'
+import * as syncedKeyValueStorage from './commands/syncedKeyValueStorage'
 
 var mflyCommands = {
 	close,
@@ -40,5 +41,6 @@ extend(mflyCommands, downloader)
 extend(mflyCommands, notification)
 extend(mflyCommands, accountInfo)
 extend(mflyCommands, localKeyValueStorage)
+extend(mflyCommands, syncedKeyValueStorage)
 
 export = mflyCommands

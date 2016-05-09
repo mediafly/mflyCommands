@@ -1,27 +1,26 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
-var item_1 = require('./item');
-var device_1 = require('./device');
+var internalMethods_1 = require('./internalMethods');
+function getUserInfo() {
+    return internalMethods_1.get('account');
+}
+exports.getUserInfo = getUserInfo;
+function logout() {
+    window.location.href = '/interactive-redirect/account/logout';
+}
+exports.logout = logout;
+
+},{"./internalMethods":11}],2:[function(require,module,exports){
+"use strict";
+
 function close() {
-    item_1.getCurrentItem().then(function (data) {
-        var url = data.backUrl;
-        if (device_1.isWeb() && !!sessionStorage['viewerInteractiveContext']) {
-            var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
-            if (interactiveContext.type === 'collection') {
-                url += '?collection=' + interactiveContext.id;
-            }
-            if (interactiveContext.type === 'search') {
-                url += '?term=' + interactiveContext.term;
-            }
-        }
-        window.location.href = url;
-    });
+    window.location.href = '/interactive-redirect/items/__self__/back';
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = close;
 
-},{"./device":4,"./item":11}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -58,7 +57,7 @@ function renameCollection(id, name) {
 }
 exports.renameCollection = renameCollection;
 
-},{"./internalMethods":10}],3:[function(require,module,exports){
+},{"./internalMethods":11}],4:[function(require,module,exports){
 "use strict";
 
 var device_1 = require('./device');
@@ -73,7 +72,7 @@ function isUnsupported(url) {
 }
 exports.isUnsupported = isUnsupported;
 
-},{"./device":4}],4:[function(require,module,exports){
+},{"./device":5}],5:[function(require,module,exports){
 "use strict";
 
 var developmentPrefix = 'http://localhost:8000/';
@@ -133,7 +132,7 @@ function getPrefix() {
 }
 exports.getPrefix = getPrefix;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -162,7 +161,7 @@ function removeFromDownloader(id) {
 }
 exports.removeFromDownloader = removeFromDownloader;
 
-},{"./internalMethods":10}],6:[function(require,module,exports){
+},{"./internalMethods":11}],7:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -204,7 +203,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":10}],7:[function(require,module,exports){
+},{"./internalMethods":11}],8:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -214,7 +213,7 @@ function getFolder(id) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
-},{"./internalMethods":10}],8:[function(require,module,exports){
+},{"./internalMethods":11}],9:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -224,7 +223,7 @@ function getGpsCoordinates() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":10}],9:[function(require,module,exports){
+},{"./internalMethods":11}],10:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -242,7 +241,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":4,"./internalMethods":10}],10:[function(require,module,exports){
+},{"./device":5,"./internalMethods":11}],11:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -369,7 +368,7 @@ function put(func, data) {
 exports.put = put;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commandSupport":3,"./device":4}],11:[function(require,module,exports){
+},{"./commandSupport":4,"./device":5}],12:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -394,7 +393,7 @@ function getRecentlyCreated() {
 }
 exports.getRecentlyCreated = getRecentlyCreated;
 
-},{"./internalMethods":10}],12:[function(require,module,exports){
+},{"./internalMethods":11}],13:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -423,7 +422,7 @@ function showNotificationManager(x, y, width, height) {
 }
 exports.showNotificationManager = showNotificationManager;
 
-},{"./internalMethods":10}],13:[function(require,module,exports){
+},{"./internalMethods":11}],14:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -433,7 +432,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":10}],14:[function(require,module,exports){
+},{"./internalMethods":11}],15:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -474,7 +473,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = search;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":10}],15:[function(require,module,exports){
+},{"./internalMethods":11}],16:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -484,7 +483,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":10}],16:[function(require,module,exports){
+},{"./internalMethods":11}],17:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -494,7 +493,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":10}],17:[function(require,module,exports){
+},{"./internalMethods":11}],18:[function(require,module,exports){
 (function (global){
 /**
  * (c) 2013-2016, Mediafly, Inc.
@@ -518,6 +517,7 @@ var search_1 = require('./commands/search');
 var close_1 = require('./commands/close');
 var downloader = require('./commands/downloader');
 var notification = require('./commands/notification');
+var accountInfo = require('./commands/accountInfo');
 var mflyCommands = {
     close: close_1.default,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -533,8 +533,9 @@ jquery_1.extend(mflyCommands, item);
 jquery_1.extend(mflyCommands, collections);
 jquery_1.extend(mflyCommands, downloader);
 jquery_1.extend(mflyCommands, notification);
+jquery_1.extend(mflyCommands, accountInfo);
 module.exports = mflyCommands;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commands/close":1,"./commands/collections":2,"./commands/downloader":5,"./commands/filter":6,"./commands/folder":7,"./commands/gpsCoordinates":8,"./commands/interactiveInfo":9,"./commands/item":11,"./commands/notification":12,"./commands/onlineStatus":13,"./commands/search":14,"./commands/systemInfo":15,"./commands/uploadUrl":16}]},{},[17])(17)
+},{"./commands/accountInfo":1,"./commands/close":2,"./commands/collections":3,"./commands/downloader":6,"./commands/filter":7,"./commands/folder":8,"./commands/gpsCoordinates":9,"./commands/interactiveInfo":10,"./commands/item":12,"./commands/notification":13,"./commands/onlineStatus":14,"./commands/search":15,"./commands/systemInfo":16,"./commands/uploadUrl":17}]},{},[18])(18)
 });

@@ -19,6 +19,7 @@ import search from './commands/search'
 import close from './commands/close'
 import * as downloader from './commands/downloader'
 import * as notification from './commands/notification'
+import * as accountInfo from './commands/accountInfo'
 
 var mflyCommands = {
 	close,
@@ -36,5 +37,6 @@ extend(mflyCommands, item)
 extend(mflyCommands, collections)
 extend(mflyCommands, downloader)
 extend(mflyCommands, notification)
+extend(mflyCommands, accountInfo)
 
 export = mflyCommands

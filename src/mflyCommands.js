@@ -78,7 +78,7 @@ function isUnsupported(url) {
     if (!device_1.isWeb()) {
         return false;
     }
-    var unsupportedStatements = ['/interactive-api/v5/control/show-ui', '/interactive-api/v5/downloads'];
+    var unsupportedStatements = ['/interactive-api/v5/control', '/interactive-api/v5/downloads', '/interactive-api/v5/sync'];
     return unsupportedStatements.some(function (statement) {
         return url.indexOf(statement) > -1;
     });
@@ -150,15 +150,7 @@ exports.getPrefix = getPrefix;
 
 var internalMethods_1 = require('./internalMethods');
 function showDownloader(x, y, width, height) {
-    return internalMethods_1.post('control/show-ui', {
-        ui: 'downloads',
-        position: {
-            x: x,
-            y: y,
-            width: width,
-            height: height
-        }
-    });
+    return internalMethods_1.showUI('downloads', x, y, width, height);
 }
 exports.showDownloader = showDownloader;
 function getDownloadStatus(id) {
@@ -379,6 +371,18 @@ function put(func, data) {
     return deferred.promise();
 }
 exports.put = put;
+function showUI(name, x, y, width, height) {
+    return post('control/show-ui', {
+        ui: name,
+        position: {
+            x: x,
+            y: y,
+            width: width,
+            height: height
+        }
+    });
+}
+exports.showUI = showUI;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./commandSupport":5,"./device":6}],13:[function(require,module,exports){
@@ -502,15 +506,7 @@ function getNotificationStatus(id) {
 }
 exports.getNotificationStatus = getNotificationStatus;
 function showNotificationManager(x, y, width, height) {
-    return internalMethods_1.post('control/show-ui', {
-        ui: 'notifications',
-        position: {
-            x: x,
-            y: y,
-            width: width,
-            height: height
-        }
-    });
+    return internalMethods_1.showUI('notifications', x, y, width, height);
 }
 exports.showNotificationManager = showNotificationManager;
 

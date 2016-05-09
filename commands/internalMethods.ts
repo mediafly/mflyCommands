@@ -131,3 +131,15 @@ export function put(func, data = null) {
 	return deferred.promise()
 }
 
+export function showUI(name, x, y, width, height) {
+	return post('control/show-ui', {
+		ui: name,
+		position: {
+			x,
+			y,
+			width,
+			height
+		}
+	})
+}
+

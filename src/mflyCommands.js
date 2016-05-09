@@ -66,9 +66,9 @@ function isUnsupported(url) {
     if (!device_1.isWeb()) {
         return false;
     }
-    var unsupportedStatements = ['/interactive-api/v5/control/show-ui'];
+    var unsupportedStatements = ['/interactive-api/v5/control/show-ui', '/interactive-api/v5/downloads'];
     return unsupportedStatements.some(function (statement) {
-        return url === statement;
+        return url.indexOf(statement) > -1;
     });
 }
 exports.isUnsupported = isUnsupported;
@@ -149,6 +149,18 @@ function showDownloader(x, y, width, height) {
     });
 }
 exports.showDownloader = showDownloader;
+function getDownloadStatus(id) {
+    return id ? internalMethods_1.get("downloads/" + id + "/status") : internalMethods_1.get('downloads/status');
+}
+exports.getDownloadStatus = getDownloadStatus;
+function addToDownloader(id) {
+    return internalMethods_1.post('downloads/status', { ids: [id] });
+}
+exports.addToDownloader = addToDownloader;
+function removeFromDownloader(id) {
+    return internalMethods_1.ddelete("downloads/" + id);
+}
+exports.removeFromDownloader = removeFromDownloader;
 
 },{"./internalMethods":10}],6:[function(require,module,exports){
 (function (global){

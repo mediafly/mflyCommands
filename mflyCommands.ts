@@ -22,6 +22,8 @@ import * as notification from './commands/notification'
 import * as accountInfo from './commands/accountInfo'
 import * as localKeyValueStorage from './commands/localKeyValueStorage'
 import * as syncedKeyValueStorage from './commands/syncedKeyValueStorage'
+import * as applicationSync from './commands/applicationSync'
+
 
 var mflyCommands = {
 	close,
@@ -42,5 +44,6 @@ extend(mflyCommands, notification)
 extend(mflyCommands, accountInfo)
 extend(mflyCommands, localKeyValueStorage)
 extend(mflyCommands, syncedKeyValueStorage)
+extend(mflyCommands, applicationSync)
 
 export = mflyCommands

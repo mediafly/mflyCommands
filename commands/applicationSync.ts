@@ -1,7 +1,7 @@
 import { get, post } from './internalMethods'
 
 export function refresh() {
-	return post('sync', null)
+	return post('sync')
 }
 
 export function getSyncStatus() {

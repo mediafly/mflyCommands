@@ -1,12 +1,14 @@
 interface Item {
 	backUrl: string,
 	nextUrl: string,
-	previousUrl: string
+	previousUrl: string,
+	resourceUrl: string,
+	url: string
 }
 
 import { get } from './internalMethods'
 
-export function getItem(id) {
+export function getItem(id) : JQueryPromise<Item> {
 	return get('items', id)
 }
 

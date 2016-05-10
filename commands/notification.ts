@@ -1,7 +1,7 @@
 import { ddelete, get, post, showUI } from './internalMethods'
 
 export function addNotification(id) {
-	return post(`notifications/${id}`, null)
+	return post(`notifications/${id}`)
 }
 
 export function removeNotification(id) {

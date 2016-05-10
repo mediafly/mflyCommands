@@ -6,9 +6,11 @@ export function isUnsupported(url : String) {
     }
 
     var unsupportedStatements = [
-        '/interactive-api/v5/control',
-        '/interactive-api/v5/downloads',
-        '/interactive-api/v5/sync',
+        '/control/',
+        '/downloads',
+        '/online-status',
+        '/system/gps',
+        // '/interactive-api/v5/sync',
     ]
 
     return unsupportedStatements.some(statement => url.indexOf(statement) > -1)

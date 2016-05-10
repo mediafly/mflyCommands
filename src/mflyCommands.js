@@ -11,12 +11,41 @@ function logout() {
 }
 exports.logout = logout;
 
-},{"./internalMethods":12}],2:[function(require,module,exports){
+},{"./internalMethods":13}],2:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
+function showSettings(x, y, width, height) {
+    return internalMethods_1.showUI('app-settings', x, y, width, height);
+}
+exports.showSettings = showSettings;
+function showUserManagement(x, y, width, height) {
+    return internalMethods_1.showUI('user-management', x, y, width, height);
+}
+exports.showUserManagement = showUserManagement;
+function showSecondScreenOptions() {
+    return internalMethods_1.post('control/show-ui', { ui: 'second-screen' });
+}
+exports.showSecondScreenOptions = showSecondScreenOptions;
+function email(id) {
+    return internalMethods_1.post('control/email', { id: id });
+}
+exports.email = email;
+function showAnnotations() {
+    return internalMethods_1.post('control/show-ui', { ui: 'annotations' });
+}
+exports.showAnnotations = showAnnotations;
+function takeAndEmailScreenshot() {
+    return internalMethods_1.post('control/email-screenshot');
+}
+exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
+
+},{"./internalMethods":13}],3:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
 function refresh() {
-    return internalMethods_1.post('sync', null);
+    return internalMethods_1.post('sync');
 }
 exports.refresh = refresh;
 function getSyncStatus() {
@@ -24,16 +53,7 @@ function getSyncStatus() {
 }
 exports.getSyncStatus = getSyncStatus;
 
-},{"./internalMethods":12}],3:[function(require,module,exports){
-"use strict";
-
-function close() {
-    window.location.href = '/interactive-redirect/items/__self__/back';
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = close;
-
-},{}],4:[function(require,module,exports){
+},{"./internalMethods":13}],4:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -62,15 +82,24 @@ function deleteCollection(id) {
 }
 exports.deleteCollection = deleteCollection;
 function reorderItemInCollection(collectionId, itemId, position) {
-    return internalMethods_1.put("collections/" + collectionId + "/items/" + itemId + "/reorder?position=" + position);
+    return internalMethods_1.put("collections/" + collectionId + "/items/" + itemId + "/order?position=" + position);
 }
 exports.reorderItemInCollection = reorderItemInCollection;
 function renameCollection(id, name) {
     return internalMethods_1.put("collections/" + id, { name: name });
 }
 exports.renameCollection = renameCollection;
+// UI Methods
+function showCollections(x, y, width, height) {
+    return internalMethods_1.showUI('collections', x, y, width, height);
+}
+exports.showCollections = showCollections;
+function showAddToCollection(x, y, width, height) {
+    return internalMethods_1.showUI('add-to-collection', x, y, width, height);
+}
+exports.showAddToCollection = showAddToCollection;
 
-},{"./internalMethods":12}],5:[function(require,module,exports){
+},{"./internalMethods":13}],5:[function(require,module,exports){
 "use strict";
 
 var device_1 = require('./device');
@@ -78,14 +107,27 @@ function isUnsupported(url) {
     if (!device_1.isWeb()) {
         return false;
     }
-    var unsupportedStatements = ['/interactive-api/v5/control', '/interactive-api/v5/downloads', '/interactive-api/v5/sync'];
+    var unsupportedStatements = ['/control/', '/downloads', '/online-status', '/system/gps'];
     return unsupportedStatements.some(function (statement) {
         return url.indexOf(statement) > -1;
     });
 }
 exports.isUnsupported = isUnsupported;
 
-},{"./device":6}],6:[function(require,module,exports){
+},{"./device":7}],6:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
+function showControlBars() {
+    return internalMethods_1.post('control/control-bars', { visible: true });
+}
+exports.showControlBars = showControlBars;
+function hideControlBars(x, y, width, height) {
+    return internalMethods_1.post('control/control-bars', { visible: false });
+}
+exports.hideControlBars = hideControlBars;
+
+},{"./internalMethods":13}],7:[function(require,module,exports){
 "use strict";
 
 var developmentPrefix = 'http://localhost:8000/';
@@ -145,7 +187,7 @@ function getPrefix() {
 }
 exports.getPrefix = getPrefix;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -166,7 +208,7 @@ function removeFromDownloader(id) {
 }
 exports.removeFromDownloader = removeFromDownloader;
 
-},{"./internalMethods":12}],8:[function(require,module,exports){
+},{"./internalMethods":13}],9:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -208,7 +250,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":12}],9:[function(require,module,exports){
+},{"./internalMethods":13}],10:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -218,7 +260,7 @@ function getFolder(id) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
-},{"./internalMethods":12}],10:[function(require,module,exports){
+},{"./internalMethods":13}],11:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -228,7 +270,7 @@ function getGpsCoordinates() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":12}],11:[function(require,module,exports){
+},{"./internalMethods":13}],12:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -246,7 +288,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":6,"./internalMethods":12}],12:[function(require,module,exports){
+},{"./device":7,"./internalMethods":13}],13:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -317,7 +359,7 @@ function post(func, data) {
     return deferred.promise();
 }
 exports.post = post;
-function ddelete(func) {
+function ddelete(func, data) {
     var deferred = $.Deferred();
     var prefix = device.getPrefix();
     var url = prefix + func;
@@ -327,6 +369,8 @@ function ddelete(func) {
     $.ajax({
         method: 'DELETE',
         url: url,
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
         success: function (data, textStatus, request) {
             deferred.resolveWith(this, [data, request.status]);
         },
@@ -385,7 +429,7 @@ function showUI(name, x, y, width, height) {
 exports.showUI = showUI;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commandSupport":5,"./device":6}],13:[function(require,module,exports){
+},{"./commandSupport":5,"./device":7}],14:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -410,7 +454,7 @@ function getRecentlyCreated() {
 }
 exports.getRecentlyCreated = getRecentlyCreated;
 
-},{"./internalMethods":12}],14:[function(require,module,exports){
+},{"./internalMethods":13}],15:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -489,12 +533,62 @@ function deleteKey(key) {
 }
 exports.deleteKey = deleteKey;
 
-},{"./device":6,"./internalMethods":12}],15:[function(require,module,exports){
+},{"./device":7,"./internalMethods":13}],16:[function(require,module,exports){
+(function (global){
+"use strict";
+
+var item_1 = require('./item');
+var device_1 = require('./device');
+var $ = (typeof window !== "undefined" ? window['$'] : typeof global !== "undefined" ? global['$'] : null);
+function close() {
+    window.location.href = '/interactive-redirect/items/__self__/back';
+}
+exports.close = close;
+function next() {
+    window.location.href = '/interactive-redirect/items/__self__/next';
+}
+exports.next = next;
+function previous() {
+    window.location.href = '/interactive-redirect/items/__self__/previous';
+}
+exports.previous = previous;
+function openItem(id, bookmark) {
+    item_1.getItem(id).then(function (item) {
+        var params = {};
+        var url = item.url;
+        if (device_1.isWeb()) {
+            params['returnurl'] = window.location.href;
+        }
+        if (bookmark) {
+            params['bookmark'] = bookmark;
+        }
+        url += '&' + $.param(params);
+        window.location.href = window.location.protocol + "//" + window.location.host + url;
+    });
+}
+exports.openItem = openItem;
+function openFolder(id) {
+    item_1.getItem(id).then(function (item) {
+        window.location.href = item.url;
+    });
+}
+exports.openFolder = openFolder;
+function goto() {
+    console.error('goto method is now deprecated. Please use openItem going forward.');
+}
+exports.goto = goto;
+function browse() {
+    console.error('browse method is now deprecated. Please use openItem going forward.');
+}
+exports.browse = browse;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./device":7,"./item":14}],17:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
 function addNotification(id) {
-    return internalMethods_1.post("notifications/" + id, null);
+    return internalMethods_1.post("notifications/" + id);
 }
 exports.addNotification = addNotification;
 function removeNotification(id) {
@@ -510,7 +604,7 @@ function showNotificationManager(x, y, width, height) {
 }
 exports.showNotificationManager = showNotificationManager;
 
-},{"./internalMethods":12}],16:[function(require,module,exports){
+},{"./internalMethods":13}],18:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -520,7 +614,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":12}],17:[function(require,module,exports){
+},{"./internalMethods":13}],19:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -557,11 +651,14 @@ function search(term, offset, limit) {
     getPage();
     return dfd1.promise();
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = search;
+exports.search = search;
+function showSearch(x, y, width, height) {
+    return internalMethods_1.showUI('search', x, y, width, height);
+}
+exports.showSearch = showSearch;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":12}],18:[function(require,module,exports){
+},{"./internalMethods":13}],20:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -589,11 +686,11 @@ function saveSyncedValue(key, value) {
 }
 exports.saveSyncedValue = saveSyncedValue;
 function deleteSyncedKey(key) {
-    return internalMethods_1.ddelete("syncedinfo/" + key);
+    return internalMethods_1.ddelete("syncedinfo", [key]);
 }
 exports.deleteSyncedKey = deleteSyncedKey;
 
-},{"./internalMethods":12}],19:[function(require,module,exports){
+},{"./internalMethods":13}],21:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -603,7 +700,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":12}],20:[function(require,module,exports){
+},{"./internalMethods":13}],22:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -613,7 +710,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":12}],21:[function(require,module,exports){
+},{"./internalMethods":13}],23:[function(require,module,exports){
 (function (global){
 /**
  * (c) 2013-2016, Mediafly, Inc.
@@ -634,15 +731,18 @@ var folder_1 = require('./commands/folder');
 var filter_1 = require('./commands/filter');
 var gpsCoordinates_1 = require('./commands/gpsCoordinates');
 var search_1 = require('./commands/search');
-var close_1 = require('./commands/close');
+var navigation_1 = require('./commands/navigation');
 var downloader = require('./commands/downloader');
 var notification = require('./commands/notification');
 var accountInfo = require('./commands/accountInfo');
 var localKeyValueStorage = require('./commands/localKeyValueStorage');
 var syncedKeyValueStorage = require('./commands/syncedKeyValueStorage');
 var applicationSync = require('./commands/applicationSync');
+var navigation = require('./commands/navigation');
+var appFeatures = require('./commands/appFeatures');
+var controls_1 = require('./commands/controls');
 var mflyCommands = {
-    close: close_1.default,
+    close: navigation_1.close,
     getInteractiveInfo: interactiveInfo_1.default,
     getSystemInfo: systemInfo_1.default,
     getOnlineStatus: onlineStatus_1.default,
@@ -650,7 +750,10 @@ var mflyCommands = {
     getUploadUrl: uploadUrl_1.default,
     getFolder: folder_1.default,
     filter: filter_1.default,
-    search: search_1.default
+    search: search_1.search,
+    showSearch: search_1.showSearch,
+    hideControlBars: controls_1.hideControlBars,
+    showControlBars: controls_1.showControlBars
 };
 jquery_1.extend(mflyCommands, item);
 jquery_1.extend(mflyCommands, collections);
@@ -660,8 +763,10 @@ jquery_1.extend(mflyCommands, accountInfo);
 jquery_1.extend(mflyCommands, localKeyValueStorage);
 jquery_1.extend(mflyCommands, syncedKeyValueStorage);
 jquery_1.extend(mflyCommands, applicationSync);
+jquery_1.extend(mflyCommands, navigation);
+jquery_1.extend(mflyCommands, appFeatures);
 module.exports = mflyCommands;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commands/accountInfo":1,"./commands/applicationSync":2,"./commands/close":3,"./commands/collections":4,"./commands/downloader":7,"./commands/filter":8,"./commands/folder":9,"./commands/gpsCoordinates":10,"./commands/interactiveInfo":11,"./commands/item":13,"./commands/localKeyValueStorage":14,"./commands/notification":15,"./commands/onlineStatus":16,"./commands/search":17,"./commands/syncedKeyValueStorage":18,"./commands/systemInfo":19,"./commands/uploadUrl":20}]},{},[21])(21)
+},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/downloader":8,"./commands/filter":9,"./commands/folder":10,"./commands/gpsCoordinates":11,"./commands/interactiveInfo":12,"./commands/item":14,"./commands/localKeyValueStorage":15,"./commands/navigation":16,"./commands/notification":17,"./commands/onlineStatus":18,"./commands/search":19,"./commands/syncedKeyValueStorage":20,"./commands/systemInfo":21,"./commands/uploadUrl":22}]},{},[23])(23)
 });

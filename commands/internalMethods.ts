@@ -41,7 +41,7 @@ export function get(func, param = null, expectJson = true) {
 	return deferred.promise()
 }
 
-export function post(func: string, data) {
+export function post(func: string, data?) {
 	var deferred = $.Deferred()
 	var prefix = device.getPrefix()
 	var url = prefix + func
@@ -72,7 +72,7 @@ export function post(func: string, data) {
 	return deferred.promise()
 }
 
-export function ddelete(func) {
+export function ddelete(func, data?) {
 	var deferred = $.Deferred()
 	var prefix = device.getPrefix()
 	var url = prefix + func
@@ -84,6 +84,8 @@ export function ddelete(func) {
 	$.ajax({
 		method: 'DELETE',
 		url,
+		data: JSON.stringify(data),
+		contentType: 'application/json; charset=utf-8',
 		success: function(data, textStatus, request) {
 			deferred.resolveWith(this, [data, request.status])
 		},

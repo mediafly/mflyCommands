@@ -21,5 +21,5 @@ export function showAnnotations() {
 }
 
 export function takeAndEmailScreenshot() {
-	return post('control/email-screenshot', null)
+	return post('control/email-screenshot')
 }

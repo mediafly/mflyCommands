@@ -10,9 +10,9 @@ export function embed(element, id, page) {
 }
 
 export function embedImage(element, id, options) {
-	var sizeParams = ''
+	var params = []
 	if (typeof options != 'undefined') {
-		var params = [
+		params = [
 			{ name: 'position', value: options.page },
 			{ name: 'size', value: options.size },
 			{ name: 'width', value: options.width },
@@ -24,13 +24,16 @@ export function embedImage(element, id, options) {
 		].filter(function(x) {
 			return !!x.value;
 		});
-
-		sizeParams = $.param(params)
 	}
 
-	get('items', id).then(i =>
-		element.src = i.resourceUrl + `?${sizeParams}`
-	)
+	get('items', id).then(i => {
+		// if(params.length > 0) {
+		// 	params.push({name: 'src', value: i.resourceUrl})
+		// 	element.src = `/images/scale?${$.param(params)}`
+		// } else {
+		element.src = i.resourceUrl
+		// }
+	})
 }
 
 export function getData(element, id) {

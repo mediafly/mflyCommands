@@ -11,7 +11,7 @@ function logout() {
 }
 exports.logout = logout;
 
-},{"./internalMethods":13}],2:[function(require,module,exports){
+},{"./internalMethods":14}],2:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -40,7 +40,7 @@ function takeAndEmailScreenshot() {
 }
 exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
 
-},{"./internalMethods":13}],3:[function(require,module,exports){
+},{"./internalMethods":14}],3:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -53,7 +53,7 @@ function getSyncStatus() {
 }
 exports.getSyncStatus = getSyncStatus;
 
-},{"./internalMethods":13}],4:[function(require,module,exports){
+},{"./internalMethods":14}],4:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -99,7 +99,7 @@ function showAddToCollection(x, y, width, height) {
 }
 exports.showAddToCollection = showAddToCollection;
 
-},{"./internalMethods":13}],5:[function(require,module,exports){
+},{"./internalMethods":14}],5:[function(require,module,exports){
 "use strict";
 
 var device_1 = require('./device');
@@ -127,7 +127,7 @@ function hideControlBars(x, y, width, height) {
 }
 exports.hideControlBars = hideControlBars;
 
-},{"./internalMethods":13}],7:[function(require,module,exports){
+},{"./internalMethods":14}],7:[function(require,module,exports){
 "use strict";
 
 var developmentPrefix = 'http://localhost:8000/';
@@ -208,7 +208,41 @@ function removeFromDownloader(id) {
 }
 exports.removeFromDownloader = removeFromDownloader;
 
-},{"./internalMethods":13}],9:[function(require,module,exports){
+},{"./internalMethods":14}],9:[function(require,module,exports){
+"use strict";
+
+var internalMethods_1 = require('./internalMethods');
+var item_1 = require('./item');
+function embed(element, id, page) {
+    item_1.getItem(id).then(function (i) {
+        var pageArg = page ? "?page=" + page : '';
+        element.src = i.resourceUrl + pageArg;
+    });
+}
+exports.embed = embed;
+function embedImage(element, id, options) {
+    var params = [];
+    if (typeof options != 'undefined') {
+        params = [{ name: 'position', value: options.page }, { name: 'size', value: options.size }, { name: 'width', value: options.width }, { name: 'height', value: options.height }, { name: 'maxWidth', value: options.maxWidth }, { name: 'maxHeight', value: options.maxHeight }, { name: 'rotate', value: options.rotate }].filter(function (x) {
+            return !!x.value;
+        });
+    }
+    internalMethods_1.get('items', id).then(function (i) {
+        // if(params.length > 0) {
+        // 	params.push({name: 'src', value: i.resourceUrl})
+        // 	element.src = `/images/scale?${$.param(params)}`
+        // } else {
+        element.src = i.resourceUrl;
+        // }
+    });
+}
+exports.embedImage = embedImage;
+function getData(element, id) {
+    item_1.getItem(id).then(function (i) {});
+}
+exports.getData = getData;
+
+},{"./internalMethods":14,"./item":15}],10:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -250,7 +284,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":13}],10:[function(require,module,exports){
+},{"./internalMethods":14}],11:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -260,7 +294,7 @@ function getFolder(id) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
-},{"./internalMethods":13}],11:[function(require,module,exports){
+},{"./internalMethods":14}],12:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -270,7 +304,7 @@ function getGpsCoordinates() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":13}],12:[function(require,module,exports){
+},{"./internalMethods":14}],13:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -288,7 +322,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":7,"./internalMethods":13}],13:[function(require,module,exports){
+},{"./device":7,"./internalMethods":14}],14:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -429,7 +463,7 @@ function showUI(name, x, y, width, height) {
 exports.showUI = showUI;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commandSupport":5,"./device":7}],14:[function(require,module,exports){
+},{"./commandSupport":5,"./device":7}],15:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -454,7 +488,7 @@ function getRecentlyCreatedContent() {
 }
 exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
-},{"./internalMethods":13}],15:[function(require,module,exports){
+},{"./internalMethods":14}],16:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -533,7 +567,7 @@ function deleteKey(key) {
 }
 exports.deleteKey = deleteKey;
 
-},{"./device":7,"./internalMethods":13}],16:[function(require,module,exports){
+},{"./device":7,"./internalMethods":14}],17:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -583,7 +617,7 @@ function browse() {
 exports.browse = browse;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./device":7,"./item":14}],17:[function(require,module,exports){
+},{"./device":7,"./item":15}],18:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -604,7 +638,7 @@ function showNotificationManager(x, y, width, height) {
 }
 exports.showNotificationManager = showNotificationManager;
 
-},{"./internalMethods":13}],18:[function(require,module,exports){
+},{"./internalMethods":14}],19:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -614,7 +648,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":13}],19:[function(require,module,exports){
+},{"./internalMethods":14}],20:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -658,7 +692,7 @@ function showSearch(x, y, width, height) {
 exports.showSearch = showSearch;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./internalMethods":13}],20:[function(require,module,exports){
+},{"./internalMethods":14}],21:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -690,7 +724,7 @@ function deleteSyncedKey(key) {
 }
 exports.deleteSyncedKey = deleteSyncedKey;
 
-},{"./internalMethods":13}],21:[function(require,module,exports){
+},{"./internalMethods":14}],22:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -700,7 +734,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":13}],22:[function(require,module,exports){
+},{"./internalMethods":14}],23:[function(require,module,exports){
 "use strict";
 
 var internalMethods_1 = require('./internalMethods');
@@ -710,7 +744,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":13}],23:[function(require,module,exports){
+},{"./internalMethods":14}],24:[function(require,module,exports){
 (function (global){
 /**
  * (c) 2013-2016, Mediafly, Inc.
@@ -741,6 +775,7 @@ var applicationSync = require('./commands/applicationSync');
 var navigation = require('./commands/navigation');
 var appFeatures = require('./commands/appFeatures');
 var controls_1 = require('./commands/controls');
+var embed_1 = require('./commands/embed');
 var mflyCommands = {
     close: navigation_1.close,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -753,7 +788,10 @@ var mflyCommands = {
     search: search_1.search,
     showSearch: search_1.showSearch,
     hideControlBars: controls_1.hideControlBars,
-    showControlBars: controls_1.showControlBars
+    showControlBars: controls_1.showControlBars,
+    embed: embed_1.embed,
+    embedImage: embed_1.embedImage,
+    getData: embed_1.getData
 };
 jquery_1.extend(mflyCommands, item);
 jquery_1.extend(mflyCommands, collections);
@@ -768,5 +806,5 @@ jquery_1.extend(mflyCommands, appFeatures);
 module.exports = mflyCommands;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/downloader":8,"./commands/filter":9,"./commands/folder":10,"./commands/gpsCoordinates":11,"./commands/interactiveInfo":12,"./commands/item":14,"./commands/localKeyValueStorage":15,"./commands/navigation":16,"./commands/notification":17,"./commands/onlineStatus":18,"./commands/search":19,"./commands/syncedKeyValueStorage":20,"./commands/systemInfo":21,"./commands/uploadUrl":22}]},{},[23])(23)
+},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/downloader":8,"./commands/embed":9,"./commands/filter":10,"./commands/folder":11,"./commands/gpsCoordinates":12,"./commands/interactiveInfo":13,"./commands/item":15,"./commands/localKeyValueStorage":16,"./commands/navigation":17,"./commands/notification":18,"./commands/onlineStatus":19,"./commands/search":20,"./commands/syncedKeyValueStorage":21,"./commands/systemInfo":22,"./commands/uploadUrl":23}]},{},[24])(24)
 });

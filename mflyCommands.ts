@@ -26,6 +26,7 @@ import * as applicationSync from './commands/applicationSync'
 import * as navigation from './commands/navigation'
 import * as appFeatures from './commands/appFeatures'
 import { hideControlBars, showControlBars } from './commands/controls'
+import { embed, embedImage, getData } from './commands/embed'
 
 var mflyCommands = {
 	close,
@@ -40,6 +41,9 @@ var mflyCommands = {
 	showSearch,
 	hideControlBars,
 	showControlBars,
+	embed,
+	embedImage,
+	getData,
 }
 
 extend(mflyCommands, item)

@@ -445,14 +445,14 @@ function getShare(id) {
     return internalMethods_1.get('items', id + '/share');
 }
 exports.getShare = getShare;
-function getLastViewed() {
+function getLastViewedContent() {
     return internalMethods_1.get('items', '?list=last-viewed');
 }
-exports.getLastViewed = getLastViewed;
-function getRecentlyCreated() {
+exports.getLastViewedContent = getLastViewedContent;
+function getRecentlyCreatedContent() {
     return internalMethods_1.get('items', '?list=recently-created');
 }
-exports.getRecentlyCreated = getRecentlyCreated;
+exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
 },{"./internalMethods":13}],15:[function(require,module,exports){
 "use strict";

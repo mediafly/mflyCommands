@@ -20,10 +20,10 @@ export function getShare(id) {
 	return get('items', id + '/share')
 }
 
-export function getLastViewed() {
+export function getLastViewedContent() {
 	return get('items', '?list=last-viewed')
 }
 
-export function getRecentlyCreated() {
+export function getRecentlyCreatedContent() {
 	return get('items', '?list=recently-created')
 }

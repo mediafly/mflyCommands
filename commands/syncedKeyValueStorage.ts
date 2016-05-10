@@ -28,7 +28,7 @@ export function saveSyncedValue(key, value) {
 }
 
 export function deleteSyncedKey(key) {
-	return ddelete(`syncedinfo/${key}`)
+	return ddelete(`syncedinfo`, [ key ])
 }
 
 

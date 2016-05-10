@@ -1,7 +1,7 @@
-import { ddelete, get, post } from './internalMethods'
+import { ddelete, get, post, showUI } from './internalMethods'
 
 export function addNotification(id) {
-	return post(`notifications/${id}`, null)
+	return post(`notifications/${id}`)
 }
 
 export function removeNotification(id) {
@@ -13,13 +13,5 @@ export function getNotificationStatus(id) {
 }
 
 export function showNotificationManager(x, y, width, height) {
-	return post('control/show-ui', {
-		ui: 'notifications',
-		position: {
-			x,
-			y,
-			width,
-			height
-		}
-	})
+	return showUI('notifications', x, y, width, height)
 }

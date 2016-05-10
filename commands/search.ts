@@ -1,7 +1,7 @@
 import * as $ from 'jquery'
-import { get } from './internalMethods'
+import { get, showUI } from './internalMethods'
 
-export default function search(term, offset = 0, limit = 100) {
+export function search(term, offset = 0, limit = 100) {
 	var dfd1 = $.Deferred()
 	var result = []
 
@@ -31,4 +31,8 @@ export default function search(term, offset = 0, limit = 100) {
 	getPage();
 
 	return dfd1.promise();
+}
+
+export function showSearch(x, y, width, height) {
+	return showUI('search', x, y, width, height)
 }

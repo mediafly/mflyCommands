@@ -15,14 +15,17 @@ import * as collections from './commands/collections'
 import getFolder from './commands/folder'
 import filter from './commands/filter'
 import getGpsCoordinates from './commands/gpsCoordinates'
-import search from './commands/search'
-import close from './commands/close'
+import { search, showSearch } from './commands/search'
+import { close } from './commands/navigation'
 import * as downloader from './commands/downloader'
 import * as notification from './commands/notification'
 import * as accountInfo from './commands/accountInfo'
 import * as localKeyValueStorage from './commands/localKeyValueStorage'
 import * as syncedKeyValueStorage from './commands/syncedKeyValueStorage'
-import { embed, embedImage, getData } from './commands/embed'
+import * as applicationSync from './commands/applicationSync'
+import * as navigation from './commands/navigation'
+import * as appFeatures from './commands/appFeatures'
+import { hideControlBars, showControlBars } from './commands/controls'
 
 var mflyCommands = {
 	close,
@@ -34,9 +37,9 @@ var mflyCommands = {
 	getFolder,
 	filter,
 	search,
-	embed,
-	embedImage,
-	getData
+	showSearch,
+	hideControlBars,
+	showControlBars,
 }
 
 extend(mflyCommands, item)
@@ -46,5 +49,8 @@ extend(mflyCommands, notification)
 extend(mflyCommands, accountInfo)
 extend(mflyCommands, localKeyValueStorage)
 extend(mflyCommands, syncedKeyValueStorage)
+extend(mflyCommands, applicationSync)
+extend(mflyCommands, navigation)
+extend(mflyCommands, appFeatures)
 
 export = mflyCommands

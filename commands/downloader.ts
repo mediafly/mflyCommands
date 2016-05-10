@@ -1,15 +1,7 @@
-import { ddelete, get, post } from './internalMethods'
+import { ddelete, get, post, showUI } from './internalMethods'
 
 export function showDownloader(x, y, width, height) {
-	return post('control/show-ui', {
-		ui: 'downloads',
-		position: {
-			x,
-			y,
-			width,
-			height
-		}
-	})
+	return showUI('downloads', x, y, width, height)
 }
 
 export function getDownloadStatus(id) {

@@ -36,9 +36,9 @@ export function embedImage(element, id, options) {
 	})
 }
 
-export function getData(element, id) {
-	getItem(id).then(i => {
-		
-	})
+export function getData(id) {
+	return getItem(id).then(i =>
+		$.getJSON(i.resourceUrl).then(data => data)
+	)
 }
 

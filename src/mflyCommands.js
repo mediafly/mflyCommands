@@ -10568,18 +10568,13 @@ function embedImage(element, id, options) {
         });
     }
     internalMethods_1.get('items', id).then(function (i) {
-        // if(params.length > 0) {
-        // 	params.push({name: 'src', value: i.resourceUrl})
-        // 	element.src = `/images/scale?${$.param(params)}`
-        // } else {
-        element.src = i.resourceUrl;
-        // }
+        return element.src = i.resourceUrl;
     });
 }
 exports.embedImage = embedImage;
 function getData(id) {
     return item_1.getItem(id).then(function (i) {
-        return $.getJSON(i.resourceUrl).then(function (data) { return data; });
+        return $.get(i.resourceUrl).then(function (data) { return data; });
     });
 }
 exports.getData = getData;

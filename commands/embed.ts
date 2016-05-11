@@ -26,19 +26,14 @@ export function embedImage(element, id, options) {
 		});
 	}
 
-	get('items', id).then(i => {
-		// if(params.length > 0) {
-		// 	params.push({name: 'src', value: i.resourceUrl})
-		// 	element.src = `/images/scale?${$.param(params)}`
-		// } else {
+	get('items', id).then(i =>
 		element.src = i.resourceUrl
-		// }
-	})
+	)
 }
 
 export function getData(id) {
 	return getItem(id).then(i =>
-		$.getJSON(i.resourceUrl).then(data => data)
+		$.get(i.resourceUrl).then(data => data)
 	)
 }
 

@@ -134,7 +134,7 @@ exports.deviceTypes = {
     web: 'web',
     desktop: 'desktop'
 };
-exports.isWindows8 = function () {
+function isWindows8() {
     var userAgent = navigator.userAgent.toLowerCase();
     if (userAgent.indexOf("msie") !== -1) {
         if (userAgent.indexOf("webview") !== -1) {
@@ -142,15 +142,12 @@ exports.isWindows8 = function () {
         }
     }
     return false;
-};
-function isLocalhostForDevelopment() {
-    if (exports.isWindows8()) {
-        return false;
-    }
-    else {
-        return (window.location.host.indexOf('localhost:8000') > -1);
-    }
 }
+exports.isWindows8 = isWindows8;
+function isLocalhostForDevelopment() {
+    return (window.location.host.indexOf('localhost:8000') > -1);
+}
+exports.isLocalhostForDevelopment = isLocalhostForDevelopment;
 function getDeviceType() {
     if (isLocalhostForDevelopment()) {
         return exports.deviceTypes.development;
@@ -498,7 +495,7 @@ function getAllValues() {
     }
 }
 function getValues(prefix) {
-    if (typeof prefix != 'undefined') {
+    if (prefix) {
         // Get values with specified prefix
         return getValuesWithPrefix(prefix);
     }
@@ -580,6 +577,7 @@ function openItem(id, bookmark) {
     });
 }
 exports.openItem = openItem;
+exports.open = openItem;
 function openFolder(id) {
     item_1.getItem(id).then(function (item) {
         window.location.href = item.url;
@@ -627,6 +625,15 @@ exports.default = getOnlineStatus;
 },{"./internalMethods":14}],20:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
+function postAction(options) {
+    return internalMethods_1.post('actions', options);
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = postAction;
+
+},{"./internalMethods":14}],21:[function(require,module,exports){
+"use strict";
+var internalMethods_1 = require('./internalMethods');
 function search(term, offset, limit) {
     if (offset === void 0) { offset = 0; }
     if (limit === void 0) { limit = 100; }
@@ -662,7 +669,7 @@ function showSearch(x, y, width, height) {
 }
 exports.showSearch = showSearch;
 
-},{"./internalMethods":14}],21:[function(require,module,exports){
+},{"./internalMethods":14}],22:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getValuesWithPrefix(prefix) {
@@ -672,7 +679,7 @@ function getAllValues() {
     return internalMethods_1.get('syncedinfo');
 }
 function getSyncedValues(prefix) {
-    if (typeof prefix != 'undefined') {
+    if (prefix) {
         // Get values with specified prefix
         return getValuesWithPrefix(prefix);
     }
@@ -694,7 +701,7 @@ function deleteSyncedKey(key) {
 }
 exports.deleteSyncedKey = deleteSyncedKey;
 
-},{"./internalMethods":14}],22:[function(require,module,exports){
+},{"./internalMethods":14}],23:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getSystemInfo() {
@@ -703,7 +710,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":14}],23:[function(require,module,exports){
+},{"./internalMethods":14}],24:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getUploadUrl(key) {
@@ -712,12 +719,12 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":14}],24:[function(require,module,exports){
+},{"./internalMethods":14}],25:[function(require,module,exports){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
- * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
+ * a local webserver on a PC) for example, http://localhost:8000/ .
  */
 "use strict";
 var interactiveInfo_1 = require('./commands/interactiveInfo');
@@ -741,6 +748,8 @@ var navigation = require('./commands/navigation');
 var appFeatures = require('./commands/appFeatures');
 var controls_1 = require('./commands/controls');
 var embed_1 = require('./commands/embed');
+var postAction_1 = require('./commands/postAction');
+var device_1 = require('./commands/device');
 var mflyCommands = {
     close: navigation_1.close,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -757,6 +766,11 @@ var mflyCommands = {
     embed: embed_1.embed,
     embedImage: embed_1.embedImage,
     getData: embed_1.getData,
+    getDeviceType: device_1.getDeviceType,
+    getPrefix: device_1.getPrefix,
+    isLocalhostForDevelopment: device_1.isLocalhostForDevelopment,
+    isWindows8: device_1.isWindows8,
+    postAction: postAction_1.default,
 };
 $.extend(mflyCommands, item);
 $.extend(mflyCommands, collections);
@@ -770,5 +784,5 @@ $.extend(mflyCommands, navigation);
 $.extend(mflyCommands, appFeatures);
 module.exports = mflyCommands;
 
-},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/downloader":8,"./commands/embed":9,"./commands/filter":10,"./commands/folder":11,"./commands/gpsCoordinates":12,"./commands/interactiveInfo":13,"./commands/item":15,"./commands/localKeyValueStorage":16,"./commands/navigation":17,"./commands/notification":18,"./commands/onlineStatus":19,"./commands/search":20,"./commands/syncedKeyValueStorage":21,"./commands/systemInfo":22,"./commands/uploadUrl":23}]},{},[24])(24)
+},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/device":7,"./commands/downloader":8,"./commands/embed":9,"./commands/filter":10,"./commands/folder":11,"./commands/gpsCoordinates":12,"./commands/interactiveInfo":13,"./commands/item":15,"./commands/localKeyValueStorage":16,"./commands/navigation":17,"./commands/notification":18,"./commands/onlineStatus":19,"./commands/postAction":20,"./commands/search":21,"./commands/syncedKeyValueStorage":22,"./commands/systemInfo":23,"./commands/uploadUrl":24}]},{},[25])(25)
 });

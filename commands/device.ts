@@ -8,7 +8,7 @@ export var deviceTypes = {
 	desktop: 'desktop'
 }
 
-export var isWindows8 = function () {
+export function isWindows8() {
 	var userAgent = navigator.userAgent.toLowerCase();
 	if (userAgent.indexOf("msie") !== -1) {
 		if (userAgent.indexOf("webview") !== -1) {
@@ -18,12 +18,8 @@ export var isWindows8 = function () {
 	return false
 }
 
-function isLocalhostForDevelopment () {
-	if (isWindows8()) {
-		return false
-	} else {
-		return (window.location.host.indexOf('localhost:8000') > -1)
-	}
+export function isLocalhostForDevelopment () {
+	return (window.location.host.indexOf('localhost:8000') > -1)
 }
 
 export function getDeviceType() {

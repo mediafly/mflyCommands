@@ -30,6 +30,8 @@ export function openItem(id, bookmark) {
 	})
 }
 
+export var open = openItem
+
 export function openFolder(id) {
 	getItem(id).then(item => {
 		window.location.href = item.url

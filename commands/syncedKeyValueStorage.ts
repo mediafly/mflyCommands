@@ -11,7 +11,7 @@ function getAllValues() {
 }
 
 export function getSyncedValues(prefix) {
-	if (typeof prefix != 'undefined') {
+	if (prefix) {
 		// Get values with specified prefix
 		return getValuesWithPrefix(prefix)
 	} else {

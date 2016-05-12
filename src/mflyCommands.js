@@ -128,7 +128,6 @@ exports.hideControlBars = hideControlBars;
 "use strict";
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
-var mobilePrefix = 'mfly://';
 exports.deviceTypes = {
     development: 'development',
     mobile: 'mobile',
@@ -173,11 +172,8 @@ function getPrefix() {
     switch (deviceType) {
         case exports.deviceTypes.development:
             return developmentPrefix;
-        case exports.deviceTypes.web:
-        case exports.deviceTypes.desktop:
-            return webPrefix;
         default:
-            return mobilePrefix;
+            return webPrefix;
     }
 }
 exports.getPrefix = getPrefix;

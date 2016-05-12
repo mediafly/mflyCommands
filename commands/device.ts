@@ -1,6 +1,6 @@
 var developmentPrefix = 'http://localhost:8000/'
 var webPrefix = '/interactive-api/v5/'
-var mobilePrefix = 'mfly://'
+
 export var deviceTypes = {
 	development: 'development',
 	mobile: 'mobile',
@@ -47,10 +47,7 @@ export function getPrefix() {
 	switch (deviceType) {
 		case deviceTypes.development:
 			return developmentPrefix
-		case deviceTypes.web:
-		case deviceTypes.desktop:
-			return webPrefix
 		default:
-			return mobilePrefix
+			return webPrefix
 	}
 }

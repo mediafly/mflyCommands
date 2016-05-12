@@ -1,4 +1,4 @@
-import * as $ from 'jquery'
+declare var $
 import {getDeviceType, deviceTypes} from './device'
 import { get } from './internalMethods'
 

@@ -5,7 +5,8 @@
  * a local webserver on a PC) to override mfly:// with, for example, http://localhost:8000/ .
  */
 
-import { extend } from 'jquery'
+declare var $
+
 import getInteractiveInfo from './commands/interactiveInfo'
 import getSystemInfo from './commands/systemInfo'
 import getOnlineStatus from './commands/onlineStatus'
@@ -46,15 +47,15 @@ var mflyCommands = {
 	getData,
 }
 
-extend(mflyCommands, item)
-extend(mflyCommands, collections)
-extend(mflyCommands, downloader)
-extend(mflyCommands, notification)
-extend(mflyCommands, accountInfo)
-extend(mflyCommands, localKeyValueStorage)
-extend(mflyCommands, syncedKeyValueStorage)
-extend(mflyCommands, applicationSync)
-extend(mflyCommands, navigation)
-extend(mflyCommands, appFeatures)
+$.extend(mflyCommands, item)
+$.extend(mflyCommands, collections)
+$.extend(mflyCommands, downloader)
+$.extend(mflyCommands, notification)
+$.extend(mflyCommands, accountInfo)
+$.extend(mflyCommands, localKeyValueStorage)
+$.extend(mflyCommands, syncedKeyValueStorage)
+$.extend(mflyCommands, applicationSync)
+$.extend(mflyCommands, navigation)
+$.extend(mflyCommands, appFeatures)
 
 export = mflyCommands

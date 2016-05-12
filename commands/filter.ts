@@ -1,4 +1,4 @@
-import * as $ from 'jquery'
+declare var $
 import { get } from './internalMethods'
 
 function objToString(obj) {

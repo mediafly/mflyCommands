@@ -1,6 +1,6 @@
 import { getCurrentItem, getItem } from './item'
 import { isWeb } from './device'
-import * as $ from 'jquery'
+declare var $
 
 export function close() {
 	window.location.href = '/interactive-redirect/items/__self__/back'

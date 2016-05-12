@@ -1,7 +1,8 @@
+declare var $
+
 import { ddelete, get, post } from './internalMethods'
 import { getCurrentItem } from './item'
 import { isWeb } from './device'
-import { extend } from 'jquery'
 
 function getValuesWithPrefix(prefix) {
 	if (isWeb()) {

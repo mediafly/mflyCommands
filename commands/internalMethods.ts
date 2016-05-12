@@ -1,8 +1,8 @@
+declare var $
 import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
-import * as $ from 'jquery'
 
 export function get(func, param = null, expectJson = true) : JQueryPromise<any> {
 	var prefix = device.getPrefix()

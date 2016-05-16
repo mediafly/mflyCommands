@@ -202,7 +202,7 @@ var item_1 = require('./item');
 function embed(element, id, page) {
     item_1.getItem(id).then(function (i) {
         var pageArg = page ? "?page=" + page : '';
-        element.src = i.resourceUrl + pageArg;
+        element.attr('src', i.resourceUrl + pageArg);
     });
 }
 exports.embed = embed;

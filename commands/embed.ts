@@ -5,7 +5,7 @@ import { getItem } from './item'
 export function embed(element, id, page) {
 	getItem(id).then(i => {
 		var pageArg = page ? `?page=${page}` : ''
-		element.src = i.resourceUrl + pageArg
+		element.attr('src', i.resourceUrl + pageArg)
 	})
 }
 

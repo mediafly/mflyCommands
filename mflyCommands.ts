@@ -34,7 +34,7 @@ import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from 
 var mflyCommands = {
 	close,
 	getInteractiveInfo,
-	getSystemInfo ,
+	getSystemInfo,
 	getOnlineStatus,
 	getGpsCoordinates,
 	getUploadUrl,

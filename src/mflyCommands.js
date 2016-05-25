@@ -293,20 +293,14 @@ exports.default = getGpsCoordinates;
 
 },{"./internalMethods":14}],13:[function(require,module,exports){
 "use strict";
-var device_1 = require('./device');
 var internalMethods_1 = require('./internalMethods');
 function getInteractiveInfo() {
-    if (device_1.getDeviceType() === device_1.deviceTypes.web || device_1.getDeviceType() === device_1.deviceTypes.development) {
-        return internalMethods_1.get('interactive');
-    }
-    else {
-        return $.getJSON('mflyManifest.json');
-    }
+    return internalMethods_1.get('interactive');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
-},{"./device":7,"./internalMethods":14}],14:[function(require,module,exports){
+},{"./internalMethods":14}],14:[function(require,module,exports){
 "use strict";
 var device = require('./device');
 var commandSupport_1 = require('./commandSupport');
@@ -617,7 +611,7 @@ exports.showNotificationManager = showNotificationManager;
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getOnlineStatus(argument) {
-    return internalMethods_1.get('online-status');
+    return internalMethods_1.get('system', 'online-status');
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;

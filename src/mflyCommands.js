@@ -213,15 +213,15 @@ var mflyCommands = function () {
         }
     }
 
-	function _internalSaveSyncedKeyValues(key, value, dfd) {
+    function _internalSaveSyncedKeyValues(key, value, dfd) {
         if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
-			var webUrl = _transformUrl(prefix + "data/syncedinfo");
+            var webUrl = _transformUrl(prefix + "data/syncedinfo");
             webUrl = _appendVersion(webUrl);
             $.ajax({
                 type: 'POST',
                 url: webUrl,
-				contentType: 'application/json',
-                data: JSON.stringify([{ key: key, value: value }]),
+                contentType: 'application/json',
+                data: JSON.stringify({ key: key, value: value }),
                 success: function (data, textStatus, request) {
                     dfd.resolveWith(this, [data, request.status]);
                 },
@@ -236,7 +236,7 @@ var mflyCommands = function () {
                 type: "GET",
                 url: url,
                 contentType: "text/plain; charset=utf-8",
-                data: "value=" + encodeURIComponent(value) + "&method=POST",
+                data: { value: value, method: 'PUT' },
                 dataType: "text",
                 success: function (data, textStatus, request) {
                     // PUT successful. Resolve the promise.
@@ -252,13 +252,12 @@ var mflyCommands = function () {
 
     function _internalDeleteSyncedKeyValues(key, dfd) {
         if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
-			var webUrl = _transformUrl(prefix + "data/syncedinfo");
+            var webUrl = _transformUrl(prefix + "data/syncedinfo/" + key);
             webUrl = _appendVersion(webUrl);
             $.ajax({
                 type: 'DELETE',
                 url: webUrl,
-				contentType: 'application/json',
-                data: JSON.stringify([key]),
+                contentType: 'application/json',
                 success: function (data, textStatus, request) {
                     dfd.resolveWith(this, [data, request.status]);
                 },
@@ -737,39 +736,39 @@ var mflyCommands = function () {
             });
         },
 
-		getSyncedValue: function (key) {
-			return $.Deferred(function (dfd) {
-				_internalGetData('syncedinfo/' + key, null, dfd);
-			});
-		},
+        getSyncedValue: function (key) {
+            return $.Deferred(function (dfd) {
+                _internalGetData('syncedinfo/' + key, null, dfd);
+            });
+        },
 
-		getSyncedValues: function (prefix) {
-			var values;
-			if (typeof prefix != 'undefined') {
-				// Get values with specified prefix
-				return $.Deferred(function (dfd) {
-					_internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
-				});
+        getSyncedValues: function (prefix) {
+            var values;
+            if (typeof prefix != 'undefined') {
+                // Get values with specified prefix
+                return $.Deferred(function (dfd) {
+                    _internalGetData('syncedinfo?prefix=' + prefix, null, dfd);
+                });
 
-			} else {
-				// Get ALL values
-				return $.Deferred(function (dfd) {
-					_internalGetData('syncedinfo', null, dfd);
-				});
-			}
-		},
+            } else {
+                // Get ALL values
+                return $.Deferred(function (dfd) {
+                    _internalGetData('syncedinfo', null, dfd);
+                });
+            }
+        },
 
-		saveSyncedValue: function (key, value) {
-			return $.Deferred(function (dfd) {
-				_internalSaveSyncedKeyValues(key, value, dfd);
-			});
-		},
+        saveSyncedValue: function (key, value) {
+            return $.Deferred(function (dfd) {
+                _internalSaveSyncedKeyValues(key, value, dfd);
+            });
+        },
 
-		deleteSyncedKey: function (key) {
-			return $.Deferred(function (dfd) {
-				_internalDeleteSyncedKeyValues(key, dfd);
-			});
-		},
+        deleteSyncedKey: function (key) {
+            return $.Deferred(function (dfd) {
+                _internalDeleteSyncedKeyValues(key, dfd);
+            });
+        },
 
 
         getOnlineStatus: function () {
@@ -972,8 +971,8 @@ var mflyCommands = function () {
         getRecentlyCreatedContent: function () {
             return $.Deferred(function (dfd) {
                 _internalGetData('recentlycreated', null, dfd);
-			});
-		},
+            });
+        },
         getLastViewedContent: function() {
             return $.Deferred(function (dfd) {
                 _internalGetData('lastviewed', null, dfd);

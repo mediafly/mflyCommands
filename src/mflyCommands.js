@@ -789,7 +789,7 @@ var mflyCommands = function () {
             }
         },
 
-        saveSyncedValue: function (key, value) {
+        putSyncedValue: function (key, value) {
             return $.Deferred(function (dfd) {
                 _internalSaveSyncedKeyValues(key, value, dfd);
             });

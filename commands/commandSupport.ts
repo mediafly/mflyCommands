@@ -9,8 +9,7 @@ export function isUnsupported(url : String) {
         '/control/',
         '/downloads',
         '/online-status',
-        '/system/gps',
-        // '/interactive-api/v5/sync',
+        '/system/gps'
     ]
 
     return unsupportedStatements.some(statement => url.indexOf(statement) > -1)

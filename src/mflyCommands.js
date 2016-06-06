@@ -6,7 +6,7 @@ function getUserInfo() {
 }
 exports.getUserInfo = getUserInfo;
 function logout() {
-    window.location.href = '/interactive-redirect/account/logout';
+    window.location.href = '/interactive-redirect/v5/account/logout';
 }
 exports.logout = logout;
 
@@ -106,7 +106,7 @@ function isUnsupported(url) {
         '/control/',
         '/downloads',
         '/online-status',
-        '/system/gps',
+        '/system/gps'
     ];
     return unsupportedStatements.some(function (statement) { return url.indexOf(statement) > -1; });
 }
@@ -221,9 +221,7 @@ function embedImage(element, id, options) {
             return !!x.value;
         });
     }
-    internalMethods_1.get('items', id).then(function (i) {
-        return element.src = i.resourceUrl;
-    });
+    internalMethods_1.get('items', id).then(function (i) { return element.src = i.resourceUrl; });
 }
 exports.embedImage = embedImage;
 function getData(id) {
@@ -545,15 +543,15 @@ exports.deleteKey = deleteKey;
 var item_1 = require('./item');
 var device_1 = require('./device');
 function close() {
-    window.location.href = '/interactive-redirect/items/__self__/back';
+    window.location.href = '/interactive-redirect/v5/items/__self__/back';
 }
 exports.close = close;
 function next() {
-    window.location.href = '/interactive-redirect/items/__self__/next';
+    window.location.href = '/interactive-redirect/v5/items/__self__/next';
 }
 exports.next = next;
 function previous() {
-    window.location.href = '/interactive-redirect/items/__self__/previous';
+    window.location.href = '/interactive-redirect/v5/items/__self__/previous';
 }
 exports.previous = previous;
 function openItem(id, bookmark) {

@@ -5,8 +5,6 @@
  * a local webserver on a PC) for example, http://localhost:8000/ .
  */
 
-declare var $
-
 import getInteractiveInfo from './commands/interactiveInfo'
 import getSystemInfo from './commands/systemInfo'
 import getOnlineStatus from './commands/onlineStatus'

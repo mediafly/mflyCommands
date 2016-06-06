@@ -1,5 +1,3 @@
-declare var $
-
 import { ddelete, get, post } from './internalMethods'
 import { getCurrentItem } from './item'
 import { isWeb } from './device'

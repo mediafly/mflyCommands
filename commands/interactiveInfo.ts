@@ -1,4 +1,3 @@
-declare var $
 import {getDeviceType, deviceTypes} from './device'
 import { get } from './internalMethods'
 

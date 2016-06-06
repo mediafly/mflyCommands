@@ -7,5 +7,5 @@ export function getUserInfo() {
 }
 
 export function logout() {
-	window.location.href = '/interactive-redirect/account/logout'
+	window.location.href = '/interactive-redirect/v5/account/logout'
 }

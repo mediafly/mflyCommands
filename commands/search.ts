@@ -1,4 +1,3 @@
-declare var $
 import { get, showUI } from './internalMethods'
 
 export function search(term, offset = 0, limit = 100) {

@@ -2,6 +2,10 @@ import { get } from './internalMethods'
 import { isWeb } from './device'
 import { getItem } from './item'
 
+interface embeddable {
+	resourceUrl: string
+}
+
 export function embed(element, id, page) {
 	getItem(id).then(i => {
 		var pageArg = page ? `?page=${page}` : ''
@@ -26,9 +30,7 @@ export function embedImage(element, id, options) {
 		});
 	}
 
-	get('items', id).then(i =>
-		element.src = i.resourceUrl
-	)
+	get('items', id).then((i : embeddable) => element.src = i.resourceUrl)
 }
 
 export function getData(id) {

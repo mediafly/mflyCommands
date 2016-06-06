@@ -1,17 +1,16 @@
 import { getCurrentItem, getItem } from './item'
 import { isWeb } from './device'
-declare var $
 
 export function close() {
-	window.location.href = '/interactive-redirect/items/__self__/back'
+	window.location.href = '/interactive-redirect/v5/items/__self__/back'
 }
 
 export function next() {
-	window.location.href = '/interactive-redirect/items/__self__/next'
+	window.location.href = '/interactive-redirect/v5/items/__self__/next'
 }
 
 export function previous() {
-	window.location.href = '/interactive-redirect/items/__self__/previous'
+	window.location.href = '/interactive-redirect/v5/items/__self__/previous'
 }
 
 export function openItem(id, bookmark) {

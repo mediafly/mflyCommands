@@ -1,9 +1,15 @@
 import { post } from './internalMethods'
 
 export function showControlBars() {
-	return post('control/control-bars', { visible: true })
+	return post('control/show-ui', {
+		ui: 'control-bar',
+		visible: true
+	})
 }
 
 export function hideControlBars(x, y, width, height) {
-	return post('control/control-bars', { visible: false })
+	return post('control/show-ui', {
+		ui: 'control-bar',
+		visible: false
+	})
 }

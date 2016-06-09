@@ -116,11 +116,17 @@ exports.isUnsupported = isUnsupported;
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function showControlBars() {
-    return internalMethods_1.post('control/control-bars', { visible: true });
+    return internalMethods_1.post('control/show-ui', {
+        ui: 'control-bar',
+        visible: true
+    });
 }
 exports.showControlBars = showControlBars;
 function hideControlBars(x, y, width, height) {
-    return internalMethods_1.post('control/control-bars', { visible: false });
+    return internalMethods_1.post('control/show-ui', {
+        ui: 'control-bar',
+        visible: false
+    });
 }
 exports.hideControlBars = hideControlBars;
 

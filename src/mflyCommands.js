@@ -267,7 +267,7 @@ var mflyCommands = function () {
                 type: "GET",
                 url: url,
                 contentType: "text/plain; charset=utf-8",
-                data: { value: value, method: 'PUT' },
+                data: "value=" + encodeURIComponent(value) + "&method=PUT",
                 dataType: "text",
                 success: function (data, textStatus, request) {
                     // PUT successful. Resolve the promise.

@@ -29,6 +29,10 @@ function email(id) {
     return internalMethods_1.post('control/email', { id: id });
 }
 exports.email = email;
+function emailFile(options) {
+    return internalMethods_1.post('control/email', options);
+}
+exports.emailFile = emailFile;
 function showAnnotations() {
     return internalMethods_1.post('control/show-ui', { ui: 'annotations' });
 }

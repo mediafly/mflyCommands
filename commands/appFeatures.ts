@@ -16,6 +16,10 @@ export function email(id) {
 	return post('control/email', { id })
 }
 
+export function emailFile(options) {
+	return post('control/email', options)
+}
+
 export function showAnnotations() {
 	return post('control/show-ui', { ui: 'annotations' })
 }

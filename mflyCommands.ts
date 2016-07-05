@@ -26,7 +26,7 @@ import * as navigation from './commands/navigation'
 import * as appFeatures from './commands/appFeatures'
 import { hideControlBars, showControlBars } from './commands/controls'
 import { embed, embedImage, getData } from './commands/embed'
-import postAction from './commands/postAction'
+import { postAction, postPageView } from './commands/postAction'
 import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from './commands/device'
 
 var mflyCommands = {
@@ -50,6 +50,7 @@ var mflyCommands = {
 	isLocalhostForDevelopment,
 	isWindows8,
 	postAction,
+	postPageView,
 }
 
 $.extend(mflyCommands, item)

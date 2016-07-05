@@ -1,5 +1,13 @@
 import { post } from './internalMethods'
 
-export default function postAction(options) {
+export function postAction(options) {
 	return post('actions', options)
+}
+
+export function postPageView(id, page) {
+	return post('actions', {
+		type: 'document',
+		id,
+		page
+	})
 }

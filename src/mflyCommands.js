@@ -630,8 +630,15 @@ var internalMethods_1 = require('./internalMethods');
 function postAction(options) {
     return internalMethods_1.post('actions', options);
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = postAction;
+exports.postAction = postAction;
+function postPageView(id, page) {
+    return internalMethods_1.post('actions', {
+        type: 'document',
+        id: id,
+        page: page
+    });
+}
+exports.postPageView = postPageView;
 
 },{"./internalMethods":14}],21:[function(require,module,exports){
 "use strict";
@@ -772,7 +779,8 @@ var mflyCommands = {
     getPrefix: device_1.getPrefix,
     isLocalhostForDevelopment: device_1.isLocalhostForDevelopment,
     isWindows8: device_1.isWindows8,
-    postAction: postAction_1.default,
+    postAction: postAction_1.postAction,
+    postPageView: postAction_1.postPageView,
 };
 $.extend(mflyCommands, item);
 $.extend(mflyCommands, collections);

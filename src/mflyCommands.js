@@ -667,6 +667,14 @@ var mflyCommands = function () {
             });
         },
 
+        postEvent: function(key, properties) {
+            return $.Deferred(function (dfd) {
+                var params = 'events?key=' + key;
+                params += '&properties=' + properties;
+                _internalGetData(params, null, dfd, false);
+            });
+        },
+
         /**
         * Get raw data of Interactive via the embed function.
         * @param id Airship ID of the item to embed. Currently limited to images and other Interactives

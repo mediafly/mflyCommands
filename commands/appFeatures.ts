@@ -16,7 +16,7 @@ export function email(id) {
 	return post('control/email', { id })
 }
 
-export function emailFile(options) {
+export function composeEmail(options) {
 	return post('control/email', options)
 }
 

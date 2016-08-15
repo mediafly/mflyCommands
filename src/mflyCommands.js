@@ -643,6 +643,14 @@ exports.postPageView = postPageView;
 },{"./internalMethods":14}],21:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
+function postEvent(key, properties) {
+    return internalMethods_1.post('events', properties);
+}
+exports.postEvent = postEvent;
+
+},{"./internalMethods":14}],22:[function(require,module,exports){
+"use strict";
+var internalMethods_1 = require('./internalMethods');
 function search(term, offset, limit) {
     if (offset === void 0) { offset = 0; }
     if (limit === void 0) { limit = 100; }
@@ -678,7 +686,7 @@ function showSearch(x, y, width, height) {
 }
 exports.showSearch = showSearch;
 
-},{"./internalMethods":14}],22:[function(require,module,exports){
+},{"./internalMethods":14}],23:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getValuesWithPrefix(prefix) {
@@ -710,7 +718,7 @@ function deleteSyncedKey(key) {
 }
 exports.deleteSyncedKey = deleteSyncedKey;
 
-},{"./internalMethods":14}],23:[function(require,module,exports){
+},{"./internalMethods":14}],24:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getSystemInfo() {
@@ -719,7 +727,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":14}],24:[function(require,module,exports){
+},{"./internalMethods":14}],25:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function getUploadUrl(key) {
@@ -728,7 +736,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":14}],25:[function(require,module,exports){
+},{"./internalMethods":14}],26:[function(require,module,exports){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
@@ -758,6 +766,7 @@ var appFeatures = require('./commands/appFeatures');
 var controls_1 = require('./commands/controls');
 var embed_1 = require('./commands/embed');
 var postAction_1 = require('./commands/postAction');
+var postEvent_1 = require('./commands/postEvent');
 var device_1 = require('./commands/device');
 var mflyCommands = {
     close: navigation_1.close,
@@ -781,6 +790,7 @@ var mflyCommands = {
     isWindows8: device_1.isWindows8,
     postAction: postAction_1.postAction,
     postPageView: postAction_1.postPageView,
+    postEvent: postEvent_1.postEvent
 };
 $.extend(mflyCommands, item);
 $.extend(mflyCommands, collections);
@@ -794,5 +804,5 @@ $.extend(mflyCommands, navigation);
 $.extend(mflyCommands, appFeatures);
 module.exports = mflyCommands;
 
-},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/device":7,"./commands/downloader":8,"./commands/embed":9,"./commands/filter":10,"./commands/folder":11,"./commands/gpsCoordinates":12,"./commands/interactiveInfo":13,"./commands/item":15,"./commands/localKeyValueStorage":16,"./commands/navigation":17,"./commands/notification":18,"./commands/onlineStatus":19,"./commands/postAction":20,"./commands/search":21,"./commands/syncedKeyValueStorage":22,"./commands/systemInfo":23,"./commands/uploadUrl":24}]},{},[25])(25)
+},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/device":7,"./commands/downloader":8,"./commands/embed":9,"./commands/filter":10,"./commands/folder":11,"./commands/gpsCoordinates":12,"./commands/interactiveInfo":13,"./commands/item":15,"./commands/localKeyValueStorage":16,"./commands/navigation":17,"./commands/notification":18,"./commands/onlineStatus":19,"./commands/postAction":20,"./commands/postEvent":21,"./commands/search":22,"./commands/syncedKeyValueStorage":23,"./commands/systemInfo":24,"./commands/uploadUrl":25}]},{},[26])(26)
 });

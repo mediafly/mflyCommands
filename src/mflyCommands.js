@@ -644,7 +644,7 @@ exports.postPageView = postPageView;
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function postEvent(key, properties) {
-    return internalMethods_1.post("events/" + key, { properties: JSON.stringify(properties) });
+    return internalMethods_1.post("events/" + key, properties);
 }
 exports.postEvent = postEvent;
 

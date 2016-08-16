@@ -670,7 +670,7 @@ var mflyCommands = function () {
         postEvent: function(key, properties) {
             return $.Deferred(function (dfd) {
                 var params = 'events?key=' + key;
-                params += '&properties=' + properties;
+                params += '&properties=' + JSON.stringify(properties);
                 _internalGetData(params, null, dfd, false);
             });
         },

@@ -507,8 +507,8 @@ function getValues(prefix) {
 }
 exports.getValues = getValues;
 function getValue(key) {
-    return $.Deferred(function (dfd) {
-        if (device_1.isWeb()) {
+    if (device_1.isWeb()) {
+        return $.Deferred(function (dfd) {
             var value = localStorage.getItem(key);
             if (value) {
                 dfd.resolveWith(this, [value, 200]);
@@ -516,11 +516,11 @@ function getValue(key) {
             else {
                 dfd.rejectWith(this, [value, 404]);
             }
-        }
-        else {
-            internalMethods_1.get('info', key, false);
-        }
-    });
+        });
+    }
+    else {
+        return internalMethods_1.get("info", key, false);
+    }
 }
 exports.getValue = getValue;
 function putValue(key, value) {
@@ -644,7 +644,7 @@ exports.postPageView = postPageView;
 "use strict";
 var internalMethods_1 = require('./internalMethods');
 function postEvent(key, properties) {
-    return internalMethods_1.post("events/" + key, { properties: encodeURIComponent(JSON.stringify(properties)) });
+    return internalMethods_1.post("events/" + key, { properties: JSON.stringify(properties) });
 }
 exports.postEvent = postEvent;
 

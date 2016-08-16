@@ -43,18 +43,18 @@ export function getValues(prefix) {
 }
 
 export function getValue(key) {
-	return $.Deferred(function(dfd) {
-		if (isWeb()) {
+	if (isWeb()) {
+		return $.Deferred(function(dfd) {
 			var value = localStorage.getItem(key)
 			if (value) {
 				dfd.resolveWith(this, [value, 200])
 			} else {
 				dfd.rejectWith(this, [value, 404])
 			}
-		} else {
-			get('info', key, false)
-		}
-	})
+		})	
+	} else {
+		return get(`info`, key, false)	
+	}
 }
 
 export function putValue(key , value) {

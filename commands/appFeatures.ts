@@ -17,7 +17,7 @@ export function email(id) {
 }
 
 export function composeEmail(options) {
-	return post('control/email', options)
+	return post('control/compose-email', options)
 }
 
 export function showAnnotations() {

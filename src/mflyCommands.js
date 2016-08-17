@@ -30,7 +30,7 @@ function email(id) {
 }
 exports.email = email;
 function composeEmail(options) {
-    return internalMethods_1.post('control/email', options);
+    return internalMethods_1.post('control/compose-email', options);
 }
 exports.composeEmail = composeEmail;
 function showAnnotations() {

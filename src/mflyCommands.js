@@ -643,8 +643,8 @@ exports.postPageView = postPageView;
 },{"./internalMethods":14}],21:[function(require,module,exports){
 "use strict";
 var internalMethods_1 = require('./internalMethods');
-function postEvent(key, value) {
-    return internalMethods_1.post("events", { key: key, value: JSON.stringify(value) });
+function postEvent(key, properties) {
+    return internalMethods_1.post("events", { key: key, properties: JSON.stringify(properties) });
 }
 exports.postEvent = postEvent;
 

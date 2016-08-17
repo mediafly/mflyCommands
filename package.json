@@ -10,7 +10,7 @@
     "prebuild": "npm run clean",
     "build": "npm run compile && npm run browserify",
     "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose",
-    "postinstall": "typings install"
+    "postinstall": "typings install & bower install"
   },
   "repository": {
     "type": "git",

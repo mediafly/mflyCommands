@@ -30,7 +30,16 @@ export function embedImage(element, id, options) {
 		});
 	}
 
-	get('items', id).then((i : embeddable) => element.src = i.resourceUrl)
+
+	get('items', id).then((i : embeddable) => {
+		var url = i.resourceUrl
+		
+		if (params.length > 0) {
+			url += '?' + $.param(params)
+		}
+
+		element.attr('src', url)
+	})
 }
 
 export function getData(id) {

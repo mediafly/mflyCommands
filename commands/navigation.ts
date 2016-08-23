@@ -23,7 +23,11 @@ export function openItem(id, bookmark) {
 		if (bookmark) {
 			params['bookmark'] = bookmark
 		}
-		url += '&' + $.param(params)
+		if (url.indexOf("?") >= 0) {
+			url += '&' + $.param(params)
+		} else {
+			url += '?' + $.param(params)
+		}
 		
 		window.location.href = `${window.location.protocol}//${window.location.host}${url}`
 	})

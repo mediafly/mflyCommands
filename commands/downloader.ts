@@ -5,7 +5,7 @@ export function showDownloader(x, y, width, height) {
 }
 
 export function getDownloadStatus(id) {
-	return id ? get(`downloads/${id}`) : get('downloads')
+	return id ? get(`downloads/${id}/status`) : get('downloads/status')
 }
 
 export function addToDownloader(id) {

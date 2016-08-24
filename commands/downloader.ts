@@ -9,7 +9,7 @@ export function getDownloadStatus(id) {
 }
 
 export function addToDownloader(id) {
-	return post('downloads/status', { ids: [ id ] })
+	return post('downloads', { ids: [ id ] })
 }
 
 export function removeFromDownloader(id) {

@@ -2,6 +2,9 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
+import { isAndroid } from './device'
+
+declare const InteractivesInterface: any
 
 export function get(func, param = null, expectJson = true) {
 	var prefix = device.getPrefix()
@@ -49,24 +52,30 @@ export function post(func: string, data?) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
-	$.ajax({
-		method: 'POST',
-		url,
-		data: JSON.stringify(data),
-		contentType: 'application/json; charset=utf-8',
-		success: function(data, textStatus, request) {
-			deferred.resolveWith(this, [data, request.status])
-		},
-		error: function (data, status, request) {
-			if (device.isWeb() && data.status === 401) {
-				// Viewer does not have an authenticated session. Take user to Viewer root.
-				sessionStorage.setItem('returnUrl', window.location.href)
-				window.location.replace(data.responseJSON.returnUrl)
-			}
+	if (isAndroid()) {
+		const result = InteractivesInterface.post(url, JSON.stringify(data))
+		deferred.resolveWith(this, [result.data, result.status])
+	} else {
+		$.ajax({
+			method: 'POST',
+			url,
+			data: JSON.stringify(data),
+			contentType: 'application/json; charset=utf-8',
+			success: function(data, textStatus, request) {
+				deferred.resolveWith(this, [data, request.status])
+			},
+			error: function (data, status, request) {
+				if (device.isWeb() && data.status === 401) {
+					// Viewer does not have an authenticated session. Take user to Viewer root.
+					sessionStorage.setItem('returnUrl', window.location.href)
+					window.location.replace(data.responseJSON.returnUrl)
+				}
 
-			deferred.reject(this, [request, data.status])
-		}
-	})
+				deferred.reject(this, [request, data.status])
+			}
+		})
+	}
+
 
 	return deferred.promise()
 }
@@ -80,24 +89,30 @@ export function ddelete(func, data?) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
-	$.ajax({
-		method: 'DELETE',
-		url,
-		data: JSON.stringify(data),
-		contentType: 'application/json; charset=utf-8',
-		success: function(data, textStatus, request) {
-			deferred.resolveWith(this, [data, request.status])
-		},
-		error: function (data, status, request) {
-			if (device.isWeb() && data.status === 401) {
-				// Viewer does not have an authenticated session. Take user to Viewer root.
-				sessionStorage.setItem('returnUrl', window.location.href)
-				window.location.replace(data.responseJSON.returnUrl)
-			}
+	if (isAndroid()) {
+		const result = InteractivesInterface.delete(url, JSON.stringify(data))
+		deferred.resolveWith(this, [result.data, result.status])
+	} else {
+		$.ajax({
+			method: 'DELETE',
+			url,
+			data: JSON.stringify(data),
+			contentType: 'application/json; charset=utf-8',
+			success: function(data, textStatus, request) {
+				deferred.resolveWith(this, [data, request.status])
+			},
+			error: function (data, status, request) {
+				if (device.isWeb() && data.status === 401) {
+					// Viewer does not have an authenticated session. Take user to Viewer root.
+					sessionStorage.setItem('returnUrl', window.location.href)
+					window.location.replace(data.responseJSON.returnUrl)
+				}
 
-			deferred.reject(this, [request, data.status])
-		}
-	})
+				deferred.reject(this, [request, data.status])
+			}
+		})
+	}
+
 
 	return deferred.promise()
 }
@@ -111,23 +126,28 @@ export function put(func, data = null) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
-	$.ajax({
-		method: 'PUT',
-		data,
-		url,
-		success: function(data, textStatus, request) {
-			deferred.resolveWith(this, [data, request.status])
-		},
-		error: function(data, status, request) {
-			if (device.isWeb() && data.status === 401) {
-				// Viewer does not have an authenticated session. Take user to Viewer root.
-				sessionStorage.setItem('returnUrl', window.location.href)
-				window.location.replace(data.responseJSON.returnUrl)
-			}
+	if (isAndroid()) {
+		const result = InteractivesInterface.put(url, JSON.stringify(data))
+		deferred.resolveWith(this, [JSON.parse(result).data, JSON.parse(result).status])
+	} else {
+		$.ajax({
+			method: 'PUT',
+			data,
+			url,
+			success: function(data, textStatus, request) {
+				deferred.resolveWith(this, [data, request.status])
+			},
+			error: function(data, status, request) {
+				if (device.isWeb() && data.status === 401) {
+					// Viewer does not have an authenticated session. Take user to Viewer root.
+					sessionStorage.setItem('returnUrl', window.location.href)
+					window.location.replace(data.responseJSON.returnUrl)
+				}
 
-			deferred.reject(this, [request, data.status])
-		}
-	})
+				deferred.reject(this, [request, data.status])
+			}
+		})
+	}
 
 	return deferred.promise()
 }

@@ -1,5 +1,5 @@
 bower_components
 src
 node_modules
-temp
+.temp
 typings

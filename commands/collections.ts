@@ -20,8 +20,8 @@ export function removeItemFromCollection(collectionId, itemId) {
 	return ddelete(`collections/${collectionId}/items/${itemId}`)
 }
 
-export function deleteCollection(id) {
-	return ddelete(`collections/${id}`)
+export function deleteCollection(id, shared = false) {
+	return ddelete(`collections/${id}?shared=${shared}`)
 }
 
 export function reorderItemInCollection(collectionId, itemId, position) {

@@ -4,9 +4,9 @@
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf temp src & mkdir src",
+    "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
-    "browserify": "browserify temp/mflyCommands.js --debug --standalone mflyCommands --outfile src/mflyCommands.js",
+    "browserify": "browserify .temp/mflyCommands.js --debug --standalone mflyCommands --outfile src/mflyCommands.js",
     "prebuild": "npm run clean",
     "build": "npm run compile && npm run browserify",
     "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose",
@@ -32,6 +32,7 @@
     "Interactives"
   ],
   "dependencies": {
+    "is_js": "^0.8.0",
     "jquery": "^1.11.0"
   },
   "devDependencies": {

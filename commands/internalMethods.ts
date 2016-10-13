@@ -6,6 +6,11 @@ import { isAndroid } from './device'
 
 declare const InteractivesInterface: any
 
+interface AndroidResponse {
+	data: any
+	status: any
+}
+
 export function get(func, param = null, expectJson = true) {
 	var prefix = device.getPrefix()
 	var url = prefix + func + (param === null ? '' : '/' + param)
@@ -53,8 +58,9 @@ export function post(func: string, data?) {
 	}
 
 	if (isAndroid()) {
-		const result = InteractivesInterface.post(url, JSON.stringify(data))
-		deferred.resolveWith(this, [result.data, result.status])
+		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
+		const resultJSON : AndroidResponse = JSON.parse(result)
+		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 	} else {
 		$.ajax({
 			method: 'POST',
@@ -90,8 +96,9 @@ export function ddelete(func, data?) {
 	}
 
 	if (isAndroid()) {
-		const result = InteractivesInterface.delete(url, JSON.stringify(data))
-		deferred.resolveWith(this, [result.data, result.status])
+		const result : string = InteractivesInterface.delete(url, JSON.stringify(data))
+		const resultJSON : AndroidResponse = JSON.parse(result)
+		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 	} else {
 		$.ajax({
 			method: 'DELETE',
@@ -127,8 +134,9 @@ export function put(func, data = null) {
 	}
 
 	if (isAndroid()) {
-		const result = InteractivesInterface.put(url, JSON.stringify(data))
-		deferred.resolveWith(this, [JSON.parse(result).data, JSON.parse(result).status])
+		const result : string = InteractivesInterface.put(url, JSON.stringify(data))
+		const resultJSON : AndroidResponse = JSON.parse(result)
+		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 	} else {
 		$.ajax({
 			method: 'PUT',

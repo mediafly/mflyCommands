@@ -29,6 +29,7 @@ import { embed, embedImage, getData } from './commands/embed'
 import { postAction, postPageView } from './commands/postAction'
 import { postEvent } from './commands/postEvent'
 import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from './commands/device'
+import openWindow from './commands/openWindow'
 
 var mflyCommands = {
 	close,
@@ -50,9 +51,10 @@ var mflyCommands = {
 	getPrefix,
 	isLocalhostForDevelopment,
 	isWindows8,
+	openWindow,
 	postAction,
 	postPageView,
-	postEvent
+	postEvent,
 }
 
 $.extend(mflyCommands, item)

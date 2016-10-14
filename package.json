@@ -32,13 +32,12 @@
     "Interactives"
   ],
   "dependencies": {
-    "is_js": "^0.8.0",
     "jquery": "^1.11.0"
   },
   "devDependencies": {
-    "browserify": "13.0.1",
-    "browserify-shim": "3.8.10",
+    "browserify": "13.1.0",
+    "browserify-shim": "3.8.12",
     "chokidar-cli": "1.2.0",
-    "typescript": "1.8.10"
+    "typescript": "2.0.3"
   }
 }

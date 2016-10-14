@@ -2,13 +2,16 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
-import { isAndroid } from './device'
 
 declare const InteractivesInterface: any
 
-interface AndroidResponse {
+interface InteractivesInterfaceResponse {
 	data: any
 	status: any
+}
+
+function InteractivesInterfaceIsDefined() {
+	return typeof InteractivesInterface !== 'undefined' 
 }
 
 export function get(func, param = null, expectJson = true) {
@@ -57,9 +60,9 @@ export function post(func: string, data?) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
-	if (isAndroid()) {
+	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
-		const resultJSON : AndroidResponse = JSON.parse(result)
+		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
 		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 	} else {
 		$.ajax({
@@ -95,9 +98,9 @@ export function ddelete(func, data?) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
-	if (isAndroid()) {
+	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.delete(url, JSON.stringify(data))
-		const resultJSON : AndroidResponse = JSON.parse(result)
+		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
 		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 	} else {
 		$.ajax({
@@ -133,9 +136,9 @@ export function put(func, data = null) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
-	if (isAndroid()) {
+	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.put(url, JSON.stringify(data))
-		const resultJSON : AndroidResponse = JSON.parse(result)
+		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
 		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 	} else {
 		$.ajax({

@@ -1,4 +1,3 @@
-var is = require('is_js');
 var developmentPrefix = 'http://localhost:8000/'
 var webPrefix = '/interactive-api/v5/'
 
@@ -7,10 +6,6 @@ export var deviceTypes = {
 	mobile: 'mobile',
 	web: 'web',
 	desktop: 'desktop'
-}
-
-export function isAndroid() {
-	return is.android();
 }
 
 export function isWindows8() {

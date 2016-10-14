@@ -1047,6 +1047,9 @@ var mflyCommands = function () {
             return $.Deferred(function (dfd) {
                 _internalGetData('lastviewed', null, dfd);
             });
+        },
+        openWindow: function(url) {
+            return window.open(url, 'InteractivesWindow' + _guid());
         }
     };
 }();

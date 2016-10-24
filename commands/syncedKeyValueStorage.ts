@@ -23,7 +23,7 @@ export function getSyncedValue(key) {
 	return get('syncedinfo', key, false)
 }
 
-export function saveSyncedValue(key, value) {
+export function putSyncedValue(key, value) {
 	return post(`syncedinfo`, [{ key, value }])
 }
 

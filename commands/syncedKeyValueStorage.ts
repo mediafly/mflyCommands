@@ -20,14 +20,23 @@ export function getSyncedValues(prefix) {
 }
 
 export function getSyncedValue(key) {
+	if(!key) {
+		throw 'Invalid key provided'
+	}
 	return get('syncedinfo', key, false)
 }
 
 export function putSyncedValue(key, value) {
+	if(!key) {
+		throw 'Invalid key provided'
+	}
 	return post(`syncedinfo`, [{ key, value }])
 }
 
 export function deleteSyncedKey(key) {
+	if(!key) {
+		throw 'Invalid key provided'
+	}
 	return ddelete(`syncedinfo`, [ key ])
 }
 

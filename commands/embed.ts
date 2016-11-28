@@ -9,7 +9,9 @@ interface embeddable {
 export function embed(element, id, page) {
 	getItem(id).then(i => {
 		var pageArg = page ? `?page=${page}` : ''
-		element.attr('src', i.resourceUrl + pageArg)
+		getResource(i.resourceUrl + pageArg).then(() =>
+			element.attr('src', i.resourceUrl + pageArg)
+		)
 	})
 }
 
@@ -31,14 +33,16 @@ export function embedImage(element, id, options) {
 	}
 
 
-	get('items', id).then((i : embeddable) => {
+	getItem(id).then((i : embeddable) => {
 		var url = i.resourceUrl
 		
 		if (params.length > 0) {
 			url += '?' + $.param(params)
 		}
 
-		element.attr('src', url)
+		getResource(url).then(() => 
+			element.attr('src', url)
+		)
 	})
 }
 

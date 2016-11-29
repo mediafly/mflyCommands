@@ -705,6 +705,9 @@ var mflyCommands = function () {
             });
         },
         getValue: function (key) {
+            if(!key) {
+                throw 'Invalid key provided';
+            }
             return $.Deferred(function (dfd) {
                 if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
                     var value =  localStorage.getItem(key);
@@ -747,7 +750,7 @@ var mflyCommands = function () {
                             all[key] = localStorage.getItem(key);
                         }
                         dfd.resolveWith(this, [all, 200]);
-                    })
+                    });
                 } else {
                     return $.Deferred(function (dfd) {
                         _internalGetData('info', null, dfd);
@@ -756,18 +759,27 @@ var mflyCommands = function () {
             }
         },
         putValue: function (key, value) {
+            if(!key) {
+                throw 'Invalid key provided';
+            }
             return $.Deferred(function (dfd) {
                 _internalPutKeyData(key, value, dfd);
             });
         },
 
         deleteKey: function (key) {
+            if(!key) {
+                throw 'Invalid key provided';
+            }
             return $.Deferred(function (dfd) {
                 _internalDeleteKey(key, dfd);
             });
         },
 
         getSyncedValue: function (key) {
+            if(!key) {
+                throw 'Invalid key provided';
+            }
             return $.Deferred(function (dfd) {
                 _internalGetData('syncedinfo/' + key, null, dfd);
             });
@@ -790,12 +802,18 @@ var mflyCommands = function () {
         },
 
         putSyncedValue: function (key, value) {
+            if(!key) {
+                throw 'Invalid key provided'
+            }
             return $.Deferred(function (dfd) {
                 _internalSaveSyncedKeyValues(key, value, dfd);
             });
         },
 
         deleteSyncedKey: function (key) {
+            if(!key) {
+                throw 'Invalid key provided';
+            }
             return $.Deferred(function (dfd) {
                 _internalDeleteSyncedKeyValues(key, dfd);
             });

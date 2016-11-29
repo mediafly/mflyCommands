@@ -43,6 +43,9 @@ export function getValues(prefix) {
 }
 
 export function getValue(key) {
+	if(!key) {
+		throw 'Invalid key provided'
+	}
 	if (isWeb()) {
 		return $.Deferred(function(dfd) {
 			var value = localStorage.getItem(key)
@@ -58,6 +61,9 @@ export function getValue(key) {
 }
 
 export function putValue(key , value) {
+	if(!key) {
+		throw 'Invalid key provided'
+	}
 	if (isWeb()) {
 		return $.Deferred(function(dfd) {
 			localStorage.setItem(key, value)
@@ -70,6 +76,9 @@ export function putValue(key , value) {
 }
 
 export function deleteKey(key) {
+	if(!key) {
+		throw 'Invalid key provided'
+	}
 	if (isWeb()) {
 		return $.Deferred(function(dfd) {
 			localStorage.removeItem(key)
@@ -80,5 +89,3 @@ export function deleteKey(key) {
 	}
 
 }
-
-

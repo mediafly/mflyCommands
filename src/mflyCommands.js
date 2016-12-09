@@ -17,6 +17,14 @@ var mflyCommands = function () {
         return mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web;
     }
 
+    function _isDesktop() {
+        return mflyCommands.getDeviceType() === mflyCommands.deviceTypes.desktop;
+    }
+
+    function _useLocalStorage() {
+        return _isWeb() || _isDesktop();
+    }
+
     function _isWindows8() {
         var userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf("msie") != -1) {
@@ -38,9 +46,9 @@ var mflyCommands = function () {
         }
 
         var unsupportedStatements = [
-            'control/browse', 
-            'control/email', 
-            'control/goto', 
+            'control/browse',
+            'control/email',
+            'control/goto',
             'control/hideControlBars',
             'control/refresh',
             'control/showAddToCollection',
@@ -68,7 +76,7 @@ var mflyCommands = function () {
 
         if (_isWindows8()) {
             window.external.notify(url);
-        } else if (_isWeb()) {
+        } else if (_isWeb() || _isDesktop()) {
             window.location = url;
         }
         else {
@@ -196,7 +204,7 @@ var mflyCommands = function () {
     }
 
     function _internalPutKeyData(key, value, dfd) {
-        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+        if (_useLocalStorage()) {
             localStorage.setItem(key, value);
             dfd.resolveWith(this, ['', 200]);
         } else {
@@ -221,7 +229,7 @@ var mflyCommands = function () {
     }
 
     function _internalDeleteKey(key, dfd) {
-        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+        if (_useLocalStorage()) {
             localStorage.removeItem(key);
             dfd.resolveWith(this, ['', 200]);
         } else {
@@ -245,7 +253,7 @@ var mflyCommands = function () {
     }
 
     function _internalSaveSyncedKeyValues(key, value, dfd) {
-        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+        if (_isWeb() || _isDesktop()) {
             var webUrl = _transformUrl(prefix + "data/syncedinfo");
             webUrl = _appendVersion(webUrl);
             $.ajax({
@@ -282,7 +290,7 @@ var mflyCommands = function () {
     }
 
     function _internalDeleteSyncedKeyValues(key, dfd) {
-        if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+        if (_isWeb() || _isDesktop()) {
             var webUrl = _transformUrl(prefix + "data/syncedinfo/" + key);
             webUrl = _appendVersion(webUrl);
             $.ajax({
@@ -365,7 +373,8 @@ var mflyCommands = function () {
         deviceTypes: {
             "development": "development",
             "mobile": "mobile",
-            "web": "web"
+            "web": "web",
+            "desktop": "desktop"
         },
 
         setPrefix: function (_prefix) {
@@ -388,7 +397,7 @@ var mflyCommands = function () {
          * that is returned via mflyDataInit.
          */
         getInteractiveInfo: function () {
-            if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web || mflyCommands.getDeviceType() === mflyCommands.deviceTypes.development) {
+            if (_isWeb() || _isDesktop() || mflyCommands.getDeviceType() === mflyCommands.deviceTypes.development) {
                 return $.Deferred(function (dfd) {
                     _internalGetData('interactive', null, dfd);
                 });
@@ -398,7 +407,7 @@ var mflyCommands = function () {
         },
         openItem: function (_id) {
             var url = prefix + "item/" + _id;
-            if (_isWeb()) {
+            if (_isWeb() || _isDesktop()) {
                 url += '?returnurl=' + encodeURIComponent(window.location.href);
             }
             doControlStatement(url);
@@ -407,7 +416,7 @@ var mflyCommands = function () {
         open: function (_id, bookmark) {
             var url = prefix + "control/item/" + _id;
             var params = {};
-            if (_isWeb()) {
+            if (_isWeb() || _isDesktop()) {
                 params.returnurl = window.location.href;
             }
             if (bookmark) {
@@ -439,7 +448,7 @@ var mflyCommands = function () {
 
         close: function () {
             var url = 'control/done';
-            if (_isWeb() && !!sessionStorage.viewerInteractiveContext) {
+            if ((_isWeb() || _isDesktop()) && !!sessionStorage.viewerInteractiveContext) {
                 var interactiveContext = JSON.parse(sessionStorage.viewerInteractiveContext);
                 if (interactiveContext.type === 'collection') {
                     url += '?collection=' + interactiveContext.id;
@@ -457,7 +466,7 @@ var mflyCommands = function () {
 
         next: function () {
             var url = 'control/next';
-            if (_isWeb() && !!sessionStorage.viewerInteractiveContext) {
+            if ((_isWeb() || _isDesktop()) && !!sessionStorage.viewerInteractiveContext) {
                 var interactiveContext = JSON.parse(sessionStorage.viewerInteractiveContext);
                 if (interactiveContext.type === 'collection') {
                     url += '?collection=' + interactiveContext.id;
@@ -471,7 +480,7 @@ var mflyCommands = function () {
 
         previous: function () {
             var url = 'control/previous';
-            if (_isWeb() && !!sessionStorage.viewerInteractiveContext) {
+            if ((_isWeb() || _isDesktop()) && !!sessionStorage.viewerInteractiveContext) {
                 var interactiveContext = JSON.parse(sessionStorage.viewerInteractiveContext);
                 if (interactiveContext.type === 'collection') {
                     url += '?collection=' + interactiveContext.id;
@@ -600,7 +609,7 @@ var mflyCommands = function () {
                 $.Deferred(function (dfd) {
                     _internalEmbed(id, dfd, {page: page});
                 }).done(function (url) {
-                    if (_isWeb()) {
+                    if (_isWeb() || _isDesktop()) {
                         $e.attr('src', url);
                     }
                     else {
@@ -627,7 +636,7 @@ var mflyCommands = function () {
                 $.Deferred(function (dfd) {
                     _internalEmbed(id, dfd, options);
                 }).done(function (url) {
-                    if (_isWeb()) {
+                    if (_isWeb() || _isDesktop()) {
                         $e.attr('src', url);
                     }
                     else {
@@ -709,7 +718,7 @@ var mflyCommands = function () {
                 throw 'Invalid key provided';
             }
             return $.Deferred(function (dfd) {
-                if (mflyCommands.getDeviceType() === mflyCommands.deviceTypes.web) {
+                if (_useLocalStorage()) {
                     var value =  localStorage.getItem(key);
                     if (value) {
                         dfd.resolveWith(this, [value, 200]);
@@ -724,7 +733,7 @@ var mflyCommands = function () {
         getValues: function (prefix) {
             if (typeof prefix != 'undefined') {
                 // Get values with specified prefix
-                if (mflyCommands.getDeviceType() == mflyCommands.deviceTypes.web) {
+                if (_useLocalStorage()) {
                     return $.Deferred(function (dfd) {
                         var all = {};
                         for (var key in localStorage) {
@@ -742,7 +751,7 @@ var mflyCommands = function () {
                 }
             } else {
                 // Get ALL values
-                if (mflyCommands.getDeviceType() == mflyCommands.deviceTypes.web) {
+                if (_useLocalStorage()) {
                     return $.Deferred(function (dfd) {
 
                         var all = {};
@@ -942,7 +951,7 @@ var mflyCommands = function () {
             var obj = {
                 term: term
             };
-            
+
             if (typeof offset == 'undefined') {
                 obj.offset = 0;
             } else {
@@ -1046,7 +1055,7 @@ var mflyCommands = function () {
         },
 
         logout: function () {
-            if (mflyCommands.getDeviceType() == mflyCommands.deviceTypes.web) {
+            if (_isWeb() || _isDesktop()) {
                 doControlStatement(prefix + "control/logout");
             }
             else if (mflyCommands.getDeviceType() == mflyCommands.deviceTypes.mobile) {
@@ -1090,12 +1099,11 @@ var mflyCommands = function () {
         mflyCommands.setPrefix(developmentPrefix);
         mflyCommands.setDeviceType(mflyCommands.deviceTypes.development);
     } else {
-        for (var i = 0; i < document.cookie.split(';').length; i++) {
-            if (document.cookie.split(';')[i].split('=')[0].toLowerCase().trim() === 'devicetype') {
-                // This is a web device
-               mflyCommands.setPrefix(webPrefix);
-               mflyCommands.setDeviceType(mflyCommands.deviceTypes.web);
-            }
+        var deviceTypeCookie = document.cookie.split(';').filter(function (c) { return c.split('=')[0].toLowerCase().trim() === 'devicetype'; });
+        if (deviceTypeCookie.length > 0) {
+            // This is a web device
+            mflyCommands.setPrefix(webPrefix);
+            mflyCommands.setDeviceType(deviceTypeCookie[0].split('=')[1]);
         }
     }
 

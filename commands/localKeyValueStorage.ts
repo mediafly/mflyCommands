@@ -1,9 +1,11 @@
 import { ddelete, get, post } from './internalMethods'
 import { getCurrentItem } from './item'
-import { isWeb } from './device'
+import { isWeb, isDesktop } from './device'
+
+const useLocalStorage = isWeb() || isDesktop()
 
 function getValuesWithPrefix(prefix) {
-	if (isWeb()) {
+	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
 			var all = {}
 			for (var key in localStorage) {
@@ -20,7 +22,7 @@ function getValuesWithPrefix(prefix) {
 }
 
 function getAllValues() {
-	if (isWeb()) {
+	if (useLocalStorage) {
 		var all = {}
 		for (var key in localStorage) {
 			all[key] = localStorage.getItem(key)
@@ -46,7 +48,7 @@ export function getValue(key) {
 	if(!key) {
 		throw 'Invalid key provided'
 	}
-	if (isWeb()) {
+	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
 			var value = localStorage.getItem(key)
 			if (value) {
@@ -54,9 +56,9 @@ export function getValue(key) {
 			} else {
 				dfd.rejectWith(this, [value, 404])
 			}
-		})	
+		})
 	} else {
-		return get(`info`, key, false)	
+		return get(`info`, key, false)
 	}
 }
 
@@ -64,7 +66,7 @@ export function putValue(key , value) {
 	if(!key) {
 		throw 'Invalid key provided'
 	}
-	if (isWeb()) {
+	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
 			localStorage.setItem(key, value)
 			dfd.resolveWith(this, ['', 200])
@@ -79,7 +81,7 @@ export function deleteKey(key) {
 	if(!key) {
 		throw 'Invalid key provided'
 	}
-	if (isWeb()) {
+	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
 			localStorage.removeItem(key)
 			dfd.resolveWith(this, ['', 200])

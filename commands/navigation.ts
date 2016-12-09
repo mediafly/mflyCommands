@@ -1,5 +1,5 @@
 import { getCurrentItem, getItem } from './item'
-import { isWeb } from './device'
+import { isWeb, isDesktop } from './device'
 
 export function close() {
 	window.location.href = '/interactive-redirect/v5/items/__self__/back'
@@ -17,14 +17,14 @@ export function openItem(id, bookmark) {
 	getItem(id).then(item => {
 		var params = {}
 		var url = item.url
-		if (isWeb()) {
+		if (isWeb() || isDesktop()) {
 			params['returnurl'] = window.location.href
 		}
 		if (bookmark) {
 			params['bookmark'] = bookmark
 		}
 		url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params)
-		
+
 		window.location.href = `${window.location.protocol}//${window.location.host}${url}`
 	})
 }

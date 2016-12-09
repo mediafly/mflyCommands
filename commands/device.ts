@@ -38,6 +38,8 @@ export function getDeviceType() {
 
 export var isWeb = () => getDeviceType() === deviceTypes.web
 
+export var isDesktop = () => getDeviceType() === deviceTypes.desktop
+
 export function getPrefix() {
 	var deviceType = getDeviceType()
 	switch (deviceType) {

@@ -714,10 +714,10 @@ var mflyCommands = function () {
             });
         },
         getValue: function (key) {
-            if(!key) {
-                throw 'Invalid key provided';
-            }
             return $.Deferred(function (dfd) {
+                if(!key) {
+                    return dfd.rejectWith(this, ['Invalid key provided', 500]);
+                }
                 if (_useLocalStorage()) {
                     var value =  localStorage.getItem(key);
                     if (value) {
@@ -743,7 +743,7 @@ var mflyCommands = function () {
                             }
                         }
                         dfd.resolveWith(this, [all, 200]);
-                    })
+                    });
                 } else {
                     return $.Deferred(function (dfd) {
                         _internalGetData('info?prefix=' + prefix, null, dfd);
@@ -768,28 +768,28 @@ var mflyCommands = function () {
             }
         },
         putValue: function (key, value) {
-            if(!key) {
-                throw 'Invalid key provided';
-            }
             return $.Deferred(function (dfd) {
+                if(!key) {
+                    return dfd.rejectWith(this, ['Invalid key provided', 500]);
+                }
                 _internalPutKeyData(key, value, dfd);
             });
         },
 
         deleteKey: function (key) {
-            if(!key) {
-                throw 'Invalid key provided';
-            }
             return $.Deferred(function (dfd) {
+                if(!key) {
+                    return dfd.rejectWith(this, ['Invalid key provided', 500]);
+                }
                 _internalDeleteKey(key, dfd);
             });
         },
 
         getSyncedValue: function (key) {
-            if(!key) {
-                throw 'Invalid key provided';
-            }
             return $.Deferred(function (dfd) {
+                if(!key) {
+                    return dfd.rejectWith(this, ['Invalid key provided', 500]);
+                }
                 _internalGetData('syncedinfo/' + key, null, dfd);
             });
         },
@@ -811,19 +811,19 @@ var mflyCommands = function () {
         },
 
         putSyncedValue: function (key, value) {
-            if(!key) {
-                throw 'Invalid key provided'
-            }
             return $.Deferred(function (dfd) {
+                if(!key) {
+                    return dfd.rejectWith(this, ['Invalid key provided', 500]);
+                }
                 _internalSaveSyncedKeyValues(key, value, dfd);
             });
         },
 
         deleteSyncedKey: function (key) {
-            if(!key) {
-                throw 'Invalid key provided';
-            }
             return $.Deferred(function (dfd) {
+                if(!key) {
+                    return dfd.rejectWith(this, ['Invalid key provided', 500]);
+                }
                 _internalDeleteSyncedKeyValues(key, dfd);
             });
         },

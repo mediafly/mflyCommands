@@ -46,7 +46,7 @@ export function getValues(prefix) {
 
 export function getValue(key) {
 	if(!key) {
-		throw 'Invalid key provided'
+		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
 	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
@@ -64,7 +64,7 @@ export function getValue(key) {
 
 export function putValue(key , value) {
 	if(!key) {
-		throw 'Invalid key provided'
+		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
 	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
@@ -79,7 +79,7 @@ export function putValue(key , value) {
 
 export function deleteKey(key) {
 	if(!key) {
-		throw 'Invalid key provided'
+		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
 	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {

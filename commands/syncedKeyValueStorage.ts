@@ -21,21 +21,21 @@ export function getSyncedValues(prefix) {
 
 export function getSyncedValue(key) {
 	if(!key) {
-		throw 'Invalid key provided'
+		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
 	return get('syncedinfo', key, false)
 }
 
 export function putSyncedValue(key, value) {
 	if(!key) {
-		throw 'Invalid key provided'
+		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
 	return post(`syncedinfo`, [{ key, value }])
 }
 
 export function deleteSyncedKey(key) {
 	if(!key) {
-		throw 'Invalid key provided'
+		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
 	return ddelete(`syncedinfo`, [ key ])
 }

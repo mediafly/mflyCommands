@@ -63,7 +63,11 @@ export function post(func: string, data?) {
 	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
 		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+		if(resultJSON.status === 200) {
+			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+		} else {
+			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+		}
 	} else {
 		$.ajax({
 			method: 'POST',

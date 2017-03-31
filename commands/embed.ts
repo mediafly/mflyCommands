@@ -9,9 +9,13 @@ interface embeddable {
 export function embed(element, id, page) {
 	getItem(id).then(i => {
 		var pageArg = page ? `?page=${page}` : ''
-		getResource(i.resourceUrl + pageArg).then(() =>
+		if (isWeb) {
 			element.attr('src', i.resourceUrl + pageArg)
-		)
+		} else {
+			getResource(i.resourceUrl + pageArg).then(() =>
+				element.attr('src', i.resourceUrl + pageArg)
+			)
+		}
 	})
 }
 
@@ -40,9 +44,13 @@ export function embedImage(element, id, options) {
 			url += '?' + $.param(params)
 		}
 
-		getResource(url).then(() => 
+		if (isWeb) {
 			element.attr('src', url)
-		)
+		} else {
+			getResource(url).then(() => 
+				element.attr('src', url)
+			)
+		}
 	})
 }
 

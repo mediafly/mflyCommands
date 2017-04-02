@@ -31,10 +31,12 @@ import { postEvent } from './commands/postEvent'
 import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from './commands/device'
 import openWindow from './commands/openWindow'
 import sendEmail from './commands/email'
+import getCredentials from './commands/credentials'
 
 var mflyCommands = {
 	close,
 	getInteractiveInfo,
+	getCredentials,
 	getSystemInfo,
 	getOnlineStatus,
 	getGpsCoordinates,

@@ -1077,6 +1077,11 @@ var mflyCommands = function () {
         },
         openWindow: function(url) {
             return window.open(url, 'InteractivesWindow' + _guid());
+        },
+        getCredentials: function() {
+            return $.Deferred(function (dfd) {
+        		_internalGetData('credentials', null, dfd);	
+        	});
         }
     };
 }();

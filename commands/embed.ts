@@ -9,7 +9,7 @@ interface embeddable {
 export function embed(element, id, page) {
 	getItem(id).then(i => {
 		var pageArg = page ? `?page=${page}` : ''
-		if (isWeb) {
+		if (isWeb()) {
 			element.attr('src', i.resourceUrl + pageArg)
 		} else {
 			getResource(i.resourceUrl + pageArg).then(() =>
@@ -44,7 +44,7 @@ export function embedImage(element, id, options) {
 			url += '?' + $.param(params)
 		}
 
-		if (isWeb) {
+		if (isWeb()) {
 			element.attr('src', url)
 		} else {
 			getResource(url).then(() => 

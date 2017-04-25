@@ -1,6 +1,7 @@
-.interactive
-bower_components/
-node_modules/
-npm-debug.log
-.temp/
-typings/
+archive.interactive
+bower_components
+src
+node_modules
+.temp
+temp
+typings

@@ -13,8 +13,10 @@
 </head>
 <body>
 	<h1>Test a URL endpoint</h1>
-	<button onclick="mflyCommands.close();" class="exit">Exit</button>
-
+	<button onclick="mflyCommands.close();" class="exit">Exit</button> <br/>
+  <button onclick="mflyCommands.logout();" class="exit" style="margin-right: 60px;">Logout</button>
+  <button onclick="mflyCommands.previous();" class="exit" style="margin-right: 135px;">Previous</button>
+  <button onclick="mflyCommands.next();" class="exit" style="margin-right: 220px;">Next</button>
   <!-- <h3>PUT</h3> -->
   <form id="testForm">
       <div>
@@ -42,6 +44,7 @@
           <p><input type="submit" value="Submit"/></p>
       </div>
   </form>
+  <img >
 
   <script>
 			function _appendVersion(url) {
@@ -75,21 +78,7 @@
 	        });
       });
 
-	  mflyCommands.getLastViewedContent().done(function(data) {
-		  $('#lastviewed').text(JSON.stringify(data, null, 2));
-	  });
-
-	  mflyCommands.getRecentlyCreatedContent().done(function(data) {
-		  $('#recentlycreated').text(JSON.stringify(data, null, 2));
-	  });
-
   </script>
-
-  <h1>Recently Created Content</h1>
-  <textarea id="recentlycreated" style="width: 500px; height: 300px;"></textarea>
-
-	<h1>Last Viewed Content</h1>
-  <textarea id="lastviewed" style="width: 500px; height: 300px;"></textarea>
 
 </body>
 </html>

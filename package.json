@@ -2,15 +2,14 @@
   "name": "mfly-commands",
   "version": "2.0.0",
   "description": "mflyCommands.js for Mediafly Interactives",
-  "main": "index.js",
+  "main": "src/mflyCommands.js",
   "scripts": {
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
     "browserify": "browserify .temp/mflyCommands.js --debug --standalone mflyCommands --outfile src/mflyCommands.js",
     "prebuild": "npm run clean",
     "build": "npm run compile && npm run browserify",
-    "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose",
-    "postinstall": "typings install & bower install"
+    "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose"
   },
   "repository": {
     "type": "git",

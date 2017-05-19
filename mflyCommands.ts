@@ -30,7 +30,7 @@ import { postAction, postPageView } from './commands/postAction'
 import { postEvent } from './commands/postEvent'
 import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from './commands/device'
 import openWindow from './commands/openWindow'
-import sendEmail from './commands/email'
+import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
 
 var mflyCommands = {
@@ -58,6 +58,7 @@ var mflyCommands = {
 	postAction,
 	postPageView,
 	postEvent,
+	getEmailStatus,
 	sendEmail,
 }
 

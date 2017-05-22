@@ -32,6 +32,7 @@ import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from 
 import openWindow from './commands/openWindow'
 import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
+import version from './commands/version'
 
 var mflyCommands = {
 	close,
@@ -60,6 +61,7 @@ var mflyCommands = {
 	postEvent,
 	getEmailStatus,
 	sendEmail,
+	version
 }
 
 $.extend(mflyCommands, item)

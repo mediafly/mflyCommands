@@ -1,16 +1,16 @@
 {
   "name": "mfly-commands",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "mflyCommands.js for Mediafly Interactives",
-  "main": "index.js",
+  "main": "src/mflyCommands.js",
   "scripts": {
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
-    "browserify": "browserify .temp/mflyCommands.js --debug --standalone mflyCommands --outfile src/mflyCommands.js",
+    "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands > src/mflyCommands.js",
+    "uglify": "uglifyjs src/mflyCommands.js -o src/mflyCommands.min.js",
     "prebuild": "npm run clean",
-    "build": "npm run compile && npm run browserify",
-    "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose",
-    "postinstall": "typings install & bower install"
+    "build": "npm run compile && npm run browserify && npm run uglify",
+    "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "browserify": "13.1.0",
     "browserify-shim": "3.8.12",
     "chokidar-cli": "1.2.0",
-    "typescript": "2.0.3"
+    "typescript": "2.0.3",
+    "uglify-js": "^3.0.7"
   }
 }

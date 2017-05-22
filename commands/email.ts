@@ -1,5 +1,9 @@
-import { post } from './internalMethods'
+import { get, post } from './internalMethods'
 
-export default function sendEmail(options) {
+export function sendEmail(options) {
 	return post('email', options)
+}
+
+export function getEmailStatus(id: number) {
+	return get('email-status', id)	
 }

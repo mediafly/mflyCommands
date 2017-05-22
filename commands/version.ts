@@ -1,4 +1,4 @@
-const packageJson = require('../package.json')
+const packageJson = require('../../package.json')
 export default function version() {
-	return version	
+	return packageJson.version	
 }

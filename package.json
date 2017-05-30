@@ -2,12 +2,12 @@
   "name": "mfly-commands",
   "version": "2.0.2",
   "description": "mflyCommands.js for Mediafly Interactives",
-  "main": "src/mflyCommands.js",
+  "main": "src/mflyCommands.min.js",
   "scripts": {
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
     "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands > src/mflyCommands.js",
-    "uglify": "uglifyjs src/mflyCommands.js -o src/mflyCommands.min.js",
+    "uglify": "uglifyjs --mangle -- src/mflyCommands.js > src/mflyCommands.min.js",
     "prebuild": "npm run clean",
     "build": "npm run compile && npm run browserify && npm run uglify",
     "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose"

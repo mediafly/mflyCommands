@@ -1,6 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getUserInfo() {
     return internalMethods_1.get('account');
 }
@@ -12,7 +13,8 @@ exports.logout = logout;
 
 },{"./internalMethods":16}],2:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function showSettings(x, y, width, height) {
     return internalMethods_1.showUI('app-settings', x, y, width, height);
 }
@@ -44,7 +46,8 @@ exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
 
 },{"./internalMethods":16}],3:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function refresh() {
     return internalMethods_1.post('sync');
 }
@@ -56,7 +59,8 @@ exports.getSyncStatus = getSyncStatus;
 
 },{"./internalMethods":16}],4:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getCollections() {
     return internalMethods_1.get('collections');
 }
@@ -102,7 +106,8 @@ exports.showAddToCollection = showAddToCollection;
 
 },{"./internalMethods":16}],5:[function(require,module,exports){
 "use strict";
-var device_1 = require('./device');
+Object.defineProperty(exports, "__esModule", { value: true });
+var device_1 = require("./device");
 function isUnsupported(url) {
     if (!device_1.isWeb()) {
         return false;
@@ -119,7 +124,8 @@ exports.isUnsupported = isUnsupported;
 
 },{"./device":8}],6:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function showControlBars() {
     return internalMethods_1.post('control/show-ui', {
         ui: 'control-bar',
@@ -137,15 +143,16 @@ exports.hideControlBars = hideControlBars;
 
 },{"./internalMethods":16}],7:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getCredentials() {
     return internalMethods_1.get('credentials');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getCredentials;
 
 },{"./internalMethods":16}],8:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
 exports.deviceTypes = {
@@ -198,7 +205,8 @@ exports.getPrefix = getPrefix;
 
 },{}],9:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function showDownloader(x, y, width, height) {
     return internalMethods_1.showUI('downloads', x, y, width, height);
 }
@@ -218,7 +226,8 @@ exports.removeFromDownloader = removeFromDownloader;
 
 },{"./internalMethods":16}],10:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function sendEmail(options) {
     return internalMethods_1.post('email', options);
 }
@@ -230,8 +239,9 @@ exports.getEmailStatus = getEmailStatus;
 
 },{"./internalMethods":16}],11:[function(require,module,exports){
 "use strict";
-var device_1 = require('./device');
-var item_1 = require('./item');
+Object.defineProperty(exports, "__esModule", { value: true });
+var device_1 = require("./device");
+var item_1 = require("./item");
 function embed(element, id, page) {
     item_1.getItem(id).then(function (i) {
         var pageArg = page ? "?page=" + page : '';
@@ -305,7 +315,8 @@ exports.getData = getData;
 
 },{"./device":8,"./item":17}],12:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function objToString(obj) {
     var result = '';
     for (var key in obj) {
@@ -340,40 +351,40 @@ function filter(obj) {
     getPage();
     return Deferred.promise();
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 },{"./internalMethods":16}],13:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getFolder(id) {
     return internalMethods_1.get('items', id + "/items");
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
 },{"./internalMethods":16}],14:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getGpsCoordinates() {
     return internalMethods_1.get('system', 'gps');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
 },{"./internalMethods":16}],15:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getInteractiveInfo() {
     return internalMethods_1.get('interactive');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 },{"./internalMethods":16}],16:[function(require,module,exports){
 "use strict";
-var device = require('./device');
-var commandSupport_1 = require('./commandSupport');
+Object.defineProperty(exports, "__esModule", { value: true });
+var device = require("./device");
+var commandSupport_1 = require("./commandSupport");
 function InteractivesInterfaceIsDefined() {
     return typeof InteractivesInterface !== 'undefined';
 }
@@ -532,7 +543,8 @@ exports.showUI = showUI;
 
 },{"./commandSupport":5,"./device":8}],17:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getItem(id) {
     return internalMethods_1.get('items', id);
 }
@@ -556,8 +568,9 @@ exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
 },{"./internalMethods":16}],18:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
-var device_1 = require('./device');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
+var device_1 = require("./device");
 var useLocalStorage = device_1.isWeb() || device_1.isDesktop();
 function getValuesWithPrefix(prefix) {
     if (useLocalStorage) {
@@ -651,8 +664,9 @@ exports.deleteKey = deleteKey;
 
 },{"./device":8,"./internalMethods":16}],19:[function(require,module,exports){
 "use strict";
-var item_1 = require('./item');
-var device_1 = require('./device');
+Object.defineProperty(exports, "__esModule", { value: true });
+var item_1 = require("./item");
+var device_1 = require("./device");
 function close() {
     window.location.href = '/interactive-redirect/v5/items/__self__/back';
 }
@@ -698,7 +712,8 @@ exports.browse = browse;
 
 },{"./device":8,"./item":17}],20:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function addNotification(id) {
     return internalMethods_1.post("notifications/" + id);
 }
@@ -718,25 +733,26 @@ exports.showNotificationManager = showNotificationManager;
 
 },{"./internalMethods":16}],21:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getOnlineStatus(argument) {
     return internalMethods_1.get('system', 'online-status');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
 },{"./internalMethods":16}],22:[function(require,module,exports){
 "use strict";
-var utils_1 = require('./utils');
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = require("./utils");
 function openWindow(url) {
     return window.open(url, "InteractivesWindow" + utils_1.guid());
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = openWindow;
 
 },{"./utils":29}],23:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function postAction(options) {
     return internalMethods_1.post('actions', options);
 }
@@ -752,7 +768,8 @@ exports.postPageView = postPageView;
 
 },{"./internalMethods":16}],24:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function postEvent(key, properties) {
     return internalMethods_1.post("events", { key: key, properties: JSON.stringify(properties) });
 }
@@ -760,7 +777,8 @@ exports.postEvent = postEvent;
 
 },{"./internalMethods":16}],25:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function search(term, offset, limit) {
     if (offset === void 0) { offset = 0; }
     if (limit === void 0) { limit = 100; }
@@ -798,7 +816,8 @@ exports.showSearch = showSearch;
 
 },{"./internalMethods":16}],26:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getValuesWithPrefix(prefix) {
     return internalMethods_1.get("syncedinfo?prefix=" + prefix);
 }
@@ -839,24 +858,25 @@ exports.deleteSyncedKey = deleteSyncedKey;
 
 },{"./internalMethods":16}],27:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getSystemInfo() {
     return internalMethods_1.get('system');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
 },{"./internalMethods":16}],28:[function(require,module,exports){
 "use strict";
-var internalMethods_1 = require('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = require("./internalMethods");
 function getUploadUrl(key) {
     return internalMethods_1.get('system', "uploadurl?key=" + key);
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
 },{"./internalMethods":16}],29:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -870,49 +890,49 @@ exports.guid = guid;
 
 },{}],30:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var packageJson = require('../../package.json');
 function version() {
     return packageJson.version;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = version;
 
 },{"../../package.json":32}],31:[function(require,module,exports){
+"use strict";
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) for example, http://localhost:8000/ .
  */
-"use strict";
-var interactiveInfo_1 = require('./commands/interactiveInfo');
-var systemInfo_1 = require('./commands/systemInfo');
-var onlineStatus_1 = require('./commands/onlineStatus');
-var uploadUrl_1 = require('./commands/uploadUrl');
-var item = require('./commands/item');
-var collections = require('./commands/collections');
-var folder_1 = require('./commands/folder');
-var filter_1 = require('./commands/filter');
-var gpsCoordinates_1 = require('./commands/gpsCoordinates');
-var search_1 = require('./commands/search');
-var navigation_1 = require('./commands/navigation');
-var downloader = require('./commands/downloader');
-var notification = require('./commands/notification');
-var accountInfo = require('./commands/accountInfo');
-var localKeyValueStorage = require('./commands/localKeyValueStorage');
-var syncedKeyValueStorage = require('./commands/syncedKeyValueStorage');
-var applicationSync = require('./commands/applicationSync');
-var navigation = require('./commands/navigation');
-var appFeatures = require('./commands/appFeatures');
-var controls_1 = require('./commands/controls');
-var embed_1 = require('./commands/embed');
-var postAction_1 = require('./commands/postAction');
-var postEvent_1 = require('./commands/postEvent');
-var device_1 = require('./commands/device');
-var openWindow_1 = require('./commands/openWindow');
-var email_1 = require('./commands/email');
-var credentials_1 = require('./commands/credentials');
-var version_1 = require('./commands/version');
+var interactiveInfo_1 = require("./commands/interactiveInfo");
+var systemInfo_1 = require("./commands/systemInfo");
+var onlineStatus_1 = require("./commands/onlineStatus");
+var uploadUrl_1 = require("./commands/uploadUrl");
+var item = require("./commands/item");
+var collections = require("./commands/collections");
+var folder_1 = require("./commands/folder");
+var filter_1 = require("./commands/filter");
+var gpsCoordinates_1 = require("./commands/gpsCoordinates");
+var search_1 = require("./commands/search");
+var navigation_1 = require("./commands/navigation");
+var downloader = require("./commands/downloader");
+var notification = require("./commands/notification");
+var accountInfo = require("./commands/accountInfo");
+var localKeyValueStorage = require("./commands/localKeyValueStorage");
+var syncedKeyValueStorage = require("./commands/syncedKeyValueStorage");
+var applicationSync = require("./commands/applicationSync");
+var navigation = require("./commands/navigation");
+var appFeatures = require("./commands/appFeatures");
+var controls_1 = require("./commands/controls");
+var embed_1 = require("./commands/embed");
+var postAction_1 = require("./commands/postAction");
+var postEvent_1 = require("./commands/postEvent");
+var device_1 = require("./commands/device");
+var openWindow_1 = require("./commands/openWindow");
+var email_1 = require("./commands/email");
+var credentials_1 = require("./commands/credentials");
+var version_1 = require("./commands/version");
 var mflyCommands = {
     close: navigation_1.close,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -957,14 +977,14 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/credentials":7,"./commands/device":8,"./commands/downloader":9,"./commands/email":10,"./commands/embed":11,"./commands/filter":12,"./commands/folder":13,"./commands/gpsCoordinates":14,"./commands/interactiveInfo":15,"./commands/item":17,"./commands/localKeyValueStorage":18,"./commands/navigation":19,"./commands/notification":20,"./commands/onlineStatus":21,"./commands/openWindow":22,"./commands/postAction":23,"./commands/postEvent":24,"./commands/search":25,"./commands/syncedKeyValueStorage":26,"./commands/systemInfo":27,"./commands/uploadUrl":28,"./commands/version":30}],32:[function(require,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "mflyCommands.js for Mediafly Interactives",
-  "main": "src/mflyCommands.js",
+  "main": "src/mflyCommands.min.js",
   "scripts": {
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
     "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands > src/mflyCommands.js",
-    "uglify": "uglifyjs src/mflyCommands.js -o src/mflyCommands.min.js",
+    "uglify": "uglifyjs --mangle -- src/mflyCommands.js > src/mflyCommands.min.js",
     "prebuild": "npm run clean",
     "build": "npm run compile && npm run browserify && npm run uglify",
     "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose"

@@ -7,7 +7,7 @@
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
     "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands > src/mflyCommands.js",
-    "uglify": "uglifyjs --mangle -- src/mflyCommands.js > src/mflyCommands.min.js",
+    "uglify": "uglifyjs -o src/mflyCommands.min.js --mangle --source-map -- src/mflyCommands.js ",
     "prebuild": "npm run clean",
     "build": "npm run compile && npm run browserify && npm run uglify",
     "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose"

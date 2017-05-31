@@ -6,10 +6,9 @@
   "scripts": {
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
-    "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands > src/mflyCommands.js",
-    "uglify": "uglifyjs -o src/mflyCommands.min.js --mangle --source-map -- src/mflyCommands.js ",
+    "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands | derequire > src/mflyCommands.js",
     "prebuild": "npm run clean",
-    "build": "npm run compile && npm run browserify && npm run uglify",
+    "build": "npm run compile && npm run browserify",
     "watch": "npm run build & chokidar mflyCommands.ts commands/**/*.ts -c 'npm run build' --polling --poll-interval 100 --verbose"
   },
   "repository": {
@@ -32,6 +31,7 @@
     "Interactives"
   ],
   "dependencies": {
+    "derequire": "^2.0.6",
     "jquery": "^1.11.0"
   },
   "devDependencies": {

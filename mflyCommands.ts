@@ -75,5 +75,4 @@ $.extend(mflyCommands, applicationSync)
 $.extend(mflyCommands, navigation)
 $.extend(mflyCommands, appFeatures)
 
-window['mflyCommands'] = mflyCommands
 export = mflyCommands

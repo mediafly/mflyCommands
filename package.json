@@ -38,7 +38,6 @@
     "browserify-shim": "3.8.12",
     "chokidar-cli": "1.2.0",
     "derequire": "^2.0.6",
-    "typescript": "2.0.3",
-    "uglify-js": "^3.0.7"
+    "typescript": "2.0.3"
   }
 }

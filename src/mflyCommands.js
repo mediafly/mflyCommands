@@ -420,7 +420,7 @@ function post(func, data) {
     if (InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.post(url, JSON.stringify(data));
         var resultJSON = JSON.parse(result);
-        if (resultJSON.status === 200) {
+        if (resultJSON.status === 200 || resultJSON.status === 202) {
             deferred.resolveWith(this, [resultJSON.data, resultJSON.status]);
         }
         else {
@@ -957,7 +957,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/credentials":7,"./commands/device":8,"./commands/downloader":9,"./commands/email":10,"./commands/embed":11,"./commands/filter":12,"./commands/folder":13,"./commands/gpsCoordinates":14,"./commands/interactiveInfo":15,"./commands/item":17,"./commands/localKeyValueStorage":18,"./commands/navigation":19,"./commands/notification":20,"./commands/onlineStatus":21,"./commands/openWindow":22,"./commands/postAction":23,"./commands/postEvent":24,"./commands/search":25,"./commands/syncedKeyValueStorage":26,"./commands/systemInfo":27,"./commands/uploadUrl":28,"./commands/version":30}],32:[function(require,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

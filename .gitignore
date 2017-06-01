@@ -2,5 +2,6 @@ archive.interactive
 bower_components
 node_modules
 .temp
+*.swp
 temp
 typings

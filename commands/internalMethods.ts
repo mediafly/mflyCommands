@@ -63,7 +63,7 @@ export function post(func: string, data?) {
 	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
 		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		if(resultJSON.status === 200) {
+		if(resultJSON.status === 200 || resultJSON.status === 202) {
 			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 		} else {
 			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
@@ -105,7 +105,11 @@ export function ddelete(func, data?) {
 	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.delete(url, JSON.stringify(data))
 		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+		if(resultJSON.status === 200 || resultJSON.status === 202) {
+			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+		} else {
+			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+		}
 	} else {
 		$.ajax({
 			method: 'DELETE',
@@ -143,7 +147,12 @@ export function put(func, data = null) {
 	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.put(url, JSON.stringify(data))
 		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+
+		if(resultJSON.status === 200 || resultJSON.status === 202) {
+			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+		} else {
+			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+		}
 	} else {
 		$.ajax({
 			method: 'PUT',

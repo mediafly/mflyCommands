@@ -1,7 +1,6 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getUserInfo() {
     return internalMethods_1.get('account');
 }
@@ -13,8 +12,7 @@ exports.logout = logout;
 
 },{"./internalMethods":16}],2:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function showSettings(x, y, width, height) {
     return internalMethods_1.showUI('app-settings', x, y, width, height);
 }
@@ -46,8 +44,7 @@ exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
 
 },{"./internalMethods":16}],3:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function refresh() {
     return internalMethods_1.post('sync');
 }
@@ -59,8 +56,7 @@ exports.getSyncStatus = getSyncStatus;
 
 },{"./internalMethods":16}],4:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getCollections() {
     return internalMethods_1.get('collections');
 }
@@ -106,8 +102,7 @@ exports.showAddToCollection = showAddToCollection;
 
 },{"./internalMethods":16}],5:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var device_1 = _dereq_("./device");
+var device_1 = _dereq_('./device');
 function isUnsupported(url) {
     if (!device_1.isWeb()) {
         return false;
@@ -124,8 +119,7 @@ exports.isUnsupported = isUnsupported;
 
 },{"./device":8}],6:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function showControlBars() {
     return internalMethods_1.post('control/show-ui', {
         ui: 'control-bar',
@@ -143,16 +137,15 @@ exports.hideControlBars = hideControlBars;
 
 },{"./internalMethods":16}],7:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getCredentials() {
     return internalMethods_1.get('credentials');
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getCredentials;
 
 },{"./internalMethods":16}],8:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
 exports.deviceTypes = {
@@ -205,8 +198,7 @@ exports.getPrefix = getPrefix;
 
 },{}],9:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function showDownloader(x, y, width, height) {
     return internalMethods_1.showUI('downloads', x, y, width, height);
 }
@@ -226,8 +218,7 @@ exports.removeFromDownloader = removeFromDownloader;
 
 },{"./internalMethods":16}],10:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function sendEmail(options) {
     return internalMethods_1.post('email', options);
 }
@@ -239,9 +230,8 @@ exports.getEmailStatus = getEmailStatus;
 
 },{"./internalMethods":16}],11:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var device_1 = _dereq_("./device");
-var item_1 = _dereq_("./item");
+var device_1 = _dereq_('./device');
+var item_1 = _dereq_('./item');
 function embed(element, id, page) {
     item_1.getItem(id).then(function (i) {
         var pageArg = page ? "?page=" + page : '';
@@ -315,8 +305,7 @@ exports.getData = getData;
 
 },{"./device":8,"./item":17}],12:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function objToString(obj) {
     var result = '';
     for (var key in obj) {
@@ -351,40 +340,40 @@ function filter(obj) {
     getPage();
     return Deferred.promise();
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 },{"./internalMethods":16}],13:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getFolder(id) {
     return internalMethods_1.get('items', id + "/items");
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
 },{"./internalMethods":16}],14:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getGpsCoordinates() {
     return internalMethods_1.get('system', 'gps');
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
 },{"./internalMethods":16}],15:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getInteractiveInfo() {
     return internalMethods_1.get('interactive');
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 },{"./internalMethods":16}],16:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var device = _dereq_("./device");
-var commandSupport_1 = _dereq_("./commandSupport");
+var device = _dereq_('./device');
+var commandSupport_1 = _dereq_('./commandSupport');
 function InteractivesInterfaceIsDefined() {
     return typeof InteractivesInterface !== 'undefined';
 }
@@ -553,8 +542,7 @@ exports.showUI = showUI;
 
 },{"./commandSupport":5,"./device":8}],17:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getItem(id) {
     return internalMethods_1.get('items', id);
 }
@@ -578,9 +566,8 @@ exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
 },{"./internalMethods":16}],18:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
-var device_1 = _dereq_("./device");
+var internalMethods_1 = _dereq_('./internalMethods');
+var device_1 = _dereq_('./device');
 var useLocalStorage = device_1.isWeb() || device_1.isDesktop();
 function getValuesWithPrefix(prefix) {
     if (useLocalStorage) {
@@ -674,9 +661,8 @@ exports.deleteKey = deleteKey;
 
 },{"./device":8,"./internalMethods":16}],19:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var item_1 = _dereq_("./item");
-var device_1 = _dereq_("./device");
+var item_1 = _dereq_('./item');
+var device_1 = _dereq_('./device');
 function close() {
     window.location.href = '/interactive-redirect/v5/items/__self__/back';
 }
@@ -722,8 +708,7 @@ exports.browse = browse;
 
 },{"./device":8,"./item":17}],20:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function addNotification(id) {
     return internalMethods_1.post("notifications/" + id);
 }
@@ -743,26 +728,25 @@ exports.showNotificationManager = showNotificationManager;
 
 },{"./internalMethods":16}],21:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getOnlineStatus(argument) {
     return internalMethods_1.get('system', 'online-status');
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
 },{"./internalMethods":16}],22:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = _dereq_("./utils");
+var utils_1 = _dereq_('./utils');
 function openWindow(url) {
     return window.open(url, "InteractivesWindow" + utils_1.guid());
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = openWindow;
 
 },{"./utils":29}],23:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function postAction(options) {
     return internalMethods_1.post('actions', options);
 }
@@ -778,8 +762,7 @@ exports.postPageView = postPageView;
 
 },{"./internalMethods":16}],24:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function postEvent(key, properties) {
     return internalMethods_1.post("events", { key: key, properties: JSON.stringify(properties) });
 }
@@ -787,8 +770,7 @@ exports.postEvent = postEvent;
 
 },{"./internalMethods":16}],25:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function search(term, offset, limit) {
     if (offset === void 0) { offset = 0; }
     if (limit === void 0) { limit = 100; }
@@ -826,8 +808,7 @@ exports.showSearch = showSearch;
 
 },{"./internalMethods":16}],26:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getValuesWithPrefix(prefix) {
     return internalMethods_1.get("syncedinfo?prefix=" + prefix);
 }
@@ -868,25 +849,24 @@ exports.deleteSyncedKey = deleteSyncedKey;
 
 },{"./internalMethods":16}],27:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getSystemInfo() {
     return internalMethods_1.get('system');
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
 },{"./internalMethods":16}],28:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalMethods_1 = _dereq_("./internalMethods");
+var internalMethods_1 = _dereq_('./internalMethods');
 function getUploadUrl(key) {
     return internalMethods_1.get('system', "uploadurl?key=" + key);
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
 },{"./internalMethods":16}],29:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -900,49 +880,49 @@ exports.guid = guid;
 
 },{}],30:[function(_dereq_,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var packageJson = _dereq_('../../package.json');
 function version() {
     return packageJson.version;
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = version;
 
 },{"../../package.json":32}],31:[function(_dereq_,module,exports){
-"use strict";
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) for example, http://localhost:8000/ .
  */
-var interactiveInfo_1 = _dereq_("./commands/interactiveInfo");
-var systemInfo_1 = _dereq_("./commands/systemInfo");
-var onlineStatus_1 = _dereq_("./commands/onlineStatus");
-var uploadUrl_1 = _dereq_("./commands/uploadUrl");
-var item = _dereq_("./commands/item");
-var collections = _dereq_("./commands/collections");
-var folder_1 = _dereq_("./commands/folder");
-var filter_1 = _dereq_("./commands/filter");
-var gpsCoordinates_1 = _dereq_("./commands/gpsCoordinates");
-var search_1 = _dereq_("./commands/search");
-var navigation_1 = _dereq_("./commands/navigation");
-var downloader = _dereq_("./commands/downloader");
-var notification = _dereq_("./commands/notification");
-var accountInfo = _dereq_("./commands/accountInfo");
-var localKeyValueStorage = _dereq_("./commands/localKeyValueStorage");
-var syncedKeyValueStorage = _dereq_("./commands/syncedKeyValueStorage");
-var applicationSync = _dereq_("./commands/applicationSync");
-var navigation = _dereq_("./commands/navigation");
-var appFeatures = _dereq_("./commands/appFeatures");
-var controls_1 = _dereq_("./commands/controls");
-var embed_1 = _dereq_("./commands/embed");
-var postAction_1 = _dereq_("./commands/postAction");
-var postEvent_1 = _dereq_("./commands/postEvent");
-var device_1 = _dereq_("./commands/device");
-var openWindow_1 = _dereq_("./commands/openWindow");
-var email_1 = _dereq_("./commands/email");
-var credentials_1 = _dereq_("./commands/credentials");
-var version_1 = _dereq_("./commands/version");
+"use strict";
+var interactiveInfo_1 = _dereq_('./commands/interactiveInfo');
+var systemInfo_1 = _dereq_('./commands/systemInfo');
+var onlineStatus_1 = _dereq_('./commands/onlineStatus');
+var uploadUrl_1 = _dereq_('./commands/uploadUrl');
+var item = _dereq_('./commands/item');
+var collections = _dereq_('./commands/collections');
+var folder_1 = _dereq_('./commands/folder');
+var filter_1 = _dereq_('./commands/filter');
+var gpsCoordinates_1 = _dereq_('./commands/gpsCoordinates');
+var search_1 = _dereq_('./commands/search');
+var navigation_1 = _dereq_('./commands/navigation');
+var downloader = _dereq_('./commands/downloader');
+var notification = _dereq_('./commands/notification');
+var accountInfo = _dereq_('./commands/accountInfo');
+var localKeyValueStorage = _dereq_('./commands/localKeyValueStorage');
+var syncedKeyValueStorage = _dereq_('./commands/syncedKeyValueStorage');
+var applicationSync = _dereq_('./commands/applicationSync');
+var navigation = _dereq_('./commands/navigation');
+var appFeatures = _dereq_('./commands/appFeatures');
+var controls_1 = _dereq_('./commands/controls');
+var embed_1 = _dereq_('./commands/embed');
+var postAction_1 = _dereq_('./commands/postAction');
+var postEvent_1 = _dereq_('./commands/postEvent');
+var device_1 = _dereq_('./commands/device');
+var openWindow_1 = _dereq_('./commands/openWindow');
+var email_1 = _dereq_('./commands/email');
+var credentials_1 = _dereq_('./commands/credentials');
+var version_1 = _dereq_('./commands/version');
 var mflyCommands = {
     close: navigation_1.close,
     getInteractiveInfo: interactiveInfo_1.default,
@@ -987,7 +967,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/credentials":7,"./commands/device":8,"./commands/downloader":9,"./commands/email":10,"./commands/embed":11,"./commands/filter":12,"./commands/folder":13,"./commands/gpsCoordinates":14,"./commands/interactiveInfo":15,"./commands/item":17,"./commands/localKeyValueStorage":18,"./commands/navigation":19,"./commands/notification":20,"./commands/onlineStatus":21,"./commands/openWindow":22,"./commands/postAction":23,"./commands/postEvent":24,"./commands/search":25,"./commands/syncedKeyValueStorage":26,"./commands/systemInfo":27,"./commands/uploadUrl":28,"./commands/version":30}],32:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {
@@ -1025,8 +1005,7 @@ module.exports={
     "browserify-shim": "3.8.12",
     "chokidar-cli": "1.2.0",
     "derequire": "^2.0.6",
-    "typescript": "2.0.3",
-    "uglify-js": "^3.0.7"
+    "typescript": "2.0.3"
   }
 }
 

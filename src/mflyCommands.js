@@ -459,7 +459,12 @@ function ddelete(func, data) {
     if (InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.delete(url, JSON.stringify(data));
         var resultJSON = JSON.parse(result);
-        deferred.resolveWith(this, [resultJSON.data, resultJSON.status]);
+        if (resultJSON.status === 200 || resultJSON.status === 202) {
+            deferred.resolveWith(this, [resultJSON.data, resultJSON.status]);
+        }
+        else {
+            deferred.rejectWith(this, [resultJSON.data, resultJSON.status]);
+        }
     }
     else {
         $.ajax({
@@ -494,7 +499,12 @@ function put(func, data) {
     if (InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.put(url, JSON.stringify(data));
         var resultJSON = JSON.parse(result);
-        deferred.resolveWith(this, [resultJSON.data, resultJSON.status]);
+        if (resultJSON.status === 200 || resultJSON.status === 202) {
+            deferred.resolveWith(this, [resultJSON.data, resultJSON.status]);
+        }
+        else {
+            deferred.rejectWith(this, [resultJSON.data, resultJSON.status]);
+        }
     }
     else {
         $.ajax({

@@ -3,8 +3,8 @@ import { isWeb, isDesktop } from './device'
 
 function preserveContext(url) {
 	
-	if ((isWeb() || isDesktop()) && !!sessionStorage.viewerInteractiveContext) {
-		var interactiveContext = JSON.parse(sessionStorage.viewerInteractiveContext);
+	if ((isWeb() || isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
+		var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
 		if (interactiveContext.type === 'collection') {
 			url += '?collection=' + interactiveContext.id;
 		}

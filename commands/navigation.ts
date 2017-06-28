@@ -1,16 +1,34 @@
 import { getCurrentItem, getItem } from './item'
 import { isWeb, isDesktop } from './device'
 
+function preserveContext(url) {
+	
+	if ((isWeb() || isDesktop()) && !!sessionStorage.viewerInteractiveContext) {
+		var interactiveContext = JSON.parse(sessionStorage.viewerInteractiveContext);
+		if (interactiveContext.type === 'collection') {
+			url += '?collection=' + interactiveContext.id;
+		}
+		if (interactiveContext.type === 'search') {
+			url += '?term=' + interactiveContext.term;
+		}
+	}
+
+	return url
+}
+
 export function close() {
-	window.location.href = '/interactive-redirect/v5/items/__self__/back'
+	let url = preserveContext('/interactive-redirect/v5/items/__self__/back')
+	window.location.href = url
 }
 
 export function next() {
-	window.location.href = '/interactive-redirect/v5/items/__self__/next'
+	let url = preserveContext('/interactive-redirect/v5/items/__self__/next')
+	window.location.href = url
 }
 
 export function previous() {
-	window.location.href = '/interactive-redirect/v5/items/__self__/previous'
+	let url = preserveContext('/interactive-redirect/v5/items/__self__/previous')
+	window.location.href = url
 }
 
 export function openItem(id, bookmark) {

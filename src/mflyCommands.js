@@ -663,16 +663,31 @@ exports.deleteKey = deleteKey;
 "use strict";
 var item_1 = _dereq_('./item');
 var device_1 = _dereq_('./device');
+function preserveContext(url) {
+    if ((device_1.isWeb() || device_1.isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
+        var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
+        if (interactiveContext.type === 'collection') {
+            url += '?collection=' + interactiveContext.id;
+        }
+        if (interactiveContext.type === 'search') {
+            url += '?term=' + interactiveContext.term;
+        }
+    }
+    return url;
+}
 function close() {
-    window.location.href = '/interactive-redirect/v5/items/__self__/back';
+    var url = preserveContext('/interactive-redirect/v5/items/__self__/back');
+    window.location.href = url;
 }
 exports.close = close;
 function next() {
-    window.location.href = '/interactive-redirect/v5/items/__self__/next';
+    var url = preserveContext('/interactive-redirect/v5/items/__self__/next');
+    window.location.href = url;
 }
 exports.next = next;
 function previous() {
-    window.location.href = '/interactive-redirect/v5/items/__self__/previous';
+    var url = preserveContext('/interactive-redirect/v5/items/__self__/previous');
+    window.location.href = url;
 }
 exports.previous = previous;
 function openItem(id, bookmark) {

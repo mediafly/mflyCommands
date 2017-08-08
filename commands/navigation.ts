@@ -11,6 +11,9 @@ function preserveContext(url) {
 		if (interactiveContext.type === 'search') {
 			url += '?term=' + interactiveContext.term;
 		}
+		if (interactiveContext.type === 'folder') {
+			url += '?parentSlug=' + interactiveContext.parentSlug;
+		}
 	}
 
 	return url

@@ -14,7 +14,39 @@ function InteractivesInterfaceIsDefined() {
 	return typeof InteractivesInterface !== 'undefined' 
 }
 
+function IsOnWKWebView() {
+	return typeof window['webkit'].messageHandlers.Generic !== 'undefined'
+}
+
+// dictionary guid -> anon funcions
+var callbacks = {}
+
+function iOStoHTML(guid, data) {
+	callbacks[guid](data)
+	callbacks[guid] = null
+}
+
+function getWKWebView(func) {
+	var g = guid()
+	var deferred = $.Deferred()
+	  
+	callbacks[g] = (data) => {
+		deferred.resolve(data)
+	}
+
+	var messgeToPost = { 'guid': g }
+	window['webkit'].messageHandlers[func].postMessage(messgeToPost)
+
+	return deferred.promise
+}
+
 export function get(func, param = null, expectJson = true) {
+
+	if(IsOnWKWebView()) {
+
+		return getWKWebView(func)
+	}
+
 	var prefix = device.getPrefix()
 	var url = prefix + func + (param === null ? '' : '/' + param)
 

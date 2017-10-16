@@ -15,7 +15,19 @@ function InteractivesInterfaceIsDefined() {
 }
 
 function IsOnWKWebView() {
-	return typeof window['webkit'].messageHandlers.Generic !== 'undefined'
+
+	//TODO: remove hardcoded response
+	return true
+
+	// if (!window['webkit']) {
+	//      return false
+	// }
+
+	// if (!window['webkit'].messageHandlers) {
+	//      return false
+	// }
+
+	// return typeof window['webkit'].messageHandlers.Generic !== 'undefined'
 }
 
 // dictionary guid -> anon funcions
@@ -26,18 +38,27 @@ function iOStoHTML(guid, data) {
 	callbacks[guid] = null
 }
 
-function getWKWebView(func) {
-	var g = guid()
+function formUrl(func, param = null) {
+	var prefix = device.getPrefix()
+	return prefix + func + (param === null ? '' : '/' + param)
+}
+
+function getWKWebView(func, param = null) {
+
+	var newGuid = guid()
 	var deferred = $.Deferred()
-	  
-	callbacks[g] = (data) => {
-		deferred.resolve(data)
+
+	callbacks[newGuid] = (data, status) => {
+		deferred.resolveWith(this, [data, status])
 	}
 
-	var messgeToPost = { 'guid': g }
+	var messgeToPost = {
+		guid: newGuid,
+		param
+	}
 	window['webkit'].messageHandlers[func].postMessage(messgeToPost)
 
-	return deferred.promise
+	return deferred.promise()
 }
 
 export function get(func, param = null, expectJson = true) {

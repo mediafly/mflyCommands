@@ -17,17 +17,17 @@ function InteractivesInterfaceIsDefined() {
 function IsOnWKWebView() {
 
 	//TODO: remove hardcoded response
-	return true
+	// return true
 
-	// if (!window['webkit']) {
-	//      return false
-	// }
+	if (!window['webkit']) {
+		return false
+	}
 
-	// if (!window['webkit'].messageHandlers) {
-	//      return false
-	// }
+	if (!window['webkit'].messageHandlers) {
+		return false
+	}
 
-	// return typeof window['webkit'].messageHandlers.Generic !== 'undefined'
+	return typeof window['webkit'].messageHandlers.Generic !== 'undefined'
 }
 
 // dictionary guid -> anon funcions
@@ -43,7 +43,7 @@ function formUrl(func, param = null) {
 	return prefix + func + (param === null ? '' : '/' + param)
 }
 
-function getWKWebView(func, param = null) {
+function getWKWebView(url) {
 
 	var newGuid = guid()
 	var deferred = $.Deferred()
@@ -54,22 +54,21 @@ function getWKWebView(func, param = null) {
 
 	var messgeToPost = {
 		guid: newGuid,
-		param
+		url
 	}
-	window['webkit'].messageHandlers[func].postMessage(messgeToPost)
+	window['webkit'].GenericHandler.postMessage(messgeToPost)
 
 	return deferred.promise()
 }
 
 export function get(func, param = null, expectJson = true) {
 
+	const url = formUrl(func, param)
+
 	if(IsOnWKWebView()) {
 
 		return getWKWebView(func)
 	}
-
-	var prefix = device.getPrefix()
-	var url = prefix + func + (param === null ? '' : '/' + param)
 
 	if(isUnsupported(url)) {
 		throw new Error('This method is not supported on this platform.')

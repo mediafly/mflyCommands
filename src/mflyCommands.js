@@ -380,14 +380,14 @@ function InteractivesInterfaceIsDefined() {
 }
 function IsOnWKWebView() {
     //TODO: remove hardcoded response
-    return true;
-    // if (!window['webkit']) {
-    //      return false
-    // }
-    // if (!window['webkit'].messageHandlers) {
-    //      return false
-    // }
-    // return typeof window['webkit'].messageHandlers.Generic !== 'undefined'
+    // return true
+    if (!window['webkit']) {
+        return false;
+    }
+    if (!window['webkit'].messageHandlers) {
+        return false;
+    }
+    return typeof window['webkit'].messageHandlers.Generic !== 'undefined';
 }
 // dictionary guid -> anon funcions
 var callbacks = {};
@@ -400,9 +400,8 @@ function formUrl(func, param) {
     var prefix = device.getPrefix();
     return prefix + func + (param === null ? '' : '/' + param);
 }
-function getWKWebView(func, param) {
+function getWKWebView(url) {
     var _this = this;
-    if (param === void 0) { param = null; }
     var newGuid = utils_1.guid();
     var deferred = $.Deferred();
     callbacks[newGuid] = function (data, status) {
@@ -410,19 +409,18 @@ function getWKWebView(func, param) {
     };
     var messgeToPost = {
         guid: newGuid,
-        param: param
+        url: url
     };
-    window['webkit'].messageHandlers[func].postMessage(messgeToPost);
+    window['webkit'].GenericHandler.postMessage(messgeToPost);
     return deferred.promise();
 }
 function get(func, param, expectJson) {
     if (param === void 0) { param = null; }
     if (expectJson === void 0) { expectJson = true; }
+    var url = formUrl(func, param);
     if (IsOnWKWebView()) {
         return getWKWebView(func);
     }
-    var prefix = device.getPrefix();
-    var url = prefix + func + (param === null ? '' : '/' + param);
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }

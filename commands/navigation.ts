@@ -3,16 +3,21 @@ import { isWeb, isDesktop } from './device'
 
 function preserveContext(url) {
 	
-	if ((isWeb() || isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
+	if (!isWeb() && !isDesktop()) {
+		return url
+	}
+
+	if (!!sessionStorage['viewerInteractiveContext']) {
 		var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
+
 		if (interactiveContext.type === 'collection') {
-			url += '?collection=' + interactiveContext.id;
-		}
-		if (interactiveContext.type === 'search') {
-			url += '?term=' + interactiveContext.term;
-		}
-		if (interactiveContext.type === 'folder') {
-			url += '?parentSlug=' + interactiveContext.parentSlug;
+			url += `?collection=${interactiveContext.id}`
+		} else if (interactiveContext.type === 'search') {
+			url += `?term=${interactiveContext.term}`
+		} else if (interactiveContext.type === 'folder') {
+			url += `?parentSlug=${interactiveContext.parentSlug}`
+		} else if (interactiveContext.type === 'document') {
+			url += `?slug=${interactiveContext.slug}&parentSlug=${interactiveContext.parentSlug}&page=${interactiveContext.page}`
 		}
 	}
 

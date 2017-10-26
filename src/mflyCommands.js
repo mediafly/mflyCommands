@@ -509,7 +509,8 @@ function put(func, data) {
     else {
         $.ajax({
             method: 'PUT',
-            data: data,
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
             url: url,
             success: function (data, textStatus, request) {
                 deferred.resolveWith(this, [data, request.status]);
@@ -985,7 +986,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/credentials":7,"./commands/device":8,"./commands/downloader":9,"./commands/email":10,"./commands/embed":11,"./commands/filter":12,"./commands/folder":13,"./commands/gpsCoordinates":14,"./commands/interactiveInfo":15,"./commands/item":17,"./commands/localKeyValueStorage":18,"./commands/navigation":19,"./commands/notification":20,"./commands/onlineStatus":21,"./commands/openWindow":22,"./commands/postAction":23,"./commands/postEvent":24,"./commands/search":25,"./commands/syncedKeyValueStorage":26,"./commands/systemInfo":27,"./commands/uploadUrl":28,"./commands/version":30}],32:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

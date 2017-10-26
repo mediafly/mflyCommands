@@ -156,7 +156,8 @@ export function put(func, data = null) {
 	} else {
 		$.ajax({
 			method: 'PUT',
-			data,
+			data: JSON.stringify(data),
+			contentType: 'application/json; charset=utf-8',
 			url,
 			success: function(data, textStatus, request) {
 				deferred.resolveWith(this, [data, request.status])

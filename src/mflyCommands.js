@@ -402,6 +402,7 @@ function formUrl(func, param) {
 }
 function callWKWebView(verb, url, data) {
     var _this = this;
+    if (data === void 0) { data = null; }
     var newGuid = utils_1.guid();
     var deferred = $.Deferred();
     callbacks[newGuid] = function (data, status) {
@@ -421,7 +422,7 @@ function get(func, param, expectJson) {
     if (expectJson === void 0) { expectJson = true; }
     var url = formUrl(func, param);
     if (IsOnWKWebView()) {
-        return callWKWebView('GET', func, param);
+        return callWKWebView('GET', url);
     }
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');

@@ -43,7 +43,7 @@ function formUrl(func, param = null) {
 	return prefix + func + (param === null ? '' : '/' + param)
 }
 
-function callWKWebView(verb, url, data) {
+function callWKWebView(verb, url, data = null) {
 
 	var newGuid = guid()
 	var deferred = $.Deferred()
@@ -69,7 +69,7 @@ export function get(func, param = null, expectJson = true) {
 
 	if(IsOnWKWebView()) {
 
-		return callWKWebView('GET', func, param)
+		return callWKWebView('GET', url)
 	}
 
 	if(isUnsupported(url)) {

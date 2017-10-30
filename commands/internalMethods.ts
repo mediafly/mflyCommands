@@ -43,7 +43,7 @@ function formUrl(func, param = null) {
 	return prefix + func + (param === null ? '' : '/' + param)
 }
 
-function getWKWebView(url) {
+function callWKWebView(verb, url, data) {
 
 	var newGuid = guid()
 	var deferred = $.Deferred()
@@ -54,7 +54,9 @@ function getWKWebView(url) {
 
 	var messgeToPost = {
 		guid: newGuid,
-		url
+		url,
+		data,
+		verb
 	}
 	window['webkit'].GenericHandler.postMessage(messgeToPost)
 
@@ -67,7 +69,7 @@ export function get(func, param = null, expectJson = true) {
 
 	if(IsOnWKWebView()) {
 
-		return getWKWebView(func)
+		return callWKWebView('GET', func, param)
 	}
 
 	if(isUnsupported(url)) {
@@ -112,6 +114,11 @@ export function post(func: string, data?) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
+	if(IsOnWKWebView()) {
+
+		return callWKWebView('POST', func, data)
+	}
+
 	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
 		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
@@ -154,6 +161,11 @@ export function ddelete(func, data?) {
 		throw new Error('This method is not supported on this platform.')
 	}
 
+	if(IsOnWKWebView()) {
+
+		return callWKWebView('DELETE', func, data)
+	}
+
 	if (InteractivesInterfaceIsDefined()) {
 		const result : string = InteractivesInterface.delete(url, JSON.stringify(data))
 		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
@@ -194,6 +206,11 @@ export function put(func, data = null) {
 
 	if (isUnsupported(url)) {
 		throw new Error('This method is not supported on this platform.')
+	}
+
+	if(IsOnWKWebView()) {
+
+		return callWKWebView('PUT', func, data)
 	}
 
 	if (InteractivesInterfaceIsDefined()) {

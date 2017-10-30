@@ -400,7 +400,7 @@ function formUrl(func, param) {
     var prefix = device.getPrefix();
     return prefix + func + (param === null ? '' : '/' + param);
 }
-function getWKWebView(url) {
+function callWKWebView(verb, url, data) {
     var _this = this;
     var newGuid = utils_1.guid();
     var deferred = $.Deferred();
@@ -409,7 +409,9 @@ function getWKWebView(url) {
     };
     var messgeToPost = {
         guid: newGuid,
-        url: url
+        url: url,
+        data: data,
+        verb: verb
     };
     window['webkit'].GenericHandler.postMessage(messgeToPost);
     return deferred.promise();
@@ -419,7 +421,7 @@ function get(func, param, expectJson) {
     if (expectJson === void 0) { expectJson = true; }
     var url = formUrl(func, param);
     if (IsOnWKWebView()) {
-        return getWKWebView(func);
+        return callWKWebView('GET', func, param);
     }
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
@@ -455,6 +457,9 @@ function post(func, data) {
     var url = prefix + func;
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
+    }
+    if (IsOnWKWebView()) {
+        return callWKWebView('POST', func, data);
     }
     if (InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.post(url, JSON.stringify(data));
@@ -495,6 +500,9 @@ function ddelete(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
+    if (IsOnWKWebView()) {
+        return callWKWebView('DELETE', func, data);
+    }
     if (InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.delete(url, JSON.stringify(data));
         var resultJSON = JSON.parse(result);
@@ -534,6 +542,9 @@ function put(func, data) {
     var url = prefix + func;
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
+    }
+    if (IsOnWKWebView()) {
+        return callWKWebView('PUT', func, data);
     }
     if (InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.put(url, JSON.stringify(data));

@@ -33,9 +33,11 @@ import openWindow from './commands/openWindow'
 import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
 import version from './commands/version'
+import copy from './commands/copy'
 
 var mflyCommands = {
 	close,
+	copy,
 	getInteractiveInfo,
 	getCredentials,
 	getSystemInfo,

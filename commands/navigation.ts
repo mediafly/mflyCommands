@@ -12,12 +12,12 @@ function preserveContext(url) {
 				url += `&sourcePage=${interactiveContext.sourcePage}`
 			}
 
-			if (interactiveContext.parentSlug) {
-				url += `&sourcePage=${interactiveContext.parentSlug}`
+			if (interactiveContext.sourceParentSlug) {
+				url += `&sourceParentSlug=${interactiveContext.sourceParentSlug}`
 			}
 
 			if (interactiveContext.collection) {
-				url += `&sourcePage=${interactiveContext.collection}`
+				url += `&collection=${interactiveContext.collection}`
 			}
 		}
 

@@ -19,6 +19,10 @@ function preserveContext(url) {
 			if (interactiveContext.collection) {
 				url += `&collection=${interactiveContext.collection}`
 			}
+
+			if (interactiveContext.sourceSearch) {
+				url += `&sourceSearch=${encodeURIComponent(interactiveContext.sourceSearch)}`
+			}
 		}
 
 		if (interactiveContext.type === 'collection') {

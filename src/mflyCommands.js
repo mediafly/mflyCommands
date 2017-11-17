@@ -681,6 +681,9 @@ function preserveContext(url) {
             if (interactiveContext.sourceSearch) {
                 url += "&sourceSearch=" + encodeURIComponent(interactiveContext.sourceSearch);
             }
+            if (interactiveContext.sourceCollection) {
+                url += "&sourceCollection=" + encodeURIComponent(interactiveContext.sourceCollection);
+            }
         }
         if (interactiveContext.type === 'collection') {
             url += '?collection=' + interactiveContext.id;

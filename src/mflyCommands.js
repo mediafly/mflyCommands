@@ -138,8 +138,8 @@ exports.hideControlBars = hideControlBars;
 },{"./internalMethods":17}],7:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
-function copy(parentId, slug, name) {
-    return internalMethods_1.post("items/copy", { parentId: parentId, slug: slug, name: name });
+function copy(parentId, slug, name, metadata) {
+    return internalMethods_1.post("items/copy", { parentId: parentId, slug: slug, name: name, metadata: metadata });
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = copy;

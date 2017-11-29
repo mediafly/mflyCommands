@@ -34,6 +34,7 @@ import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
 import version from './commands/version'
 import copy from './commands/copy'
+import updateMetadata from './commands/updateMetadata'
 
 var mflyCommands = {
 	close,
@@ -63,6 +64,7 @@ var mflyCommands = {
 	postEvent,
 	getEmailStatus,
 	sendEmail,
+	updateMetadata,
 	version
 }
 

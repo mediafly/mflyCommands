@@ -772,7 +772,7 @@ function openWindow(url) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = openWindow;
 
-},{"./utils":30}],24:[function(_dereq_,module,exports){
+},{"./utils":31}],24:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function postAction(options) {
@@ -887,13 +887,22 @@ exports.default = getSystemInfo;
 },{"./internalMethods":17}],29:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
+function updateMetadata(id, metadata) {
+    return internalMethods_1.post("items/updatemetadata", { id: id, metadata: metadata });
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = updateMetadata;
+
+},{"./internalMethods":17}],30:[function(_dereq_,module,exports){
+"use strict";
+var internalMethods_1 = _dereq_('./internalMethods');
 function getUploadUrl(key) {
     return internalMethods_1.get('system', "uploadurl?key=" + key);
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":17}],30:[function(_dereq_,module,exports){
+},{"./internalMethods":17}],31:[function(_dereq_,module,exports){
 "use strict";
 function guid() {
     function s4() {
@@ -906,7 +915,7 @@ function guid() {
 }
 exports.guid = guid;
 
-},{}],31:[function(_dereq_,module,exports){
+},{}],32:[function(_dereq_,module,exports){
 "use strict";
 var packageJson = _dereq_('../../package.json');
 function version() {
@@ -915,7 +924,7 @@ function version() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = version;
 
-},{"../../package.json":33}],32:[function(_dereq_,module,exports){
+},{"../../package.json":34}],33:[function(_dereq_,module,exports){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
@@ -952,6 +961,7 @@ var email_1 = _dereq_('./commands/email');
 var credentials_1 = _dereq_('./commands/credentials');
 var version_1 = _dereq_('./commands/version');
 var copy_1 = _dereq_('./commands/copy');
+var updateMetadata_1 = _dereq_('./commands/updateMetadata');
 var mflyCommands = {
     close: navigation_1.close,
     copy: copy_1.default,
@@ -980,6 +990,7 @@ var mflyCommands = {
     postEvent: postEvent_1.postEvent,
     getEmailStatus: email_1.getEmailStatus,
     sendEmail: email_1.sendEmail,
+    updateMetadata: updateMetadata_1.default,
     version: version_1.default
 };
 $.extend(mflyCommands, item);
@@ -994,7 +1005,7 @@ $.extend(mflyCommands, navigation);
 $.extend(mflyCommands, appFeatures);
 module.exports = mflyCommands;
 
-},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/copy":7,"./commands/credentials":8,"./commands/device":9,"./commands/downloader":10,"./commands/email":11,"./commands/embed":12,"./commands/filter":13,"./commands/folder":14,"./commands/gpsCoordinates":15,"./commands/interactiveInfo":16,"./commands/item":18,"./commands/localKeyValueStorage":19,"./commands/navigation":20,"./commands/notification":21,"./commands/onlineStatus":22,"./commands/openWindow":23,"./commands/postAction":24,"./commands/postEvent":25,"./commands/search":26,"./commands/syncedKeyValueStorage":27,"./commands/systemInfo":28,"./commands/uploadUrl":29,"./commands/version":31}],33:[function(_dereq_,module,exports){
+},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/copy":7,"./commands/credentials":8,"./commands/device":9,"./commands/downloader":10,"./commands/email":11,"./commands/embed":12,"./commands/filter":13,"./commands/folder":14,"./commands/gpsCoordinates":15,"./commands/interactiveInfo":16,"./commands/item":18,"./commands/localKeyValueStorage":19,"./commands/navigation":20,"./commands/notification":21,"./commands/onlineStatus":22,"./commands/openWindow":23,"./commands/postAction":24,"./commands/postEvent":25,"./commands/search":26,"./commands/syncedKeyValueStorage":27,"./commands/systemInfo":28,"./commands/updateMetadata":29,"./commands/uploadUrl":30,"./commands/version":32}],34:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
   "version": "2.2.1",
@@ -1039,5 +1050,5 @@ module.exports={
   }
 }
 
-},{}]},{},[32])(32)
+},{}]},{},[33])(33)
 });

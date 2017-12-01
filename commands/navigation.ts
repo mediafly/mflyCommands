@@ -5,14 +5,38 @@ function preserveContext(url) {
 	
 	if ((isWeb() || isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
 		var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
+		if (interactiveContext.type === 'storyMapper') {
+			url += `?sourceSlug=${interactiveContext.sourceSlug}`
+
+			if (interactiveContext.sourcePage) {
+				url += `&sourcePage=${interactiveContext.sourcePage}`
+			}
+
+			if (interactiveContext.sourceParentSlug) {
+				url += `&sourceParentSlug=${interactiveContext.sourceParentSlug}`
+			}
+
+			if (interactiveContext.collection) {
+				url += `&collection=${interactiveContext.collection}`
+			}
+
+			if (interactiveContext.sourceSearch) {
+				url += `&sourceSearch=${encodeURIComponent(interactiveContext.sourceSearch)}`
+			}
+
+			if (interactiveContext.sourceCollection) {
+				url += `&sourceCollection=${encodeURIComponent(interactiveContext.sourceCollection)}`
+			}
+		}
+
 		if (interactiveContext.type === 'collection') {
-			url += '?collection=' + interactiveContext.id;
+			url += '?collection=' + interactiveContext.id
 		}
 		if (interactiveContext.type === 'search') {
-			url += '?term=' + interactiveContext.term;
+			url += '?term=' + interactiveContext.term
 		}
 		if (interactiveContext.type === 'folder') {
-			url += '?parentSlug=' + interactiveContext.parentSlug;
+			url += '?parentSlug=' + interactiveContext.parentSlug
 		}
 	}
 

@@ -1,5 +1,5 @@
-import { post } from './internalMethods'
+import { put } from './internalMethods'
 
 export default function updateMetadata(id, metadata) {
-	return post(`items/${id}/metadata`, metadata)
+	return put(`items/${id}/metadata`, metadata)
 }

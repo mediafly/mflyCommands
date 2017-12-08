@@ -888,7 +888,7 @@ exports.default = getSystemInfo;
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function updateMetadata(id, metadata) {
-    return internalMethods_1.post("items/" + id + "/metadata", metadata);
+    return internalMethods_1.put("items/" + id + "/metadata", metadata);
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = updateMetadata;

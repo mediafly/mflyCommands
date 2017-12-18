@@ -33,9 +33,12 @@ import openWindow from './commands/openWindow'
 import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
 import version from './commands/version'
+import copy from './commands/copy'
+import updateMetadata from './commands/updateMetadata'
 
 var mflyCommands = {
 	close,
+	copy,
 	getInteractiveInfo,
 	getCredentials,
 	getSystemInfo,
@@ -61,6 +64,7 @@ var mflyCommands = {
 	postEvent,
 	getEmailStatus,
 	sendEmail,
+	updateMetadata,
 	version
 }
 

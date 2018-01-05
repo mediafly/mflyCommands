@@ -34,7 +34,7 @@ import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
 import version from './commands/version'
 import copy from './commands/copy'
-import updateMetadata from './commands/updateMetadata'
+import * as updateMetadata from './commands/updateMetadata'
 
 var mflyCommands = {
 	close,
@@ -64,7 +64,6 @@ var mflyCommands = {
 	postEvent,
 	getEmailStatus,
 	sendEmail,
-	updateMetadata,
 	version
 }
 
@@ -78,5 +77,6 @@ $.extend(mflyCommands, syncedKeyValueStorage)
 $.extend(mflyCommands, applicationSync)
 $.extend(mflyCommands, navigation)
 $.extend(mflyCommands, appFeatures)
+$.extend(mflyCommands, updateMetadata)
 
 export = mflyCommands

@@ -906,7 +906,7 @@ exports.default = getSystemInfo;
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function updateMetadata(id, metadata) {
-    return internalMethods_1.put("items/" + id + "/metadata", metadata);
+    return internalMethods_1.put("items/" + id + "/item-metadata", { metadataJson: metadata });
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = updateMetadata;
@@ -1026,7 +1026,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/copy":7,"./commands/credentials":8,"./commands/device":9,"./commands/downloader":10,"./commands/email":11,"./commands/embed":12,"./commands/filter":13,"./commands/folder":14,"./commands/gpsCoordinates":15,"./commands/interactiveInfo":16,"./commands/item":18,"./commands/localKeyValueStorage":19,"./commands/navigation":20,"./commands/notification":21,"./commands/onlineStatus":22,"./commands/openWindow":23,"./commands/postAction":24,"./commands/postEvent":25,"./commands/search":26,"./commands/syncedKeyValueStorage":27,"./commands/systemInfo":28,"./commands/updateMetadata":29,"./commands/uploadUrl":30,"./commands/version":32}],34:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

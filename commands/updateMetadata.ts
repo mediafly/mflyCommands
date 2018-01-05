@@ -1,6 +1,7 @@
 import { put } from './internalMethods'
 
-//This endpoint should be deprecated and removed in favor of updateItemMetadata
+//This endpoint is only implemented in Viewer and should be deprecated
+//in favor of updateItemMetadata
 export function updateMetadata(id, metadata) {
 	return put(`items/${id}/metadata`, metadata)
 }

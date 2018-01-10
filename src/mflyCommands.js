@@ -142,7 +142,7 @@ var updateMetadata_1 = _dereq_('./updateMetadata');
 function copy(parentId, slug, name) {
     var action = internalMethods_1.post("items/copy", { parentId: parentId, slug: slug, name: name });
     if (name) {
-        action = action.then(function (newItem) { return updateMetadata_1.updateItemMetadata(newItem.slug, { "title": name }); });
+        action = action.then(function (newItem) { return updateMetadata_1.updateItemMetadata(newItem.id, { "title": name }); });
     }
     return action;
 }

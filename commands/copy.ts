@@ -5,7 +5,7 @@ export default function copy(parentId, slug, name) {
 	let action = post(`items/copy`, { parentId, slug, name })
 	
 	if (name) {
-		action = action.then((newItem: any) => updateItemMetadata(newItem.slug, {"title" : name}))
+		action = action.then((newItem: any) => updateItemMetadata(newItem.id, {"title" : name}))
 	}
 
 	return action

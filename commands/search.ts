@@ -12,7 +12,7 @@ export function search(term, offset = 0, limit = 100) {
 
 	var getPage = function() {
 		var qs = $.param(obj);
-
+		qs = qs.replace(/\+/g, '%20');
 		get('items?' + qs)
 			.done(function(data: any) {
 				result = result.concat(data);

@@ -822,34 +822,43 @@ exports.postEvent = postEvent;
 },{"./internalMethods":17}],26:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
-function search(term, offset, limit) {
-    if (offset === void 0) { offset = 0; }
-    if (limit === void 0) { limit = 100; }
-    var dfd1 = $.Deferred();
-    var result = [];
+function getPage(term, offset, limit) {
     var obj = {
         term: term,
         offset: offset,
         limit: limit
     };
-    var getPage = function () {
-        var qs = $.param(obj);
-        internalMethods_1.get('items?' + qs)
-            .done(function (data) {
-            result = result.concat(data);
-            if (data.length < obj.limit) {
-                dfd1.resolve(result);
-            }
-            else {
-                obj.offset += obj.limit;
-                getPage();
-            }
-        }).fail(function () {
-            dfd1.reject();
-        });
-    };
-    getPage();
+    var qs = $.param(obj);
+    return internalMethods_1.get('items?' + qs);
+}
+function getAllSearchResults(term) {
+    var dfd1 = $.Deferred();
+    var result = [];
+    var offset = 0;
+    var limit = 100;
+    getPage(term, offset, limit)
+        .done(function (data) {
+        result = result.concat(data);
+        if (data.length < limit) {
+            dfd1.resolve(result);
+        }
+        else {
+            offset += limit;
+            getPage(term, offset, limit);
+        }
+    }).fail(function () {
+        dfd1.reject();
+    });
     return dfd1.promise();
+}
+function search(term, offset, limit) {
+    if (limit === void 0) { limit = 100; }
+    if (typeof offset == 'undefined') {
+        return getAllSearchResults(term);
+    }
+    else {
+        return getPage(term, offset, limit);
+    }
 }
 exports.search = search;
 function showSearch(x, y, width, height) {

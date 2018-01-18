@@ -330,29 +330,38 @@ function objToString(obj) {
     result.slice(0, result.length - 1);
     return result;
 }
-function filter(obj) {
+function getPage(obj, offset, limit) {
+    var filter = encodeURIComponent(objToString(obj));
+    return internalMethods_1.get("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit);
+}
+function getAllFilterResults(obj) {
     var Deferred = $.Deferred();
     var result = [];
     var offset = 0;
     var limit = 100;
-    var getPage = function () {
-        var filter = encodeURIComponent(objToString(obj));
-        return internalMethods_1.get("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit)
-            .done(function (data) {
-            result = result.concat(data);
-            if (data.length < limit) {
-                Deferred.resolve(result);
-            }
-            else {
-                offset += limit;
-                getPage();
-            }
-        }).fail(function () {
-            Deferred.reject();
-        });
-    };
-    getPage();
+    getPage(obj, offset, limit)
+        .done(function (data) {
+        result = result.concat(data);
+        if (data.length < limit) {
+            Deferred.resolve(result);
+        }
+        else {
+            offset += limit;
+            getPage(obj, offset, limit);
+        }
+    }).fail(function () {
+        Deferred.reject();
+    });
     return Deferred.promise();
+}
+function filter(obj, offset, limit) {
+    if (limit === void 0) { limit = 100; }
+    if (typeof offset == 'undefined') {
+        return getAllFilterResults(obj);
+    }
+    else {
+        return getPage(obj, offset, limit);
+    }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;

@@ -1,6 +1,5 @@
 import { get, showUI } from './internalMethods'
 
-
 function getPage(term, offset, limit) {
 
 	var obj = {

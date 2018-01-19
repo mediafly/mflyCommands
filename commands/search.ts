@@ -13,30 +13,28 @@ function getPage(term, offset, limit) {
 }
 
 function getAllSearchResults(term) {
-	var dfd1 = $.Deferred()
 	var result = []
 
 	let offset = 0
 	let limit = 100
 
-	getPage(term, offset, limit)
-		.done(function(data: any) {
-			result = result.concat(data)
-			if (data.length < limit) {
-				dfd1.resolve(result)
-			} else {
-				offset += limit
-				getPage(term, offset, limit)
-			}
-		}).fail(function() {
-			dfd1.reject()
-		})
+	const accumulatePages = (term) => {
+		return getPage(term, offset, limit)
+			.then((data: any) => {
+				result = result.concat(data)
+				if (data.length < limit) {
+					return result
+				} else {
+					offset += limit
+					return accumulatePages(term)
+				}
+			})
+	}
 
-
-	return dfd1.promise()
+	return accumulatePages(term)
 }
 
-export function search(term, offset, limit = 100) {
+export function search(term, offset, limit) {
 
 	if (typeof offset == 'undefined') {
 		return getAllSearchResults(term)

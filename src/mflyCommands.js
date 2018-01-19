@@ -335,27 +335,25 @@ function getPage(obj, offset, limit) {
     return internalMethods_1.get("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit);
 }
 function getAllFilterResults(obj) {
-    var Deferred = $.Deferred();
     var result = [];
     var offset = 0;
     var limit = 100;
-    getPage(obj, offset, limit)
-        .done(function (data) {
-        result = result.concat(data);
-        if (data.length < limit) {
-            Deferred.resolve(result);
-        }
-        else {
-            offset += limit;
-            getPage(obj, offset, limit);
-        }
-    }).fail(function () {
-        Deferred.reject();
-    });
-    return Deferred.promise();
+    var accumulatePages = function (obj) {
+        return getPage(obj, offset, limit)
+            .then(function (data) {
+            result = result.concat(data);
+            if (data.length < limit) {
+                return result;
+            }
+            else {
+                offset += limit;
+                return accumulatePages(obj);
+            }
+        });
+    };
+    return accumulatePages(obj);
 }
 function filter(obj, offset, limit) {
-    if (limit === void 0) { limit = 100; }
     if (typeof offset == 'undefined') {
         return getAllFilterResults(obj);
     }
@@ -841,27 +839,25 @@ function getPage(term, offset, limit) {
     return internalMethods_1.get('items?' + qs);
 }
 function getAllSearchResults(term) {
-    var dfd1 = $.Deferred();
     var result = [];
     var offset = 0;
     var limit = 100;
-    getPage(term, offset, limit)
-        .done(function (data) {
-        result = result.concat(data);
-        if (data.length < limit) {
-            dfd1.resolve(result);
-        }
-        else {
-            offset += limit;
-            getPage(term, offset, limit);
-        }
-    }).fail(function () {
-        dfd1.reject();
-    });
-    return dfd1.promise();
+    var accumulatePages = function (term) {
+        return getPage(term, offset, limit)
+            .then(function (data) {
+            result = result.concat(data);
+            if (data.length < limit) {
+                return result;
+            }
+            else {
+                offset += limit;
+                return accumulatePages(term);
+            }
+        });
+    };
+    return accumulatePages(term);
 }
 function search(term, offset, limit) {
-    if (limit === void 0) { limit = 100; }
     if (typeof offset == 'undefined') {
         return getAllSearchResults(term);
     }

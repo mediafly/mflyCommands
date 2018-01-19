@@ -18,29 +18,27 @@ function getPage(obj, offset, limit) {
 }
 
 function getAllFilterResults(obj) {
-	var Deferred = $.Deferred()
-
 	var result = []
 	var offset = 0
 	var limit = 100
 	
-	getPage(obj, offset, limit)
-		.done(function (data: any) {
-			result = result.concat(data)
-			if (data.length < limit) {
-				Deferred.resolve(result)
-			} else {
-				offset += limit
-				getPage(obj, offset, limit)
-		}
-		}).fail(function () {
-			Deferred.reject()
-		})
+	const accumulatePages = (obj) => {
+		return getPage(obj, offset, limit)
+			.then((data: any) => {
+				result = result.concat(data)
+				if (data.length < limit) {
+					return result
+				} else {
+					offset += limit
+					return accumulatePages(obj)
+				}
+			})
+	}
 
-	return Deferred.promise()
+	return accumulatePages(obj)
 }
 
-export default function filter(obj, offset, limit = 100) {
+export default function filter(obj, offset, limit) {
 
 	if (typeof offset == 'undefined') {
 		return getAllFilterResults(obj)

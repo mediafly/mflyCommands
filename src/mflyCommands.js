@@ -330,29 +330,36 @@ function objToString(obj) {
     result.slice(0, result.length - 1);
     return result;
 }
-function filter(obj) {
-    var Deferred = $.Deferred();
+function getPage(obj, offset, limit) {
+    var filter = encodeURIComponent(objToString(obj));
+    return internalMethods_1.get("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit);
+}
+function getAllFilterResults(obj) {
     var result = [];
     var offset = 0;
     var limit = 100;
-    var getPage = function () {
-        var filter = encodeURIComponent(objToString(obj));
-        return internalMethods_1.get("items?filter=" + filter + "&offset=" + offset + "&limit=" + limit)
-            .done(function (data) {
+    var accumulatePages = function (obj) {
+        return getPage(obj, offset, limit)
+            .then(function (data) {
             result = result.concat(data);
             if (data.length < limit) {
-                Deferred.resolve(result);
+                return result;
             }
             else {
                 offset += limit;
-                getPage();
+                return accumulatePages(obj);
             }
-        }).fail(function () {
-            Deferred.reject();
         });
     };
-    getPage();
-    return Deferred.promise();
+    return accumulatePages(obj);
+}
+function filter(obj, offset, limit) {
+    if (typeof offset == 'undefined') {
+        return getAllFilterResults(obj);
+    }
+    else {
+        return getPage(obj, offset, limit);
+    }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
@@ -822,34 +829,41 @@ exports.postEvent = postEvent;
 },{"./internalMethods":17}],26:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
-function search(term, offset, limit) {
-    if (offset === void 0) { offset = 0; }
-    if (limit === void 0) { limit = 100; }
-    var dfd1 = $.Deferred();
-    var result = [];
+function getPage(term, offset, limit) {
     var obj = {
         term: term,
         offset: offset,
         limit: limit
     };
-    var getPage = function () {
-        var qs = $.param(obj);
-        internalMethods_1.get('items?' + qs)
-            .done(function (data) {
+    var qs = $.param(obj);
+    return internalMethods_1.get('items?' + qs);
+}
+function getAllSearchResults(term) {
+    var result = [];
+    var offset = 0;
+    var limit = 100;
+    var accumulatePages = function (term) {
+        return getPage(term, offset, limit)
+            .then(function (data) {
             result = result.concat(data);
-            if (data.length < obj.limit) {
-                dfd1.resolve(result);
+            if (data.length < limit) {
+                return result;
             }
             else {
-                obj.offset += obj.limit;
-                getPage();
+                offset += limit;
+                return accumulatePages(term);
             }
-        }).fail(function () {
-            dfd1.reject();
         });
     };
-    getPage();
-    return dfd1.promise();
+    return accumulatePages(term);
+}
+function search(term, offset, limit) {
+    if (typeof offset == 'undefined') {
+        return getAllSearchResults(term);
+    }
+    else {
+        return getPage(term, offset, limit);
+    }
 }
 exports.search = search;
 function showSearch(x, y, width, height) {

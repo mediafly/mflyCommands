@@ -1,35 +1,47 @@
 import { get, showUI } from './internalMethods'
 
-export function search(term, offset = 0, limit = 100) {
-	var dfd1 = $.Deferred()
-	var result = []
+function getPage(term, offset, limit) {
 
 	var obj = {
-		term: term,
-		offset: offset,
-		limit: limit
+		term,
+		offset,
+		limit
 	}
 
-	var getPage = function() {
-		var qs = $.param(obj);
+	var qs = $.param(obj)
+	return get('items?' + qs)
+}
 
-		get('items?' + qs)
-			.done(function(data: any) {
-				result = result.concat(data);
-				if (data.length < obj.limit) {
-					dfd1.resolve(result);
+function getAllSearchResults(term) {
+	var result = []
+
+	let offset = 0
+	let limit = 100
+
+	const accumulatePages = (term) => {
+		return getPage(term, offset, limit)
+			.then((data: any) => {
+				result = result.concat(data)
+				if (data.length < limit) {
+					return result
 				} else {
-					obj.offset += obj.limit;
-					getPage();
+					offset += limit
+					return accumulatePages(term)
 				}
-			}).fail(function() {
-				dfd1.reject();
-			});
-	};
+			})
+	}
 
-	getPage();
+	return accumulatePages(term)
+}
 
-	return dfd1.promise();
+export function search(term, offset, limit) {
+
+	if (typeof offset == 'undefined') {
+		return getAllSearchResults(term)
+	} else {
+		return getPage(term, offset, limit)
+	}
+
 }
 
 export function showSearch(x, y, width, height) {

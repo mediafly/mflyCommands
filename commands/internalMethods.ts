@@ -2,17 +2,7 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
-
-declare const InteractivesInterface: any
-
-interface InteractivesInterfaceResponse {
-	data: any
-	status: any
-}
-
-function InteractivesInterfaceIsDefined() {
-	return typeof InteractivesInterface !== 'undefined' 
-}
+import { callAndroid, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './android-async'
 
 export function get(func, param = null, expectJson = true) {
 	var prefix = device.getPrefix()
@@ -61,13 +51,16 @@ export function post(func: string, data?) {
 	}
 
 	if (InteractivesInterfaceIsDefined()) {
-		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
-		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		if(resultJSON.status >= 200 && resultJSON.status < 300) {
-			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-		} else {
-			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-		}
+		callAndroid('POST', url, data)
+			.then((result: any) => {
+
+				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+				if(resultJSON.status >= 200 && resultJSON.status < 300) {
+					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+				} else {
+					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+				}
+			})
 	} else {
 		$.ajax({
 			method: 'POST',

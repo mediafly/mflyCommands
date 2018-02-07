@@ -394,7 +394,30 @@ exports.default = getInteractiveInfo;
 },{"./internalMethods":17}],17:[function(_dereq_,module,exports){
 "use strict";
 var device = _dereq_('./device');
+var utils_1 = _dereq_('./utils');
 var commandSupport_1 = _dereq_('./commandSupport');
+// dictionary guid -> anon funcions
+var callbacks = {};
+function androidCallback(guid, data) {
+    callbacks[guid](data);
+    callbacks[guid] = null;
+}
+function callAndroid(verb, url, data) {
+    if (data === void 0) { data = null; }
+    var newGuid = utils_1.guid();
+    var deferred = $.Deferred();
+    callbacks[newGuid] = function (result) {
+        deferred.resolveWith(result);
+    };
+    var messgeToPost = {
+        guid: newGuid,
+        url: url,
+        data: data,
+        verb: verb
+    };
+    InteractivesInterface.handleAsync(messgeToPost);
+    return deferred.promise();
+}
 function InteractivesInterfaceIsDefined() {
     return typeof InteractivesInterface !== 'undefined';
 }
@@ -432,6 +455,7 @@ function get(func, param, expectJson) {
 }
 exports.get = get;
 function post(func, data) {
+    var _this = this;
     var deferred = $.Deferred();
     var prefix = device.getPrefix();
     var url = prefix + func;
@@ -439,14 +463,16 @@ function post(func, data) {
         throw new Error('This method is not supported on this platform.');
     }
     if (InteractivesInterfaceIsDefined()) {
-        var result = InteractivesInterface.post(url, JSON.stringify(data));
-        var resultJSON = JSON.parse(result);
-        if (resultJSON.status >= 200 && resultJSON.status < 300) {
-            deferred.resolveWith(this, [resultJSON.data, resultJSON.status]);
-        }
-        else {
-            deferred.rejectWith(this, [resultJSON.data, resultJSON.status]);
-        }
+        callAndroid('POST', url, data)
+            .then(function (result) {
+            var resultJSON = JSON.parse(result);
+            if (resultJSON.status >= 200 && resultJSON.status < 300) {
+                deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
+            }
+            else {
+                deferred.rejectWith(_this, [resultJSON.data, resultJSON.status]);
+            }
+        });
     }
     else {
         $.ajax({
@@ -562,7 +588,7 @@ function showUI(name, x, y, width, height) {
 }
 exports.showUI = showUI;
 
-},{"./commandSupport":5,"./device":9}],18:[function(_dereq_,module,exports){
+},{"./commandSupport":5,"./device":9,"./utils":31}],18:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getItem(id) {
@@ -1050,7 +1076,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/copy":7,"./commands/credentials":8,"./commands/device":9,"./commands/downloader":10,"./commands/email":11,"./commands/embed":12,"./commands/filter":13,"./commands/folder":14,"./commands/gpsCoordinates":15,"./commands/interactiveInfo":16,"./commands/item":18,"./commands/localKeyValueStorage":19,"./commands/navigation":20,"./commands/notification":21,"./commands/onlineStatus":22,"./commands/openWindow":23,"./commands/postAction":24,"./commands/postEvent":25,"./commands/search":26,"./commands/syncedKeyValueStorage":27,"./commands/systemInfo":28,"./commands/updateMetadata":29,"./commands/uploadUrl":30,"./commands/version":32}],34:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

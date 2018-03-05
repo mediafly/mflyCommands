@@ -30,7 +30,7 @@ export function callAndroid(verb, url, data = null) {
 		data,
 		verb
 	}
-	InteractivesInterface.handleAsync(messgeToPost)
+	InteractivesInterface.handleAsync(guid, url, verb, data)
 
 	return deferred.promise()
 }

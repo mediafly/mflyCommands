@@ -10,7 +10,33 @@ function logout() {
 }
 exports.logout = logout;
 
-},{"./internalMethods":17}],2:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],2:[function(_dereq_,module,exports){
+"use strict";
+var utils_1 = _dereq_('./utils');
+// dictionary guid -> anon funcions
+var callbacks = {};
+function androidCallback(guid, data) {
+    callbacks[guid](data);
+    callbacks[guid] = null;
+}
+exports.androidCallback = androidCallback;
+function callAndroid(verb, url, data) {
+    if (data === void 0) { data = null; }
+    var newGuid = utils_1.guid();
+    var deferred = $.Deferred();
+    callbacks[newGuid] = function (result) {
+        deferred.resolveWith(result);
+    };
+    InteractivesInterface.handleAsync(utils_1.guid, url, verb, JSON.stringify(data));
+    return deferred.promise();
+}
+exports.callAndroid = callAndroid;
+function InteractivesInterfaceIsDefined() {
+    return typeof InteractivesInterface !== 'undefined';
+}
+exports.InteractivesInterfaceIsDefined = InteractivesInterfaceIsDefined;
+
+},{"./utils":32}],3:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function showSettings(x, y, width, height) {
@@ -42,7 +68,7 @@ function takeAndEmailScreenshot() {
 }
 exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
 
-},{"./internalMethods":17}],3:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],4:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function refresh() {
@@ -54,7 +80,7 @@ function getSyncStatus() {
 }
 exports.getSyncStatus = getSyncStatus;
 
-},{"./internalMethods":17}],4:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],5:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getCollections() {
@@ -100,7 +126,7 @@ function showAddToCollection(x, y, width, height) {
 }
 exports.showAddToCollection = showAddToCollection;
 
-},{"./internalMethods":17}],5:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],6:[function(_dereq_,module,exports){
 "use strict";
 var device_1 = _dereq_('./device');
 function isUnsupported(url) {
@@ -117,7 +143,7 @@ function isUnsupported(url) {
 }
 exports.isUnsupported = isUnsupported;
 
-},{"./device":9}],6:[function(_dereq_,module,exports){
+},{"./device":10}],7:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function showControlBars() {
@@ -135,7 +161,7 @@ function hideControlBars(x, y, width, height) {
 }
 exports.hideControlBars = hideControlBars;
 
-},{"./internalMethods":17}],7:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],8:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 var updateMetadata_1 = _dereq_('./updateMetadata');
@@ -149,7 +175,7 @@ function copy(parentId, slug, name) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = copy;
 
-},{"./internalMethods":17,"./updateMetadata":29}],8:[function(_dereq_,module,exports){
+},{"./internalMethods":18,"./updateMetadata":30}],9:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getCredentials() {
@@ -158,7 +184,7 @@ function getCredentials() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getCredentials;
 
-},{"./internalMethods":17}],9:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],10:[function(_dereq_,module,exports){
 "use strict";
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
@@ -210,7 +236,7 @@ function getPrefix() {
 }
 exports.getPrefix = getPrefix;
 
-},{}],10:[function(_dereq_,module,exports){
+},{}],11:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function showDownloader(x, y, width, height) {
@@ -230,7 +256,7 @@ function removeFromDownloader(id) {
 }
 exports.removeFromDownloader = removeFromDownloader;
 
-},{"./internalMethods":17}],11:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],12:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function sendEmail(options) {
@@ -242,7 +268,7 @@ function getEmailStatus(id) {
 }
 exports.getEmailStatus = getEmailStatus;
 
-},{"./internalMethods":17}],12:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],13:[function(_dereq_,module,exports){
 "use strict";
 var device_1 = _dereq_('./device');
 var item_1 = _dereq_('./item');
@@ -317,7 +343,7 @@ function getData(id) {
 }
 exports.getData = getData;
 
-},{"./device":9,"./item":18}],13:[function(_dereq_,module,exports){
+},{"./device":10,"./item":19}],14:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function objToString(obj) {
@@ -364,7 +390,7 @@ function filter(obj, offset, limit) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
-},{"./internalMethods":17}],14:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],15:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getFolder(id) {
@@ -373,7 +399,7 @@ function getFolder(id) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
-},{"./internalMethods":17}],15:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],16:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getGpsCoordinates() {
@@ -382,7 +408,7 @@ function getGpsCoordinates() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":17}],16:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],17:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getInteractiveInfo() {
@@ -391,36 +417,11 @@ function getInteractiveInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
-},{"./internalMethods":17}],17:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],18:[function(_dereq_,module,exports){
 "use strict";
 var device = _dereq_('./device');
-var utils_1 = _dereq_('./utils');
 var commandSupport_1 = _dereq_('./commandSupport');
-// dictionary guid -> anon funcions
-var callbacks = {};
-function androidCallback(guid, data) {
-    callbacks[guid](data);
-    callbacks[guid] = null;
-}
-function callAndroid(verb, url, data) {
-    if (data === void 0) { data = null; }
-    var newGuid = utils_1.guid();
-    var deferred = $.Deferred();
-    callbacks[newGuid] = function (result) {
-        deferred.resolveWith(result);
-    };
-    var messgeToPost = {
-        guid: newGuid,
-        url: url,
-        data: data,
-        verb: verb
-    };
-    InteractivesInterface.handleAsync(messgeToPost);
-    return deferred.promise();
-}
-function InteractivesInterfaceIsDefined() {
-    return typeof InteractivesInterface !== 'undefined';
-}
+var android_async_1 = _dereq_('./android-async');
 function get(func, param, expectJson) {
     if (param === void 0) { param = null; }
     if (expectJson === void 0) { expectJson = true; }
@@ -462,8 +463,8 @@ function post(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
-    if (InteractivesInterfaceIsDefined()) {
-        callAndroid('POST', url, data)
+    if (android_async_1.InteractivesInterfaceIsDefined()) {
+        android_async_1.callAndroid('POST', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
             if (resultJSON.status >= 200 && resultJSON.status < 300) {
@@ -503,7 +504,7 @@ function ddelete(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
-    if (InteractivesInterfaceIsDefined()) {
+    if (android_async_1.InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.delete(url, JSON.stringify(data));
         var resultJSON = JSON.parse(result);
         if (resultJSON.status === 200 || resultJSON.status === 202) {
@@ -543,7 +544,7 @@ function put(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
-    if (InteractivesInterfaceIsDefined()) {
+    if (android_async_1.InteractivesInterfaceIsDefined()) {
         var result = InteractivesInterface.put(url, JSON.stringify(data));
         var resultJSON = JSON.parse(result);
         if (resultJSON.status === 200 || resultJSON.status === 202) {
@@ -588,7 +589,7 @@ function showUI(name, x, y, width, height) {
 }
 exports.showUI = showUI;
 
-},{"./commandSupport":5,"./device":9,"./utils":31}],18:[function(_dereq_,module,exports){
+},{"./android-async":2,"./commandSupport":6,"./device":10}],19:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getItem(id) {
@@ -612,7 +613,7 @@ function getRecentlyCreatedContent() {
 }
 exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
-},{"./internalMethods":17}],19:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],20:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 var device_1 = _dereq_('./device');
@@ -707,7 +708,7 @@ function deleteKey(key) {
 }
 exports.deleteKey = deleteKey;
 
-},{"./device":9,"./internalMethods":17}],20:[function(_dereq_,module,exports){
+},{"./device":10,"./internalMethods":18}],21:[function(_dereq_,module,exports){
 "use strict";
 var item_1 = _dereq_('./item');
 var device_1 = _dereq_('./device');
@@ -790,7 +791,7 @@ function browse() {
 }
 exports.browse = browse;
 
-},{"./device":9,"./item":18}],21:[function(_dereq_,module,exports){
+},{"./device":10,"./item":19}],22:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function addNotification(id) {
@@ -810,7 +811,7 @@ function showNotificationManager(x, y, width, height) {
 }
 exports.showNotificationManager = showNotificationManager;
 
-},{"./internalMethods":17}],22:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],23:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getOnlineStatus(argument) {
@@ -819,7 +820,7 @@ function getOnlineStatus(argument) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":17}],23:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],24:[function(_dereq_,module,exports){
 "use strict";
 var utils_1 = _dereq_('./utils');
 function openWindow(url) {
@@ -828,7 +829,7 @@ function openWindow(url) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = openWindow;
 
-},{"./utils":31}],24:[function(_dereq_,module,exports){
+},{"./utils":32}],25:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function postAction(options) {
@@ -844,7 +845,7 @@ function postPageView(id, page) {
 }
 exports.postPageView = postPageView;
 
-},{"./internalMethods":17}],25:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],26:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function postEvent(key, properties) {
@@ -852,7 +853,7 @@ function postEvent(key, properties) {
 }
 exports.postEvent = postEvent;
 
-},{"./internalMethods":17}],26:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],27:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getPage(term, offset, limit) {
@@ -897,7 +898,7 @@ function showSearch(x, y, width, height) {
 }
 exports.showSearch = showSearch;
 
-},{"./internalMethods":17}],27:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],28:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getValuesWithPrefix(prefix) {
@@ -938,7 +939,7 @@ function deleteSyncedKey(key) {
 }
 exports.deleteSyncedKey = deleteSyncedKey;
 
-},{"./internalMethods":17}],28:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],29:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getSystemInfo() {
@@ -947,7 +948,7 @@ function getSystemInfo() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
-},{"./internalMethods":17}],29:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],30:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 //This endpoint is only implemented in Viewer and should be deprecated
@@ -961,7 +962,7 @@ function updateItemMetadata(id, metadata) {
 }
 exports.updateItemMetadata = updateItemMetadata;
 
-},{"./internalMethods":17}],30:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],31:[function(_dereq_,module,exports){
 "use strict";
 var internalMethods_1 = _dereq_('./internalMethods');
 function getUploadUrl(key) {
@@ -970,7 +971,7 @@ function getUploadUrl(key) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
-},{"./internalMethods":17}],31:[function(_dereq_,module,exports){
+},{"./internalMethods":18}],32:[function(_dereq_,module,exports){
 "use strict";
 function guid() {
     function s4() {
@@ -983,7 +984,7 @@ function guid() {
 }
 exports.guid = guid;
 
-},{}],32:[function(_dereq_,module,exports){
+},{}],33:[function(_dereq_,module,exports){
 "use strict";
 var packageJson = _dereq_('../../package.json');
 function version() {
@@ -992,7 +993,7 @@ function version() {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = version;
 
-},{"../../package.json":34}],33:[function(_dereq_,module,exports){
+},{"../../package.json":35}],34:[function(_dereq_,module,exports){
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
@@ -1073,7 +1074,7 @@ $.extend(mflyCommands, appFeatures);
 $.extend(mflyCommands, updateMetadata);
 module.exports = mflyCommands;
 
-},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/collections":4,"./commands/controls":6,"./commands/copy":7,"./commands/credentials":8,"./commands/device":9,"./commands/downloader":10,"./commands/email":11,"./commands/embed":12,"./commands/filter":13,"./commands/folder":14,"./commands/gpsCoordinates":15,"./commands/interactiveInfo":16,"./commands/item":18,"./commands/localKeyValueStorage":19,"./commands/navigation":20,"./commands/notification":21,"./commands/onlineStatus":22,"./commands/openWindow":23,"./commands/postAction":24,"./commands/postEvent":25,"./commands/search":26,"./commands/syncedKeyValueStorage":27,"./commands/systemInfo":28,"./commands/updateMetadata":29,"./commands/uploadUrl":30,"./commands/version":32}],34:[function(_dereq_,module,exports){
+},{"./commands/accountInfo":1,"./commands/appFeatures":3,"./commands/applicationSync":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/gpsCoordinates":16,"./commands/interactiveInfo":17,"./commands/item":19,"./commands/localKeyValueStorage":20,"./commands/navigation":21,"./commands/notification":22,"./commands/onlineStatus":23,"./commands/openWindow":24,"./commands/postAction":25,"./commands/postEvent":26,"./commands/search":27,"./commands/syncedKeyValueStorage":28,"./commands/systemInfo":29,"./commands/updateMetadata":30,"./commands/uploadUrl":31,"./commands/version":33}],35:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
   "version": "3.0.0",
@@ -1118,5 +1119,5 @@ module.exports={
   }
 }
 
-},{}]},{},[33])(33)
+},{}]},{},[34])(34)
 });

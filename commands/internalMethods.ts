@@ -4,6 +4,7 @@ import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
 import { callAndroid, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './android-async'
 
+declare const InteractivesInterface: any
 export function get(func, param = null, expectJson = true) {
 	var prefix = device.getPrefix()
 	var url = prefix + func + (param === null ? '' : '/' + param)

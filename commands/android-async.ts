@@ -24,13 +24,7 @@ export function callAndroid(verb, url, data = null) {
 		deferred.resolveWith(result)
 	}
 
-	var messgeToPost = {
-		guid: newGuid,
-		url,
-		data,
-		verb
-	}
-	InteractivesInterface.handleAsync(guid, url, verb, data)
+	InteractivesInterface.handleAsync(guid, url, verb, JSON.stringify(data))
 
 	return deferred.promise()
 }

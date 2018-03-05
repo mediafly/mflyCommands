@@ -24,7 +24,7 @@ export function callAndroid(verb, url, data = null) {
 		deferred.resolveWith(result)
 	}
 
-	InteractivesInterface.handleAsync(guid, url, verb, JSON.stringify(data))
+	InteractivesInterface.handleAsync(newGuid, url, verb, JSON.stringify(data))
 
 	return deferred.promise()
 }

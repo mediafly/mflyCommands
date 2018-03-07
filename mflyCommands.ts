@@ -35,8 +35,10 @@ import getCredentials from './commands/credentials'
 import version from './commands/version'
 import copy from './commands/copy'
 import * as updateMetadata from './commands/updateMetadata'
+import { androidCallback } from './commands/android-async'
 
 var mflyCommands = {
+	androidCallback,
 	close,
 	copy,
 	getInteractiveInfo,

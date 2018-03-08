@@ -21,7 +21,7 @@ export function callAsync(verb, url, data = null) {
 	var deferred = $.Deferred()
 
 	callbacks[newGuid] = (result: string) => {
-		deferred.resolveWith(result)
+		deferred.resolve(result)
 	}
 
 	InteractivesInterface.handleAsync(newGuid, url, verb, JSON.stringify(data))

@@ -69,7 +69,7 @@ function callAsync(verb, url, data) {
     var newGuid = utils_1.guid();
     var deferred = $.Deferred();
     callbacks[newGuid] = function (result) {
-        deferred.resolveWith(result);
+        deferred.resolve(result);
     };
     InteractivesInterface.handleAsync(newGuid, url, verb, JSON.stringify(data));
     return deferred.promise();

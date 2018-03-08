@@ -467,7 +467,7 @@ function post(func, data) {
         async_1.callAsync('POST', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
-            if (resultJSON.status >= 200 && resultJSON.status < 300) {
+            if (resultJSON.status < 300) {
                 deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
             }
             else {
@@ -509,7 +509,7 @@ function ddelete(func, data) {
         async_1.callAsync('DELETE', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
-            if (resultJSON.status >= 200 && resultJSON.status < 300) {
+            if (resultJSON.status < 300) {
                 deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
             }
             else {
@@ -552,7 +552,7 @@ function put(func, data) {
         async_1.callAsync('PUT', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
-            if (resultJSON.status >= 200 && resultJSON.status < 300) {
+            if (resultJSON.status < 300) {
                 deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
             }
             else {

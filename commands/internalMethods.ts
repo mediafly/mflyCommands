@@ -56,7 +56,7 @@ export function post(func: string, data?) {
 			.then((result: any) => {
 
 				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-				if(resultJSON.status >= 200 && resultJSON.status < 300) {
+				if(resultJSON.status < 300) {
 					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 				} else {
 					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
@@ -101,7 +101,7 @@ export function ddelete(func, data?) {
 		callAsync('DELETE', url, data)
 			.then((result: any) => {
 				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-				if(resultJSON.status >= 200 && resultJSON.status < 300) {
+				if(resultJSON.status < 300) {
 					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 				} else {
 					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
@@ -145,7 +145,7 @@ export function put(func, data = null) {
 		callAsync('PUT', url, data)
 			.then((result: any) => {
 				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-				if(resultJSON.status >= 200 && resultJSON.status < 300) {
+				if(resultJSON.status < 300) {
 					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 				} else {
 					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])

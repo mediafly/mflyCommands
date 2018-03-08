@@ -10,12 +10,12 @@ export interface InteractivesInterfaceResponse {
 // dictionary guid -> anon funcions
 var callbacks = {}
 
-export function androidCallback(guid, data) {
+export function asyncCallback(guid, data) {
 	callbacks[guid](data)
 	callbacks[guid] = null
 }
 
-export function callAndroid(verb, url, data = null) {
+export function callAsync(verb, url, data = null) {
 
 	var newGuid = guid()
 	var deferred = $.Deferred()

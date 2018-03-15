@@ -1,6 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getUserInfo() {
     return internalMethods_1.get('account');
 }
@@ -12,7 +13,8 @@ exports.logout = logout;
 
 },{"./internalMethods":18}],2:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function showSettings(x, y, width, height) {
     return internalMethods_1.showUI('app-settings', x, y, width, height);
 }
@@ -44,7 +46,8 @@ exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
 
 },{"./internalMethods":18}],3:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function refresh() {
     return internalMethods_1.post('sync');
 }
@@ -56,7 +59,8 @@ exports.getSyncStatus = getSyncStatus;
 
 },{"./internalMethods":18}],4:[function(_dereq_,module,exports){
 "use strict";
-var utils_1 = _dereq_('./utils');
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = _dereq_("./utils");
 // dictionary guid -> anon funcions
 var callbacks = {};
 function asyncCallback(guid, data) {
@@ -71,18 +75,31 @@ function callAsync(verb, url, data) {
     callbacks[newGuid] = function (result) {
         deferred.resolve(result);
     };
-    InteractivesInterface.handleAsync(newGuid, url, verb, JSON.stringify(data));
+    if (checkiOS() == true) {
+        var message = { 'guid': newGuid, 'url': url, 'verb': verb, 'data': data };
+        window['webkit'].messageHandlers.HTMLtoiOS.postMessage(message);
+    }
+    else {
+        InteractivesInterface.handleAsync(newGuid, url, verb, JSON.stringify(data));
+    }
     return deferred.promise();
 }
 exports.callAsync = callAsync;
-function InteractivesInterfaceIsDefined() {
-    return typeof InteractivesInterface !== 'undefined';
+function ShouldInterfaceViaAsyncCallbacks(verb) {
+    return checkAndroid(verb) || checkiOS();
 }
-exports.InteractivesInterfaceIsDefined = InteractivesInterfaceIsDefined;
+exports.ShouldInterfaceViaAsyncCallbacks = ShouldInterfaceViaAsyncCallbacks;
+function checkAndroid(verb) {
+    return typeof InteractivesInterface !== 'undefined' && verb != 'GET';
+}
+function checkiOS() {
+    return window['webkit'].messageHandlers !== 'undefined';
+}
 
 },{"./utils":32}],5:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getCollections() {
     return internalMethods_1.get('collections');
 }
@@ -128,7 +145,8 @@ exports.showAddToCollection = showAddToCollection;
 
 },{"./internalMethods":18}],6:[function(_dereq_,module,exports){
 "use strict";
-var device_1 = _dereq_('./device');
+Object.defineProperty(exports, "__esModule", { value: true });
+var device_1 = _dereq_("./device");
 function isUnsupported(url) {
     if (!device_1.isWeb()) {
         return false;
@@ -145,7 +163,8 @@ exports.isUnsupported = isUnsupported;
 
 },{"./device":10}],7:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function showControlBars() {
     return internalMethods_1.post('control/show-ui', {
         ui: 'control-bar',
@@ -163,8 +182,9 @@ exports.hideControlBars = hideControlBars;
 
 },{"./internalMethods":18}],8:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
-var updateMetadata_1 = _dereq_('./updateMetadata');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
+var updateMetadata_1 = _dereq_("./updateMetadata");
 function copy(parentId, slug, name) {
     var action = internalMethods_1.post("items/copy", { parentId: parentId, slug: slug, name: name });
     if (name) {
@@ -172,20 +192,20 @@ function copy(parentId, slug, name) {
     }
     return action;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = copy;
 
 },{"./internalMethods":18,"./updateMetadata":30}],9:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getCredentials() {
     return internalMethods_1.get('credentials');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getCredentials;
 
 },{"./internalMethods":18}],10:[function(_dereq_,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
 exports.deviceTypes = {
@@ -238,7 +258,8 @@ exports.getPrefix = getPrefix;
 
 },{}],11:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function showDownloader(x, y, width, height) {
     return internalMethods_1.showUI('downloads', x, y, width, height);
 }
@@ -258,7 +279,8 @@ exports.removeFromDownloader = removeFromDownloader;
 
 },{"./internalMethods":18}],12:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function sendEmail(options) {
     return internalMethods_1.post('email', options);
 }
@@ -270,8 +292,9 @@ exports.getEmailStatus = getEmailStatus;
 
 },{"./internalMethods":18}],13:[function(_dereq_,module,exports){
 "use strict";
-var device_1 = _dereq_('./device');
-var item_1 = _dereq_('./item');
+Object.defineProperty(exports, "__esModule", { value: true });
+var device_1 = _dereq_("./device");
+var item_1 = _dereq_("./item");
 function embed(element, id, page) {
     item_1.getItem(id).then(function (i) {
         var pageArg = page ? "?page=" + page : '';
@@ -345,7 +368,8 @@ exports.getData = getData;
 
 },{"./device":10,"./item":19}],14:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function objToString(obj) {
     var result = '';
     for (var key in obj) {
@@ -387,42 +411,43 @@ function filter(obj, offset, limit) {
         return getPage(obj, offset, limit);
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = filter;
 
 },{"./internalMethods":18}],15:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getFolder(id) {
     return internalMethods_1.get('items', id + "/items");
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getFolder;
 
 },{"./internalMethods":18}],16:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getGpsCoordinates() {
     return internalMethods_1.get('system', 'gps');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGpsCoordinates;
 
 },{"./internalMethods":18}],17:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getInteractiveInfo() {
     return internalMethods_1.get('interactive');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getInteractiveInfo;
 
 },{"./internalMethods":18}],18:[function(_dereq_,module,exports){
 "use strict";
-var device = _dereq_('./device');
-var commandSupport_1 = _dereq_('./commandSupport');
-var async_1 = _dereq_('./async');
+Object.defineProperty(exports, "__esModule", { value: true });
+var device = _dereq_("./device");
+var commandSupport_1 = _dereq_("./commandSupport");
+var async_1 = _dereq_("./async");
 function get(func, param, expectJson) {
+    var _this = this;
     if (param === void 0) { param = null; }
     if (expectJson === void 0) { expectJson = true; }
     var prefix = device.getPrefix();
@@ -431,27 +456,41 @@ function get(func, param, expectJson) {
         throw new Error('This method is not supported on this platform.');
     }
     var deferred = $.Deferred();
-    $.ajax({
-        url: url,
-        success: function (data, textStatus, request) {
-            // Content retrieved. Transform to JSON if supposed to.
-            if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
-                // This was sent back as text/html JSON.parse it to a JSON object.
-                data = JSON.parse(data);
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        async_1.callAsync('GET', url, null)
+            .then(function (result) {
+            var resultJSON = JSON.parse(result);
+            if (resultJSON.status < 300) {
+                deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
             }
-            // Resolve the promise.
-            deferred.resolveWith(this, [data, request.status]);
-        },
-        error: function (data, status, request) {
-            // Content could not be retrieved. Reject the promise.
-            if (device.isWeb() && data.status === 401) {
-                // Viewer does not have an authenticated session. Take user to Viewer root.
-                sessionStorage.setItem('returnUrl', window.location.href);
-                window.location.replace(data.responseJSON.returnUrl);
+            else {
+                deferred.rejectWith(_this, [resultJSON.data, resultJSON.status]);
             }
-            deferred.reject(this, [request, data.status]);
-        }
-    });
+        });
+    }
+    else {
+        $.ajax({
+            url: url,
+            success: function (data, textStatus, request) {
+                // Content retrieved. Transform to JSON if supposed to.
+                if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
+                    // This was sent back as text/html JSON.parse it to a JSON object.
+                    data = JSON.parse(data);
+                }
+                // Resolve the promise.
+                deferred.resolveWith(this, [data, request.status]);
+            },
+            error: function (data, status, request) {
+                // Content could not be retrieved. Reject the promise.
+                if (device.isWeb() && data.status === 401) {
+                    // Viewer does not have an authenticated session. Take user to Viewer root.
+                    sessionStorage.setItem('returnUrl', window.location.href);
+                    window.location.replace(data.responseJSON.returnUrl);
+                }
+                deferred.reject(this, [request, data.status]);
+            }
+        });
+    }
     return deferred.promise();
 }
 exports.get = get;
@@ -463,7 +502,7 @@ function post(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
-    if (async_1.InteractivesInterfaceIsDefined()) {
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('POST')) {
         async_1.callAsync('POST', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
@@ -505,7 +544,7 @@ function ddelete(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
-    if (async_1.InteractivesInterfaceIsDefined()) {
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('DELETE')) {
         async_1.callAsync('DELETE', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
@@ -548,7 +587,7 @@ function put(func, data) {
     if (commandSupport_1.isUnsupported(url)) {
         throw new Error('This method is not supported on this platform.');
     }
-    if (async_1.InteractivesInterfaceIsDefined()) {
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('PUT')) {
         async_1.callAsync('PUT', url, data)
             .then(function (result) {
             var resultJSON = JSON.parse(result);
@@ -597,7 +636,8 @@ exports.showUI = showUI;
 
 },{"./async":4,"./commandSupport":6,"./device":10}],19:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getItem(id) {
     return internalMethods_1.get('items', id);
 }
@@ -621,8 +661,9 @@ exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
 },{"./internalMethods":18}],20:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
-var device_1 = _dereq_('./device');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
+var device_1 = _dereq_("./device");
 var useLocalStorage = device_1.isWeb() || device_1.isDesktop();
 function getValuesWithPrefix(prefix) {
     if (useLocalStorage) {
@@ -716,8 +757,9 @@ exports.deleteKey = deleteKey;
 
 },{"./device":10,"./internalMethods":18}],21:[function(_dereq_,module,exports){
 "use strict";
-var item_1 = _dereq_('./item');
-var device_1 = _dereq_('./device');
+Object.defineProperty(exports, "__esModule", { value: true });
+var item_1 = _dereq_("./item");
+var device_1 = _dereq_("./device");
 function preserveContext(url) {
     if ((device_1.isWeb() || device_1.isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
         var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
@@ -799,7 +841,8 @@ exports.browse = browse;
 
 },{"./device":10,"./item":19}],22:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function addNotification(id) {
     return internalMethods_1.post("notifications/" + id);
 }
@@ -819,25 +862,26 @@ exports.showNotificationManager = showNotificationManager;
 
 },{"./internalMethods":18}],23:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getOnlineStatus(argument) {
     return internalMethods_1.get('system', 'online-status');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getOnlineStatus;
 
 },{"./internalMethods":18}],24:[function(_dereq_,module,exports){
 "use strict";
-var utils_1 = _dereq_('./utils');
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = _dereq_("./utils");
 function openWindow(url) {
     return window.open(url, "InteractivesWindow" + utils_1.guid());
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = openWindow;
 
 },{"./utils":32}],25:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function postAction(options) {
     return internalMethods_1.post('actions', options);
 }
@@ -853,7 +897,8 @@ exports.postPageView = postPageView;
 
 },{"./internalMethods":18}],26:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function postEvent(key, properties) {
     return internalMethods_1.post("events", { key: key, properties: JSON.stringify(properties) });
 }
@@ -861,7 +906,8 @@ exports.postEvent = postEvent;
 
 },{"./internalMethods":18}],27:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getPage(term, offset, limit) {
     var obj = {
         term: term,
@@ -906,7 +952,8 @@ exports.showSearch = showSearch;
 
 },{"./internalMethods":18}],28:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getValuesWithPrefix(prefix) {
     return internalMethods_1.get("syncedinfo?prefix=" + prefix);
 }
@@ -947,16 +994,17 @@ exports.deleteSyncedKey = deleteSyncedKey;
 
 },{"./internalMethods":18}],29:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getSystemInfo() {
     return internalMethods_1.get('system');
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getSystemInfo;
 
 },{"./internalMethods":18}],30:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 //This endpoint is only implemented in Viewer and should be deprecated
 //in favor of updateItemMetadata
 function updateMetadata(id, metadata) {
@@ -970,15 +1018,16 @@ exports.updateItemMetadata = updateItemMetadata;
 
 },{"./internalMethods":18}],31:[function(_dereq_,module,exports){
 "use strict";
-var internalMethods_1 = _dereq_('./internalMethods');
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
 function getUploadUrl(key) {
     return internalMethods_1.get('system', "uploadurl?key=" + key);
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getUploadUrl;
 
 },{"./internalMethods":18}],32:[function(_dereq_,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -992,52 +1041,52 @@ exports.guid = guid;
 
 },{}],33:[function(_dereq_,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var packageJson = _dereq_('../../package.json');
 function version() {
     return packageJson.version;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = version;
 
 },{"../../package.json":35}],34:[function(_dereq_,module,exports){
+"use strict";
 /**
  * (c) 2013-2016, Mediafly, Inc.
  * mflyCommands is a singleton instance which wraps common mfly calls into a JavaScript object.
  * Before use, please be sure to call setPrefix if you are working on a development platform (e.g.
  * a local webserver on a PC) for example, http://localhost:8000/ .
  */
-"use strict";
-var interactiveInfo_1 = _dereq_('./commands/interactiveInfo');
-var systemInfo_1 = _dereq_('./commands/systemInfo');
-var onlineStatus_1 = _dereq_('./commands/onlineStatus');
-var uploadUrl_1 = _dereq_('./commands/uploadUrl');
-var item = _dereq_('./commands/item');
-var collections = _dereq_('./commands/collections');
-var folder_1 = _dereq_('./commands/folder');
-var filter_1 = _dereq_('./commands/filter');
-var gpsCoordinates_1 = _dereq_('./commands/gpsCoordinates');
-var search_1 = _dereq_('./commands/search');
-var navigation_1 = _dereq_('./commands/navigation');
-var downloader = _dereq_('./commands/downloader');
-var notification = _dereq_('./commands/notification');
-var accountInfo = _dereq_('./commands/accountInfo');
-var localKeyValueStorage = _dereq_('./commands/localKeyValueStorage');
-var syncedKeyValueStorage = _dereq_('./commands/syncedKeyValueStorage');
-var applicationSync = _dereq_('./commands/applicationSync');
-var navigation = _dereq_('./commands/navigation');
-var appFeatures = _dereq_('./commands/appFeatures');
-var controls_1 = _dereq_('./commands/controls');
-var embed_1 = _dereq_('./commands/embed');
-var postAction_1 = _dereq_('./commands/postAction');
-var postEvent_1 = _dereq_('./commands/postEvent');
-var device_1 = _dereq_('./commands/device');
-var openWindow_1 = _dereq_('./commands/openWindow');
-var email_1 = _dereq_('./commands/email');
-var credentials_1 = _dereq_('./commands/credentials');
-var version_1 = _dereq_('./commands/version');
-var copy_1 = _dereq_('./commands/copy');
-var updateMetadata = _dereq_('./commands/updateMetadata');
-var async_1 = _dereq_('./commands/async');
+var interactiveInfo_1 = _dereq_("./commands/interactiveInfo");
+var systemInfo_1 = _dereq_("./commands/systemInfo");
+var onlineStatus_1 = _dereq_("./commands/onlineStatus");
+var uploadUrl_1 = _dereq_("./commands/uploadUrl");
+var item = _dereq_("./commands/item");
+var collections = _dereq_("./commands/collections");
+var folder_1 = _dereq_("./commands/folder");
+var filter_1 = _dereq_("./commands/filter");
+var gpsCoordinates_1 = _dereq_("./commands/gpsCoordinates");
+var search_1 = _dereq_("./commands/search");
+var navigation_1 = _dereq_("./commands/navigation");
+var downloader = _dereq_("./commands/downloader");
+var notification = _dereq_("./commands/notification");
+var accountInfo = _dereq_("./commands/accountInfo");
+var localKeyValueStorage = _dereq_("./commands/localKeyValueStorage");
+var syncedKeyValueStorage = _dereq_("./commands/syncedKeyValueStorage");
+var applicationSync = _dereq_("./commands/applicationSync");
+var navigation = _dereq_("./commands/navigation");
+var appFeatures = _dereq_("./commands/appFeatures");
+var controls_1 = _dereq_("./commands/controls");
+var embed_1 = _dereq_("./commands/embed");
+var postAction_1 = _dereq_("./commands/postAction");
+var postEvent_1 = _dereq_("./commands/postEvent");
+var device_1 = _dereq_("./commands/device");
+var openWindow_1 = _dereq_("./commands/openWindow");
+var email_1 = _dereq_("./commands/email");
+var credentials_1 = _dereq_("./commands/credentials");
+var version_1 = _dereq_("./commands/version");
+var copy_1 = _dereq_("./commands/copy");
+var updateMetadata = _dereq_("./commands/updateMetadata");
+var async_1 = _dereq_("./commands/async");
 var mflyCommands = {
     asyncCallback: async_1.asyncCallback,
     close: navigation_1.close,
@@ -1119,11 +1168,12 @@ module.exports={
     "jquery": "3.3.1"
   },
   "devDependencies": {
+    "@types/jquery": "3.3.1",
     "browserify": "13.1.0",
     "browserify-shim": "3.8.12",
     "chokidar-cli": "1.2.0",
     "derequire": "^2.0.6",
-    "typescript": "2.0.3"
+    "typescript": "2.7.2"
   }
 }
 

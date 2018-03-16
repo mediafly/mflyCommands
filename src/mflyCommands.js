@@ -93,7 +93,13 @@ function checkAndroid(verb) {
     return typeof InteractivesInterface !== 'undefined' && verb != 'GET';
 }
 function checkiOS() {
-    return window['webkit'].messageHandlers !== 'undefined';
+    var webkit = window['webkit'];
+    if (webkit !== 'undefined' && webkit.messageHandlers !== 'undefined') {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 },{"./utils":32}],5:[function(_dereq_,module,exports){

@@ -2,16 +2,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
+var async_1 = _dereq_("./async");
 function getUserInfo() {
     return internalMethods_1.get('account');
 }
 exports.getUserInfo = getUserInfo;
 function logout() {
-    window.location.href = '/interactive-redirect/v5/account/logout';
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        // TODO handle async
+    }
+    else {
+        window.location.href = '/interactive-redirect/v5/account/logout';
+    }
 }
 exports.logout = logout;
 
-},{"./internalMethods":18}],2:[function(_dereq_,module,exports){
+},{"./async":4,"./internalMethods":18}],2:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -94,7 +100,7 @@ function checkAndroid(verb) {
 }
 function checkiOS() {
     var webkit = window['webkit'];
-    if (webkit !== 'undefined' && webkit.messageHandlers !== 'undefined') {
+    if (typeof webkit !== 'undefined' && typeof webkit.messageHandlers !== 'undefined') {
         return true;
     }
     else {
@@ -766,6 +772,7 @@ exports.deleteKey = deleteKey;
 Object.defineProperty(exports, "__esModule", { value: true });
 var item_1 = _dereq_("./item");
 var device_1 = _dereq_("./device");
+var async_1 = _dereq_("./async");
 function preserveContext(url) {
     if ((device_1.isWeb() || device_1.isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
         var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
@@ -800,40 +807,65 @@ function preserveContext(url) {
     return url;
 }
 function close() {
-    var url = preserveContext('/interactive-redirect/v5/items/__self__/back');
-    window.location.href = url;
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        // TODO handle async
+    }
+    else {
+        var url = preserveContext('/interactive-redirect/v5/items/__self__/back');
+        window.location.href = url;
+    }
 }
 exports.close = close;
 function next() {
-    var url = preserveContext('/interactive-redirect/v5/items/__self__/next');
-    window.location.href = url;
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        // TODO handle async
+    }
+    else {
+        var url = preserveContext('/interactive-redirect/v5/items/__self__/next');
+        window.location.href = url;
+    }
 }
 exports.next = next;
 function previous() {
-    var url = preserveContext('/interactive-redirect/v5/items/__self__/previous');
-    window.location.href = url;
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        // TODO handle async
+    }
+    else {
+        var url = preserveContext('/interactive-redirect/v5/items/__self__/previous');
+        window.location.href = url;
+    }
 }
 exports.previous = previous;
 function openItem(id, bookmark) {
-    item_1.getItem(id).then(function (item) {
-        var params = {};
-        var url = item.url;
-        if (device_1.isWeb() || device_1.isDesktop()) {
-            params['returnurl'] = window.location.href;
-        }
-        if (bookmark) {
-            params['bookmark'] = bookmark;
-        }
-        url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params);
-        window.location.href = window.location.protocol + "//" + window.location.host + url;
-    });
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        // TODO handle async
+    }
+    else {
+        item_1.getItem(id).then(function (item) {
+            var params = {};
+            var url = item.url;
+            if (device_1.isWeb() || device_1.isDesktop()) {
+                params['returnurl'] = window.location.href;
+            }
+            if (bookmark) {
+                params['bookmark'] = bookmark;
+            }
+            url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params);
+            window.location.href = window.location.protocol + "//" + window.location.host + url;
+        });
+    }
 }
 exports.openItem = openItem;
 exports.open = openItem;
 function openFolder(id) {
-    item_1.getItem(id).then(function (item) {
-        window.location.href = item.url;
-    });
+    if (async_1.ShouldInterfaceViaAsyncCallbacks('GET')) {
+        // TODO handle async
+    }
+    else {
+        item_1.getItem(id).then(function (item) {
+            window.location.href = item.url;
+        });
+    }
 }
 exports.openFolder = openFolder;
 function goto() {
@@ -845,7 +877,7 @@ function browse() {
 }
 exports.browse = browse;
 
-},{"./device":10,"./item":19}],22:[function(_dereq_,module,exports){
+},{"./async":4,"./device":10,"./item":19}],22:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");

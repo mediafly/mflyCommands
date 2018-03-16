@@ -44,7 +44,7 @@ function checkAndroid(verb) {
 
 function checkiOS() {
     var webkit = window['webkit']
-    if (webkit !== 'undefined' && webkit.messageHandlers !== 'undefined') {
+    if (typeof webkit !== 'undefined' && typeof webkit.messageHandlers !== 'undefined') {
         return true
     } else {
         return false

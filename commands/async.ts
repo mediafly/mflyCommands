@@ -43,5 +43,10 @@ function checkAndroid(verb) {
 }
 
 function checkiOS() {
-    return window['webkit'].messageHandlers !== 'undefined';
+    var webkit = window['webkit']
+    if (webkit !== 'undefined' && webkit.messageHandlers !== 'undefined') {
+        return true
+    } else {
+        return false
+    }
 }

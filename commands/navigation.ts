@@ -58,15 +58,46 @@ export function previous() {
 	window.location.href = url
 }
 
-export function openItem(id, bookmark) {
+interface OpenItemOptions {
+	bookmark?: number
+	context?: 'collection' | 'folder' | 'search' | 'searchFolder'
+	collectionSlug?: string
+	searchTerm?: string
+	parentSlug?: string
+	returnurl?: string
+}
+
+export function openItem(id, options: number | OpenItemOptions) {
 	getItem(id).then(item => {
-		var params = {}
+		var params: OpenItemOptions = {}
 		var url = item.url
 		if (isWeb() || isDesktop()) {
-			params['returnurl'] = window.location.href
+			params.returnurl = window.location.href
 		}
-		if (bookmark) {
-			params['bookmark'] = bookmark
+		// Backwards compatiblity where bookmark is the second param
+		if (typeof options === 'number') {
+			params.bookmark = options
+		} else if (typeof options === 'object') {
+			const openItemOptions = options as OpenItemOptions
+
+			if (openItemOptions.bookmark) {
+				params.bookmark = options.bookmark
+			}
+
+			if (openItemOptions.context === 'collection') {
+				params.context = 'collection'
+				params.collectionSlug = openItemOptions.collectionSlug
+			}
+
+			if (openItemOptions.context === 'search') {
+				params.context = 'search'
+				params.searchTerm = openItemOptions.searchTerm
+			}
+
+			if (openItemOptions.context === 'searchFolder') {
+				params.context = 'searchFolder'
+				params.collectionSlug = openItemOptions.parentSlug
+			}
 		}
 		url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params)
 

@@ -61,13 +61,13 @@ export function previous() {
 interface OpenItemOptions {
 	bookmark?: number
 	context?: 'collection' | 'folder' | 'search' | 'searchFolder'
-	collectionSlug?: string
-	searchTerm?: string
+	collection?: string
+	search?: string
 	parentSlug?: string
 	returnurl?: string
 }
 
-export function openItem(id, options: number | OpenItemOptions) {
+export function open(id, options: number | OpenItemOptions) {
 	getItem(id).then(item => {
 		var params: OpenItemOptions = {}
 		var url = item.url
@@ -85,18 +85,15 @@ export function openItem(id, options: number | OpenItemOptions) {
 			}
 
 			if (openItemOptions.context === 'collection') {
-				params.context = 'collection'
-				params.collectionSlug = openItemOptions.collectionSlug
+				params.collection = openItemOptions.collection
 			}
 
 			if (openItemOptions.context === 'search') {
-				params.context = 'search'
-				params.searchTerm = openItemOptions.searchTerm
+				params.search = openItemOptions.search
 			}
 
 			if (openItemOptions.context === 'searchFolder') {
-				params.context = 'searchFolder'
-				params.collectionSlug = openItemOptions.parentSlug
+				params.parentSlug = openItemOptions.parentSlug
 			}
 		}
 		url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params)
@@ -104,8 +101,6 @@ export function openItem(id, options: number | OpenItemOptions) {
 		window.location.href = `${window.location.protocol}//${window.location.host}${url}`
 	})
 }
-
-export var open = openItem
 
 export function openFolder(id) {
 	getItem(id).then(item => {

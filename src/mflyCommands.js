@@ -747,7 +747,7 @@ function previous() {
     window.location.href = url;
 }
 exports.previous = previous;
-function openItem(id, options) {
+function open(id, options) {
     item_1.getItem(id).then(function (item) {
         var params = {};
         var url = item.url;
@@ -764,24 +764,20 @@ function openItem(id, options) {
                 params.bookmark = options.bookmark;
             }
             if (openItemOptions.context === 'collection') {
-                params.context = 'collection';
-                params.collectionSlug = openItemOptions.collectionSlug;
+                params.collection = openItemOptions.collection;
             }
             if (openItemOptions.context === 'search') {
-                params.context = 'search';
-                params.searchTerm = openItemOptions.searchTerm;
+                params.search = openItemOptions.search;
             }
             if (openItemOptions.context === 'searchFolder') {
-                params.context = 'searchFolder';
-                params.collectionSlug = openItemOptions.parentSlug;
+                params.parentSlug = openItemOptions.parentSlug;
             }
         }
         url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params);
         window.location.href = window.location.protocol + "//" + window.location.host + url;
     });
 }
-exports.openItem = openItem;
-exports.open = openItem;
+exports.open = open;
 function openFolder(id) {
     item_1.getItem(id).then(function (item) {
         window.location.href = item.url;

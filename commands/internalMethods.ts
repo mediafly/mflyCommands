@@ -2,18 +2,9 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
+import { callAsync, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './async'
 
 declare const InteractivesInterface: any
-
-interface InteractivesInterfaceResponse {
-	data: any
-	status: any
-}
-
-function InteractivesInterfaceIsDefined() {
-	return typeof InteractivesInterface !== 'undefined' 
-}
-
 export function get(func, param = null, expectJson = true) {
 	var prefix = device.getPrefix()
 	var url = prefix + func + (param === null ? '' : '/' + param)
@@ -61,13 +52,16 @@ export function post(func: string, data?) {
 	}
 
 	if (InteractivesInterfaceIsDefined()) {
-		const result : string = InteractivesInterface.post(url, JSON.stringify(data))
-		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		if(resultJSON.status >= 200 && resultJSON.status < 300) {
-			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-		} else {
-			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-		}
+		callAsync('POST', url, data)
+			.then((result: any) => {
+
+				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+				if(resultJSON.status < 300) {
+					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+				} else {
+					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+				}
+			})
 	} else {
 		$.ajax({
 			method: 'POST',
@@ -103,13 +97,16 @@ export function ddelete(func, data?) {
 	}
 
 	if (InteractivesInterfaceIsDefined()) {
-		const result : string = InteractivesInterface.delete(url, JSON.stringify(data))
-		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-		if(resultJSON.status === 200 || resultJSON.status === 202) {
-			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-		} else {
-			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-		}
+		
+		callAsync('DELETE', url, data)
+			.then((result: any) => {
+				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+				if(resultJSON.status < 300) {
+					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+				} else {
+					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+				}
+			})
 	} else {
 		$.ajax({
 			method: 'DELETE',
@@ -145,14 +142,15 @@ export function put(func, data = null) {
 	}
 
 	if (InteractivesInterfaceIsDefined()) {
-		const result : string = InteractivesInterface.put(url, JSON.stringify(data))
-		const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-
-		if(resultJSON.status === 200 || resultJSON.status === 202) {
-			deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-		} else {
-			deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-		}
+		callAsync('PUT', url, data)
+			.then((result: any) => {
+				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+				if(resultJSON.status < 300) {
+					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+				} else {
+					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+				}
+			})
 	} else {
 		$.ajax({
 			method: 'PUT',

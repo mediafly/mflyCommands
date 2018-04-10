@@ -6,7 +6,11 @@ interface Item {
 	url: string
 }
 
-import { get } from './internalMethods'
+import { get, post } from './internalMethods'
+
+export function createItem(item) : JQueryPromise<Item> {
+	return post('items', item)
+}
 
 export function getItem(id) : JQueryPromise<Item> {
 	return get('items', id)

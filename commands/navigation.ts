@@ -58,23 +58,49 @@ export function previous() {
 	window.location.href = url
 }
 
-export function openItem(id, bookmark) {
+interface OpenItemOptions {
+	bookmark?: number
+	context?: 'collection' | 'folder' | 'search' | 'searchFolder'
+	collection?: string
+	search?: string
+	parentSlug?: string
+	returnurl?: string
+}
+
+export function open(id, options?: number | OpenItemOptions) {
 	getItem(id).then(item => {
-		var params = {}
+		var params: OpenItemOptions = {}
 		var url = item.url
 		if (isWeb() || isDesktop()) {
-			params['returnurl'] = window.location.href
+			params.returnurl = window.location.href
 		}
-		if (bookmark) {
-			params['bookmark'] = bookmark
+		// Backwards compatiblity where bookmark is the second param
+		if (typeof options === 'number') {
+			params.bookmark = options
+		} else if (typeof options === 'object') {
+			const openItemOptions = options as OpenItemOptions
+
+			if (openItemOptions.bookmark) {
+				params.bookmark = options.bookmark
+			}
+
+			if (openItemOptions.context === 'collection') {
+				params.collection = openItemOptions.collection
+			}
+
+			if (openItemOptions.context === 'search') {
+				params.search = openItemOptions.search
+			}
+
+			if (openItemOptions.context === 'searchFolder') {
+				params.parentSlug = openItemOptions.parentSlug
+			}
 		}
 		url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params)
 
 		window.location.href = `${window.location.protocol}//${window.location.host}${url}`
 	})
 }
-
-export var open = openItem
 
 export function openFolder(id) {
 	getItem(id).then(item => {

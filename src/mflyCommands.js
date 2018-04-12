@@ -785,22 +785,37 @@ function previous() {
     window.location.href = url;
 }
 exports.previous = previous;
-function openItem(id, bookmark) {
+function open(id, options) {
     item_1.getItem(id).then(function (item) {
         var params = {};
         var url = item.url;
         if (device_1.isWeb() || device_1.isDesktop()) {
-            params['returnurl'] = window.location.href;
+            params.returnurl = window.location.href;
         }
-        if (bookmark) {
-            params['bookmark'] = bookmark;
+        // Backwards compatiblity where bookmark is the second param
+        if (typeof options === 'number') {
+            params.bookmark = options;
+        }
+        else if (typeof options === 'object') {
+            var openItemOptions = options;
+            if (openItemOptions.bookmark) {
+                params.bookmark = options.bookmark;
+            }
+            if (openItemOptions.context === 'collection') {
+                params.collection = openItemOptions.collection;
+            }
+            if (openItemOptions.context === 'search') {
+                params.search = openItemOptions.search;
+            }
+            if (openItemOptions.context === 'searchFolder') {
+                params.parentSlug = openItemOptions.parentSlug;
+            }
         }
         url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params);
         window.location.href = window.location.protocol + "//" + window.location.host + url;
     });
 }
-exports.openItem = openItem;
-exports.open = openItem;
+exports.open = open;
 function openFolder(id) {
     item_1.getItem(id).then(function (item) {
         window.location.href = item.url;

@@ -67,7 +67,7 @@ interface OpenItemOptions {
 	returnurl?: string
 }
 
-export function open(id, options: number | OpenItemOptions) {
+export function open(id, options?: number | OpenItemOptions) {
 	getItem(id).then(item => {
 		var params: OpenItemOptions = {}
 		var url = item.url

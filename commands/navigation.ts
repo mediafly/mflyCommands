@@ -102,6 +102,8 @@ export function open(id, options?: number | OpenItemOptions) {
 	})
 }
 
+export var openItem = open
+
 export function openFolder(id) {
 	getItem(id).then(item => {
 		window.location.href = item.url

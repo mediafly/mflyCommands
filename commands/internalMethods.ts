@@ -2,7 +2,7 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
-import { callAsync, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './async'
+import { callAsync, HandleAsyncIsDefined, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './async'
 
 declare const InteractivesInterface: any
 export function get(func, param = null, expectJson = true) {
@@ -52,16 +52,28 @@ export function post(func: string, data?) {
 	}
 
 	if (InteractivesInterfaceIsDefined()) {
-		callAsync('POST', url, data)
-			.then((result: any) => {
+		if (HandleAsyncIsDefined()) {
+			callAsync('POST', url, data)
+				.then((result: any) => {
 
-				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-				if(resultJSON.status < 300) {
-					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-				} else {
-					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-				}
-			})
+					const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+					if(resultJSON.status < 300) {
+						deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+					} else {
+						deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+					}
+				})
+		} else {
+			const result : string = InteractivesInterface.post(url, JSON.stringify(data))
+			const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+			if(resultJSON.status < 300) {
+				deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+			} else {
+				deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+			}
+		}
+
+
 	} else {
 		$.ajax({
 			method: 'POST',
@@ -83,7 +95,6 @@ export function post(func: string, data?) {
 		})
 	}
 
-
 	return deferred.promise()
 }
 
@@ -98,15 +109,26 @@ export function ddelete(func, data?) {
 
 	if (InteractivesInterfaceIsDefined()) {
 		
-		callAsync('DELETE', url, data)
-			.then((result: any) => {
-				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-				if(resultJSON.status < 300) {
-					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-				} else {
-					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-				}
-			})
+		if (HandleAsyncIsDefined()) {
+			callAsync('DELETE', url, data)
+				.then((result: any) => {
+					const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+					if(resultJSON.status < 300) {
+						deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+					} else {
+						deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+					}
+				})
+
+		} else {
+			const result : string = InteractivesInterface.delete(url, JSON.stringify(data))
+			const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+			if(resultJSON.status < 300) {
+				deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+			} else {
+				deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+			}
+		}
 	} else {
 		$.ajax({
 			method: 'DELETE',
@@ -128,7 +150,6 @@ export function ddelete(func, data?) {
 		})
 	}
 
-
 	return deferred.promise()
 }
 
@@ -142,15 +163,25 @@ export function put(func, data = null) {
 	}
 
 	if (InteractivesInterfaceIsDefined()) {
-		callAsync('PUT', url, data)
-			.then((result: any) => {
-				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
-				if(resultJSON.status < 300) {
-					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
-				} else {
-					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
-				}
-			})
+		if (HandleAsyncIsDefined()) {
+			callAsync('PUT', url, data)
+				.then((result: any) => {
+					const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+					if(resultJSON.status < 300) {
+						deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+					} else {
+						deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+					}
+				})
+		} else {
+			const result : string = InteractivesInterface.put(url, JSON.stringify(data))
+			const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+			if(resultJSON.status < 300) {
+				deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+			} else {
+				deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+			}
+		}
 	} else {
 		$.ajax({
 			method: 'PUT',

@@ -32,3 +32,7 @@ export function callAsync(verb, url, data = null) {
 export function InteractivesInterfaceIsDefined() {
 	return typeof InteractivesInterface !== 'undefined'
 }
+
+export function HandleAsyncIsDefined() {
+	return typeof InteractivesInterface.handleAsync !== 'undefined'
+}

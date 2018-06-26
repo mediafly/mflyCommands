@@ -11,12 +11,12 @@ export default function getInteractiveInfo () {
 				switch (interactiveContext.type) {
 					case 'collection':
 						info.invokedFrom = 'collection'
-						info.invokedFromSlug = interactiveContext.id
+						info.invokedFromId = interactiveContext.id
 						return info
 
 					case 'folder':
 						info.invokedFrom = 'folder'
-						info.invokedFromSlug = interactiveContext.parentSlug
+						info.invokedFromId = interactiveContext.parentSlug
 						return info
 				
 					default:

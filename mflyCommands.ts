@@ -41,6 +41,7 @@ var mflyCommands = {
 	asyncCallback,
 	close,
 	copy,
+	getExtensionInfo: getInteractiveInfo,
 	getInteractiveInfo,
 	getCredentials,
 	getSystemInfo,

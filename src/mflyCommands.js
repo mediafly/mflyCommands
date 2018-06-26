@@ -1102,6 +1102,7 @@ var mflyCommands = {
     asyncCallback: async_1.asyncCallback,
     close: navigation_1.close,
     copy: copy_1.default,
+    getExtensionInfo: interactiveInfo_1.default,
     getInteractiveInfo: interactiveInfo_1.default,
     getCredentials: credentials_1.default,
     getSystemInfo: systemInfo_1.default,
@@ -1146,7 +1147,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/gpsCoordinates":16,"./commands/interactiveInfo":17,"./commands/item":19,"./commands/localKeyValueStorage":20,"./commands/navigation":21,"./commands/notification":22,"./commands/onlineStatus":23,"./commands/openWindow":24,"./commands/postAction":25,"./commands/postEvent":26,"./commands/search":27,"./commands/syncedKeyValueStorage":28,"./commands/systemInfo":29,"./commands/updateMetadata":30,"./commands/uploadUrl":31,"./commands/version":33}],35:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

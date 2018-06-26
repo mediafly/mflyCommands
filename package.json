@@ -1,6 +1,6 @@
 {
   "name": "mfly-commands",
-  "version": "3.1.2",
+  "version": "3.2.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

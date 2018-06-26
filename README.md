@@ -1,6 +1,6 @@
-# mflyCommands for Mediafly Interactives
+# mflyCommands for Mediafly Extensions
 
-API documentation can be found at http://devdocs.mediafly.com/interactives/#
+API documentation can be found at http://devdocs.mediafly.com/extensions/#
 
 # Getting Started
 

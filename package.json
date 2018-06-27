@@ -4,6 +4,7 @@
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {
+    "start": "extension-cli serve",
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
     "browserify": "browserify .temp/mflyCommands.js --standalone mflyCommands | derequire > src/mflyCommands.js",

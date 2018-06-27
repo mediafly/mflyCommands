@@ -3,7 +3,12 @@ import { get } from './internalMethods'
 
 export default function getInteractiveInfo () {
 
-	const interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext'])
+	let interactiveContext 
+	
+	try {
+		JSON.parse(sessionStorage['viewerInteractiveContext'])
+	} catch (err) { }
+
 	return get('interactive')
 		.then(info => {
 			if (!!interactiveContext) {

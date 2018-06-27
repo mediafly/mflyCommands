@@ -12,6 +12,7 @@ import getUploadUrl from './commands/uploadUrl'
 import * as item from './commands/item'
 import * as collections from './commands/collections'
 import getFolder from './commands/folder'
+import getParentItems from './commands/getParentItems'
 import filter from './commands/filter'
 import getGpsCoordinates from './commands/gpsCoordinates'
 import { search, showSearch } from './commands/search'
@@ -49,6 +50,7 @@ var mflyCommands = {
 	getGpsCoordinates,
 	getUploadUrl,
 	getFolder,
+	getParentItems,
 	filter,
 	search,
 	showSearch,

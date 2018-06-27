@@ -446,7 +446,7 @@ var internalMethods_1 = _dereq_("./internalMethods");
 function getInteractiveInfo() {
     var interactiveContext;
     try {
-        JSON.parse(sessionStorage['viewerInteractiveContext']);
+        interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
     }
     catch (err) { }
     return internalMethods_1.get('interactive')

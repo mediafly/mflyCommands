@@ -6,7 +6,7 @@ export default function getInteractiveInfo () {
 	let interactiveContext 
 	
 	try {
-		JSON.parse(sessionStorage['viewerInteractiveContext'])
+		interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext'])
 	} catch (err) { }
 
 	return get('interactive')

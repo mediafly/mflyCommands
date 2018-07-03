@@ -414,9 +414,12 @@ exports.default = getFolder;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var collections_1 = _dereq_("./collections");
+var search_1 = _dereq_("./search");
 var interactiveInfo_1 = _dereq_("./interactiveInfo");
 var folder_1 = _dereq_("./folder");
-function getParentItems() {
+function getParentItems(offset, limit) {
+    if (offset === void 0) { offset = 0; }
+    if (limit === void 0) { limit = 100; }
     return interactiveInfo_1.default()
         .then(function (info) {
         if (info.invokedFrom === 'folder') {
@@ -425,12 +428,15 @@ function getParentItems() {
         if (info.invokedFrom === 'collection') {
             return collections_1.getCollection(info.invokedFromId);
         }
+        if (info.invokedFrom === 'search') {
+            return search_1.search(info.invokedFromTerm, offset, limit);
+        }
         return folder_1.default(info.parentId);
     });
 }
 exports.default = getParentItems;
 
-},{"./collections":5,"./folder":15,"./interactiveInfo":18}],17:[function(_dereq_,module,exports){
+},{"./collections":5,"./folder":15,"./interactiveInfo":18,"./search":28}],17:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -460,6 +466,10 @@ function getInteractiveInfo() {
                 case 'folder':
                     info.invokedFrom = 'folder';
                     info.invokedFromId = interactiveContext.parentSlug;
+                    return info;
+                case 'search':
+                    info.invokedFrom = 'search';
+                    info.invokedFromTerm = interactiveContext.term;
                     return info;
                 default:
                     return info;
@@ -1173,7 +1183,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/getParentItems":16,"./commands/gpsCoordinates":17,"./commands/interactiveInfo":18,"./commands/item":20,"./commands/localKeyValueStorage":21,"./commands/navigation":22,"./commands/notification":23,"./commands/onlineStatus":24,"./commands/openWindow":25,"./commands/postAction":26,"./commands/postEvent":27,"./commands/search":28,"./commands/syncedKeyValueStorage":29,"./commands/systemInfo":30,"./commands/updateMetadata":31,"./commands/uploadUrl":32,"./commands/version":34}],36:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

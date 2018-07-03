@@ -461,6 +461,10 @@ function getInteractiveInfo() {
                     info.invokedFrom = 'folder';
                     info.invokedFromId = interactiveContext.parentSlug;
                     return info;
+                case 'search':
+                    info.invokedFrom = 'search';
+                    info.invokedFromTerm = interactiveContext.term;
+                    return info;
                 default:
                     return info;
             }
@@ -1173,7 +1177,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/getParentItems":16,"./commands/gpsCoordinates":17,"./commands/interactiveInfo":18,"./commands/item":20,"./commands/localKeyValueStorage":21,"./commands/navigation":22,"./commands/notification":23,"./commands/onlineStatus":24,"./commands/openWindow":25,"./commands/postAction":26,"./commands/postEvent":27,"./commands/search":28,"./commands/syncedKeyValueStorage":29,"./commands/systemInfo":30,"./commands/updateMetadata":31,"./commands/uploadUrl":32,"./commands/version":34}],36:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

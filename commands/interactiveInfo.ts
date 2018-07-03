@@ -23,6 +23,11 @@ export default function getInteractiveInfo () {
 						info.invokedFrom = 'folder'
 						info.invokedFromId = interactiveContext.parentSlug
 						return info
+
+					case 'search':
+						info.invokedFrom = 'search'
+						info.invokedFromTerm = interactiveContext.term
+						return info
 				
 					default:
 						return info

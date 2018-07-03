@@ -414,9 +414,12 @@ exports.default = getFolder;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var collections_1 = _dereq_("./collections");
+var search_1 = _dereq_("./search");
 var interactiveInfo_1 = _dereq_("./interactiveInfo");
 var folder_1 = _dereq_("./folder");
-function getParentItems() {
+function getParentItems(offset, limit) {
+    if (offset === void 0) { offset = 0; }
+    if (limit === void 0) { limit = 100; }
     return interactiveInfo_1.default()
         .then(function (info) {
         if (info.invokedFrom === 'folder') {
@@ -425,12 +428,15 @@ function getParentItems() {
         if (info.invokedFrom === 'collection') {
             return collections_1.getCollection(info.invokedFromId);
         }
+        if (info.invokedFrom === 'search') {
+            return search_1.search(info.invokedFromTerm, offset, limit);
+        }
         return folder_1.default(info.parentId);
     });
 }
 exports.default = getParentItems;
 
-},{"./collections":5,"./folder":15,"./interactiveInfo":18}],17:[function(_dereq_,module,exports){
+},{"./collections":5,"./folder":15,"./interactiveInfo":18,"./search":28}],17:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");

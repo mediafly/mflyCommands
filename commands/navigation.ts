@@ -1,5 +1,6 @@
 import { getCurrentItem, getItem } from './item'
 import { isWeb, isDesktop } from './device'
+import { post } from './internalMethods'
 
 function preserveContext(url) {
 	
@@ -108,6 +109,16 @@ export function openFolder(id) {
 	getItem(id).then(item => {
 		window.location.href = item.url
 	})
+}
+
+export function openLink(link: string) {
+
+	if (isWeb) {
+		window.open(link)
+		return $.when()
+	}
+
+	return post('open-link', { link })
 }
 
 export function goto() {

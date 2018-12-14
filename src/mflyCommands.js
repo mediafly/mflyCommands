@@ -789,6 +789,7 @@ exports.deleteKey = deleteKey;
 Object.defineProperty(exports, "__esModule", { value: true });
 var item_1 = _dereq_("./item");
 var device_1 = _dereq_("./device");
+var internalMethods_1 = _dereq_("./internalMethods");
 function preserveContext(url) {
     if ((device_1.isWeb() || device_1.isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
         var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
@@ -875,6 +876,14 @@ function openFolder(id) {
     });
 }
 exports.openFolder = openFolder;
+function openLink(link) {
+    if (device_1.isWeb) {
+        window.open(link);
+        return $.when();
+    }
+    return internalMethods_1.post('open-link', { link: link });
+}
+exports.openLink = openLink;
 function goto() {
     console.error('goto method is now deprecated. Please use openItem going forward.');
 }
@@ -884,7 +893,7 @@ function browse() {
 }
 exports.browse = browse;
 
-},{"./device":10,"./item":20}],23:[function(_dereq_,module,exports){
+},{"./device":10,"./internalMethods":19,"./item":20}],23:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1183,7 +1192,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/getParentItems":16,"./commands/gpsCoordinates":17,"./commands/interactiveInfo":18,"./commands/item":20,"./commands/localKeyValueStorage":21,"./commands/navigation":22,"./commands/notification":23,"./commands/onlineStatus":24,"./commands/openWindow":25,"./commands/postAction":26,"./commands/postEvent":27,"./commands/search":28,"./commands/syncedKeyValueStorage":29,"./commands/systemInfo":30,"./commands/updateMetadata":31,"./commands/uploadUrl":32,"./commands/version":34}],36:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

@@ -877,7 +877,7 @@ function openFolder(id) {
 }
 exports.openFolder = openFolder;
 function openLink(link) {
-    if (device_1.isWeb) {
+    if (device_1.isWeb()) {
         window.open(link);
         return $.when();
     }

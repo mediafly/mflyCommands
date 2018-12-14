@@ -113,7 +113,7 @@ export function openFolder(id) {
 
 export function openLink(link: string) {
 
-	if (isWeb) {
+	if (isWeb()) {
 		window.open(link)
 		return $.when()
 	}

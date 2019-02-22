@@ -790,6 +790,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var item_1 = _dereq_("./item");
 var device_1 = _dereq_("./device");
 var internalMethods_1 = _dereq_("./internalMethods");
+var utils_1 = _dereq_("./utils");
 function preserveContext(url) {
     if ((device_1.isWeb() || device_1.isDesktop()) && !!sessionStorage['viewerInteractiveContext']) {
         var interactiveContext = JSON.parse(sessionStorage['viewerInteractiveContext']);
@@ -820,6 +821,10 @@ function preserveContext(url) {
         if (interactiveContext.type === 'folder') {
             url += '?parentSlug=' + interactiveContext.parentSlug;
         }
+    }
+    var returnUrl = utils_1.getUrlParameter('returnurl');
+    if (returnUrl) {
+        url += "?returnurl=" + utils_1.getUrlParameter('returnurl');
     }
     return url;
 }
@@ -863,6 +868,9 @@ function open(id, options) {
             if (openItemOptions.context === 'searchFolder') {
                 params.parentSlug = openItemOptions.parentSlug;
             }
+            if (openItemOptions.params) {
+                params = $.extend(params, openItemOptions.params);
+            }
         }
         url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params);
         window.location.href = window.location.protocol + "//" + window.location.host + url;
@@ -893,7 +901,7 @@ function browse() {
 }
 exports.browse = browse;
 
-},{"./device":10,"./internalMethods":19,"./item":20}],23:[function(_dereq_,module,exports){
+},{"./device":10,"./internalMethods":19,"./item":20,"./utils":33}],23:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1092,6 +1100,16 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 exports.guid = guid;
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1), sURLVariables = sPageURL.split('&'), sParameterName, i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? undefined : decodeURIComponent(sParameterName[1]);
+        }
+    }
+}
+exports.getUrlParameter = getUrlParameter;
 
 },{}],34:[function(_dereq_,module,exports){
 "use strict";
@@ -1192,7 +1210,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/getParentItems":16,"./commands/gpsCoordinates":17,"./commands/interactiveInfo":18,"./commands/item":20,"./commands/localKeyValueStorage":21,"./commands/navigation":22,"./commands/notification":23,"./commands/onlineStatus":24,"./commands/openWindow":25,"./commands/postAction":26,"./commands/postEvent":27,"./commands/search":28,"./commands/syncedKeyValueStorage":29,"./commands/systemInfo":30,"./commands/updateMetadata":31,"./commands/uploadUrl":32,"./commands/version":34}],36:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

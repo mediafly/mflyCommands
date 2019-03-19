@@ -1,6 +1,7 @@
 import { getCurrentItem, getItem } from './item'
 import { isWeb, isDesktop } from './device'
 import { post } from './internalMethods'
+import { getUrlParameter } from './utils'
 
 function preserveContext(url) {
 	
@@ -41,6 +42,11 @@ function preserveContext(url) {
 		}
 	}
 
+	const returnUrl = getUrlParameter('returnurl')
+	if (returnUrl) {
+		url += `?returnurl=${getUrlParameter('returnurl')}`
+	}
+
 	return url
 }
 
@@ -65,7 +71,8 @@ interface OpenItemOptions {
 	collection?: string
 	search?: string
 	parentSlug?: string
-	returnurl?: string
+	returnurl?: string,
+	params?: object
 }
 
 export function open(id, options?: number | OpenItemOptions) {
@@ -95,6 +102,10 @@ export function open(id, options?: number | OpenItemOptions) {
 
 			if (openItemOptions.context === 'searchFolder') {
 				params.parentSlug = openItemOptions.parentSlug
+			}
+
+			if (openItemOptions.params) {
+				params = $.extend(params, openItemOptions.params)
 			}
 		}
 		url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params)

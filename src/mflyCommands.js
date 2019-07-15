@@ -359,15 +359,15 @@ exports.getData = getData;
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
 function getFavorites() {
-    return internalMethods_1.get('favorites');
+    return internalMethods_1.get('items/favorites');
 }
 exports.getFavorites = getFavorites;
 function favorite(id) {
-    return internalMethods_1.post("favorite/" + id);
+    return internalMethods_1.post("items/" + id + "/favorite");
 }
 exports.favorite = favorite;
 function unfavorite(id) {
-    return internalMethods_1.post("unfavorite/" + id);
+    return internalMethods_1.post("items/" + id + "/unfavorite");
 }
 exports.unfavorite = unfavorite;
 

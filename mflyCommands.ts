@@ -15,6 +15,7 @@ import getFolder from './commands/folder'
 import getParentItems from './commands/getParentItems'
 import filter from './commands/filter'
 import getGpsCoordinates from './commands/gpsCoordinates'
+import * as favorites from './commands/favorites'
 import { search, showSearch } from './commands/search'
 import { close } from './commands/navigation'
 import * as downloader from './commands/downloader'
@@ -75,6 +76,7 @@ var mflyCommands = {
 $.extend(mflyCommands, item)
 $.extend(mflyCommands, collections)
 $.extend(mflyCommands, downloader)
+$.extend(mflyCommands, favorites)
 $.extend(mflyCommands, notification)
 $.extend(mflyCommands, accountInfo)
 $.extend(mflyCommands, localKeyValueStorage)

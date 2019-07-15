@@ -11,7 +11,7 @@ function logout() {
 }
 exports.logout = logout;
 
-},{"./internalMethods":19}],2:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],2:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -44,7 +44,7 @@ function takeAndEmailScreenshot() {
 }
 exports.takeAndEmailScreenshot = takeAndEmailScreenshot;
 
-},{"./internalMethods":19}],3:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],3:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -57,7 +57,7 @@ function getSyncStatus() {
 }
 exports.getSyncStatus = getSyncStatus;
 
-},{"./internalMethods":19}],4:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],4:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = _dereq_("./utils");
@@ -84,7 +84,7 @@ function InteractivesInterfaceIsDefined() {
 }
 exports.InteractivesInterfaceIsDefined = InteractivesInterfaceIsDefined;
 
-},{"./utils":33}],5:[function(_dereq_,module,exports){
+},{"./utils":34}],5:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -131,7 +131,7 @@ function showAddToCollection(x, y, width, height) {
 }
 exports.showAddToCollection = showAddToCollection;
 
-},{"./internalMethods":19}],6:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],6:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var device_1 = _dereq_("./device");
@@ -168,7 +168,7 @@ function hideControlBars(x, y, width, height) {
 }
 exports.hideControlBars = hideControlBars;
 
-},{"./internalMethods":19}],8:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],8:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -182,7 +182,7 @@ function copy(parentId, slug, name) {
 }
 exports.default = copy;
 
-},{"./internalMethods":19,"./updateMetadata":31}],9:[function(_dereq_,module,exports){
+},{"./internalMethods":20,"./updateMetadata":32}],9:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -191,7 +191,7 @@ function getCredentials() {
 }
 exports.default = getCredentials;
 
-},{"./internalMethods":19}],10:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],10:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var developmentPrefix = 'http://localhost:8000/';
@@ -265,7 +265,7 @@ function removeFromDownloader(id) {
 }
 exports.removeFromDownloader = removeFromDownloader;
 
-},{"./internalMethods":19}],12:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],12:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -278,7 +278,7 @@ function getEmailStatus(id) {
 }
 exports.getEmailStatus = getEmailStatus;
 
-},{"./internalMethods":19}],13:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],13:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var device_1 = _dereq_("./device");
@@ -354,7 +354,24 @@ function getData(id) {
 }
 exports.getData = getData;
 
-},{"./device":10,"./item":20}],14:[function(_dereq_,module,exports){
+},{"./device":10,"./item":21}],14:[function(_dereq_,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalMethods_1 = _dereq_("./internalMethods");
+function getFavorites() {
+    return internalMethods_1.get('favorites');
+}
+exports.getFavorites = getFavorites;
+function favorite(id) {
+    return internalMethods_1.post("favorite/" + id);
+}
+exports.favorite = favorite;
+function unfavorite(id) {
+    return internalMethods_1.post("unfavorite/" + id);
+}
+exports.unfavorite = unfavorite;
+
+},{"./internalMethods":20}],15:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -401,7 +418,7 @@ function filter(obj, offset, limit) {
 }
 exports.default = filter;
 
-},{"./internalMethods":19}],15:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],16:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -410,7 +427,7 @@ function getFolder(id) {
 }
 exports.default = getFolder;
 
-},{"./internalMethods":19}],16:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],17:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var collections_1 = _dereq_("./collections");
@@ -436,7 +453,7 @@ function getParentItems(offset, limit) {
 }
 exports.default = getParentItems;
 
-},{"./collections":5,"./folder":15,"./interactiveInfo":18,"./search":28}],17:[function(_dereq_,module,exports){
+},{"./collections":5,"./folder":16,"./interactiveInfo":19,"./search":29}],18:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -445,7 +462,7 @@ function getGpsCoordinates() {
 }
 exports.default = getGpsCoordinates;
 
-},{"./internalMethods":19}],18:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],19:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -480,7 +497,7 @@ function getInteractiveInfo() {
 }
 exports.default = getInteractiveInfo;
 
-},{"./internalMethods":19}],19:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],20:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var device = _dereq_("./device");
@@ -659,7 +676,7 @@ function showUI(name, x, y, width, height) {
 }
 exports.showUI = showUI;
 
-},{"./async":4,"./commandSupport":6,"./device":10}],20:[function(_dereq_,module,exports){
+},{"./async":4,"./commandSupport":6,"./device":10}],21:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -688,7 +705,7 @@ function getRecentlyCreatedContent() {
 }
 exports.getRecentlyCreatedContent = getRecentlyCreatedContent;
 
-},{"./internalMethods":19}],21:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],22:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -784,7 +801,7 @@ function deleteKey(key) {
 }
 exports.deleteKey = deleteKey;
 
-},{"./device":10,"./internalMethods":19}],22:[function(_dereq_,module,exports){
+},{"./device":10,"./internalMethods":20}],23:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var item_1 = _dereq_("./item");
@@ -901,7 +918,7 @@ function browse() {
 }
 exports.browse = browse;
 
-},{"./device":10,"./internalMethods":19,"./item":20,"./utils":33}],23:[function(_dereq_,module,exports){
+},{"./device":10,"./internalMethods":20,"./item":21,"./utils":34}],24:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -922,7 +939,7 @@ function showNotificationManager(x, y, width, height) {
 }
 exports.showNotificationManager = showNotificationManager;
 
-},{"./internalMethods":19}],24:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],25:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -931,7 +948,7 @@ function getOnlineStatus(argument) {
 }
 exports.default = getOnlineStatus;
 
-},{"./internalMethods":19}],25:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],26:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = _dereq_("./utils");
@@ -940,7 +957,7 @@ function openWindow(url) {
 }
 exports.default = openWindow;
 
-},{"./utils":33}],26:[function(_dereq_,module,exports){
+},{"./utils":34}],27:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -957,7 +974,7 @@ function postPageView(id, page) {
 }
 exports.postPageView = postPageView;
 
-},{"./internalMethods":19}],27:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],28:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -966,7 +983,7 @@ function postEvent(key, properties) {
 }
 exports.postEvent = postEvent;
 
-},{"./internalMethods":19}],28:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],29:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1012,7 +1029,7 @@ function showSearch(x, y, width, height) {
 }
 exports.showSearch = showSearch;
 
-},{"./internalMethods":19}],29:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],30:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1054,7 +1071,7 @@ function deleteSyncedKey(key) {
 }
 exports.deleteSyncedKey = deleteSyncedKey;
 
-},{"./internalMethods":19}],30:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],31:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1063,7 +1080,7 @@ function getSystemInfo() {
 }
 exports.default = getSystemInfo;
 
-},{"./internalMethods":19}],31:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],32:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1078,7 +1095,7 @@ function updateItemMetadata(id, metadata) {
 }
 exports.updateItemMetadata = updateItemMetadata;
 
-},{"./internalMethods":19}],32:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],33:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -1087,7 +1104,7 @@ function getUploadUrl(key) {
 }
 exports.default = getUploadUrl;
 
-},{"./internalMethods":19}],33:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],34:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function guid() {
@@ -1111,7 +1128,7 @@ function getUrlParameter(sParam) {
 }
 exports.getUrlParameter = getUrlParameter;
 
-},{}],34:[function(_dereq_,module,exports){
+},{}],35:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var packageJson = _dereq_('../../package.json');
@@ -1120,7 +1137,7 @@ function version() {
 }
 exports.default = version;
 
-},{"../../package.json":36}],35:[function(_dereq_,module,exports){
+},{"../../package.json":37}],36:[function(_dereq_,module,exports){
 "use strict";
 /**
  * (c) 2013-2016, Mediafly, Inc.
@@ -1138,6 +1155,7 @@ var folder_1 = _dereq_("./commands/folder");
 var getParentItems_1 = _dereq_("./commands/getParentItems");
 var filter_1 = _dereq_("./commands/filter");
 var gpsCoordinates_1 = _dereq_("./commands/gpsCoordinates");
+var favorites = _dereq_("./commands/favorites");
 var search_1 = _dereq_("./commands/search");
 var navigation_1 = _dereq_("./commands/navigation");
 var downloader = _dereq_("./commands/downloader");
@@ -1196,6 +1214,7 @@ var mflyCommands = {
 $.extend(mflyCommands, item);
 $.extend(mflyCommands, collections);
 $.extend(mflyCommands, downloader);
+$.extend(mflyCommands, favorites);
 $.extend(mflyCommands, notification);
 $.extend(mflyCommands, accountInfo);
 $.extend(mflyCommands, localKeyValueStorage);
@@ -1207,10 +1226,10 @@ $.extend(mflyCommands, updateMetadata);
 window['mflyCommands'] = mflyCommands;
 module.exports = mflyCommands;
 
-},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/filter":14,"./commands/folder":15,"./commands/getParentItems":16,"./commands/gpsCoordinates":17,"./commands/interactiveInfo":18,"./commands/item":20,"./commands/localKeyValueStorage":21,"./commands/navigation":22,"./commands/notification":23,"./commands/onlineStatus":24,"./commands/openWindow":25,"./commands/postAction":26,"./commands/postEvent":27,"./commands/search":28,"./commands/syncedKeyValueStorage":29,"./commands/systemInfo":30,"./commands/updateMetadata":31,"./commands/uploadUrl":32,"./commands/version":34}],36:[function(_dereq_,module,exports){
+},{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/favorites":14,"./commands/filter":15,"./commands/folder":16,"./commands/getParentItems":17,"./commands/gpsCoordinates":18,"./commands/interactiveInfo":19,"./commands/item":21,"./commands/localKeyValueStorage":22,"./commands/navigation":23,"./commands/notification":24,"./commands/onlineStatus":25,"./commands/openWindow":26,"./commands/postAction":27,"./commands/postEvent":28,"./commands/search":29,"./commands/syncedKeyValueStorage":30,"./commands/systemInfo":31,"./commands/updateMetadata":32,"./commands/uploadUrl":33,"./commands/version":35}],37:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {
@@ -1242,17 +1261,17 @@ module.exports={
     "Interactives"
   ],
   "dependencies": {
-    "jquery": "3.3.1"
+    "jquery": "3.4.0"
   },
   "devDependencies": {
     "@types/jquery": "3.3.1",
     "browserify": "13.1.0",
     "browserify-shim": "3.8.12",
-    "chokidar-cli": "1.2.0",
+    "chokidar-cli": "1.2.2",
     "derequire": "^2.0.6",
     "typescript": "2.7.2"
   }
 }
 
-},{}]},{},[35])(35)
+},{}]},{},[36])(36)
 });

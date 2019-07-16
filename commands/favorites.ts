@@ -1,7 +1,7 @@
 import { get, post } from './internalMethods'
 
 export function getFavorites() {
-	return get('items/favorites')
+	return get('favorites/items')
 }
 
 export function favorite(id) {

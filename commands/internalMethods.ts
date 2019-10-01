@@ -2,7 +2,12 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
-import { callAsync, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './async'
+import {
+	callAsync,
+	getDefined,
+	InteractivesInterfaceIsDefined,
+	InteractivesInterfaceResponse
+} from './async'
 
 declare const InteractivesInterface: any
 export function get(func, param = null, expectJson = true) {
@@ -15,29 +20,42 @@ export function get(func, param = null, expectJson = true) {
 
 	var deferred = $.Deferred()
 
-	$.ajax({
-		url: url,
-		success: function (data, textStatus, request) {
-			// Content retrieved. Transform to JSON if supposed to.
-			if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
-				// This was sent back as text/html JSON.parse it to a JSON object.
-				data = JSON.parse(data)
-			}
+	if (InteractivesInterfaceIsDefined() && getDefined()) {
+		callAsync('GET', url)
+			.then((result: any) => {
 
-			// Resolve the promise.
-			deferred.resolveWith(this, [data, request.status])
-		},
-		error: function (data, status, request) {
-			// Content could not be retrieved. Reject the promise.
-			if (device.isWeb() && data.status === 401) {
-				// Viewer does not have an authenticated session. Take user to Viewer root.
-				sessionStorage.setItem('returnUrl', window.location.href)
-				window.location.replace(data.responseJSON.returnUrl)
-			}
+				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
+				if(resultJSON.status < 300) {
+					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
+				} else {
+					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])
+				}
+			})
+	} else {
+		$.ajax({
+			url: url,
+			success: function (data, textStatus, request) {
+				// Content retrieved. Transform to JSON if supposed to.
+				if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
+					// This was sent back as text/html JSON.parse it to a JSON object.
+					data = JSON.parse(data)
+				}
 
-			deferred.reject(this, [request, data.status])
-		}
-	})
+				// Resolve the promise.
+				deferred.resolveWith(this, [data, request.status])
+			},
+			error: function (data, status, request) {
+				// Content could not be retrieved. Reject the promise.
+				if (device.isWeb() && data.status === 401) {
+					// Viewer does not have an authenticated session. Take user to Viewer root.
+					sessionStorage.setItem('returnUrl', window.location.href)
+					window.location.replace(data.responseJSON.returnUrl)
+				}
+
+				deferred.reject(this, [request, data.status])
+			}
+		})
+	}
 
 	return deferred.promise()
 }

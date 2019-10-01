@@ -68,6 +68,10 @@ function asyncCallback(guid, data) {
     callbacks[guid] = null;
 }
 exports.asyncCallback = asyncCallback;
+function getDefined() {
+    return InteractivesInterface.getDefined && InteractivesInterface.getDefined();
+}
+exports.getDefined = getDefined;
 function callAsync(verb, url, data) {
     if (data === void 0) { data = null; }
     var newGuid = utils_1.guid();
@@ -513,7 +517,7 @@ function get(func, param, expectJson) {
         throw new Error('This method is not supported on this platform.');
     }
     var deferred = $.Deferred();
-    if (async_1.InteractivesInterfaceIsDefined()) {
+    if (async_1.InteractivesInterfaceIsDefined() && async_1.getDefined()) {
         async_1.callAsync('GET', url)
             .then(function (result) {
             var resultJSON = JSON.parse(result);

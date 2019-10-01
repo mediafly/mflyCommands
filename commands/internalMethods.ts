@@ -2,7 +2,12 @@ import device = require('./device')
 import { guid } from './utils'
 import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
-import { callAsync, InteractivesInterfaceIsDefined, InteractivesInterfaceResponse } from './async'
+import {
+	callAsync,
+	getDefined,
+	InteractivesInterfaceIsDefined,
+	InteractivesInterfaceResponse
+} from './async'
 
 declare const InteractivesInterface: any
 export function get(func, param = null, expectJson = true) {
@@ -15,7 +20,7 @@ export function get(func, param = null, expectJson = true) {
 
 	var deferred = $.Deferred()
 
-	if (InteractivesInterfaceIsDefined()) {
+	if (InteractivesInterfaceIsDefined() && getDefined()) {
 		callAsync('GET', url)
 			.then((result: any) => {
 

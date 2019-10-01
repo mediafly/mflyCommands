@@ -15,6 +15,11 @@ export function asyncCallback(guid, data) {
 	callbacks[guid] = null
 }
 
+export function getDefined() {
+	
+	return InteractivesInterface.getDefined && InteractivesInterface.getDefined()
+}
+
 export function callAsync(verb, url, data = null) {
 
 	var newGuid = guid()

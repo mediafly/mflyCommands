@@ -46,12 +46,7 @@ export function get(func, param = null, expectJson = true) {
 			},
 			error: function (data, status, request) {
 				// Content could not be retrieved. Reject the promise.
-				if (device.isWeb() && data.status === 401) {
-					// Viewer does not have an authenticated session. Take user to Viewer root.
-					sessionStorage.setItem('returnUrl', window.location.href)
-					window.location.replace(data.responseJSON.returnUrl)
-				}
-
+				handleAuthForWeb(data)
 				deferred.reject(this, [request, data.status])
 			}
 		})
@@ -90,12 +85,7 @@ export function post(func: string, data?) {
 				deferred.resolveWith(this, [data, request.status])
 			},
 			error: function (data, status, request) {
-				if (device.isWeb() && data.status === 401) {
-					// Viewer does not have an authenticated session. Take user to Viewer root.
-					sessionStorage.setItem('returnUrl', window.location.href)
-					window.location.replace(data.responseJSON.returnUrl)
-				}
-
+				handleAuthForWeb(data)
 				deferred.reject(this, [request, data.status])
 			}
 		})
@@ -135,12 +125,7 @@ export function ddelete(func, data?) {
 				deferred.resolveWith(this, [data, request.status])
 			},
 			error: function (data, status, request) {
-				if (device.isWeb() && data.status === 401) {
-					// Viewer does not have an authenticated session. Take user to Viewer root.
-					sessionStorage.setItem('returnUrl', window.location.href)
-					window.location.replace(data.responseJSON.returnUrl)
-				}
-
+				handleAuthForWeb(data)
 				deferred.reject(this, [request, data.status])
 			}
 		})
@@ -179,12 +164,7 @@ export function put(func, data = null) {
 				deferred.resolveWith(this, [data, request.status])
 			},
 			error: function(data, status, request) {
-				if (device.isWeb() && data.status === 401) {
-					// Viewer does not have an authenticated session. Take user to Viewer root.
-					sessionStorage.setItem('returnUrl', window.location.href)
-					window.location.replace(data.responseJSON.returnUrl)
-				}
-
+				handleAuthForWeb(data)
 				deferred.reject(this, [request, data.status])
 			}
 		})
@@ -205,3 +185,11 @@ export function showUI(name, x, y, width, height) {
 	})
 }
 
+function handleAuthForWeb(response) {
+
+	if (device.isWeb() && (response.status === 401 || response.status === 451)) {
+		// Viewer does not have an authenticated session. Take user to Viewer root.
+		sessionStorage.setItem('returnUrl', window.location.href)
+		window.location.replace(response.responseJSON.returnUrl)
+	}
+}

@@ -1015,10 +1015,10 @@ function getAllSearchResults(term) {
     };
     return accumulatePages(term);
 }
-function getRelatedItems(id, filter, offset, limit) {
+function getRelatedItems(id, offset, limit) {
     if (offset === void 0) { offset = 0; }
     if (limit === void 0) { limit = 100; }
-    var term = "recommended:" + id + " AND " + filter;
+    var term = "_related:" + id;
     return search(term, offset, limit);
 }
 exports.getRelatedItems = getRelatedItems;

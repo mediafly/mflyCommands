@@ -34,9 +34,9 @@ function getAllSearchResults(term) {
 	return accumulatePages(term)
 }
 
-export function getRelatedItems(id: string, filter: string, offset: number = 0, limit: number = 100) {
+export function getRelatedItems(id: string, offset: number = 0, limit: number = 100) {
 	
-	const term = `recommended:${id} AND ${filter}`
+	const term = `_related:${id}`
 	return search(term, offset, limit)
 }
 

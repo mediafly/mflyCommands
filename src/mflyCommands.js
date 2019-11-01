@@ -68,6 +68,10 @@ function asyncCallback(guid, data) {
     callbacks[guid] = null;
 }
 exports.asyncCallback = asyncCallback;
+function getDefined() {
+    return InteractivesInterface.getDefined && InteractivesInterface.getDefined();
+}
+exports.getDefined = getDefined;
 function callAsync(verb, url, data) {
     if (data === void 0) { data = null; }
     var newGuid = utils_1.guid();
@@ -504,6 +508,7 @@ var device = _dereq_("./device");
 var commandSupport_1 = _dereq_("./commandSupport");
 var async_1 = _dereq_("./async");
 function get(func, param, expectJson) {
+    var _this = this;
     if (param === void 0) { param = null; }
     if (expectJson === void 0) { expectJson = true; }
     var prefix = device.getPrefix();
@@ -512,27 +517,37 @@ function get(func, param, expectJson) {
         throw new Error('This method is not supported on this platform.');
     }
     var deferred = $.Deferred();
-    $.ajax({
-        url: url,
-        success: function (data, textStatus, request) {
-            // Content retrieved. Transform to JSON if supposed to.
-            if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
-                // This was sent back as text/html JSON.parse it to a JSON object.
-                data = JSON.parse(data);
+    if (async_1.InteractivesInterfaceIsDefined() && async_1.getDefined()) {
+        async_1.callAsync('GET', url)
+            .then(function (result) {
+            var resultJSON = JSON.parse(result);
+            if (resultJSON.status < 300) {
+                deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
             }
-            // Resolve the promise.
-            deferred.resolveWith(this, [data, request.status]);
-        },
-        error: function (data, status, request) {
-            // Content could not be retrieved. Reject the promise.
-            if (device.isWeb() && data.status === 401) {
-                // Viewer does not have an authenticated session. Take user to Viewer root.
-                sessionStorage.setItem('returnUrl', window.location.href);
-                window.location.replace(data.responseJSON.returnUrl);
+            else {
+                deferred.rejectWith(_this, [resultJSON.data, resultJSON.status]);
             }
-            deferred.reject(this, [request, data.status]);
-        }
-    });
+        });
+    }
+    else {
+        $.ajax({
+            url: url,
+            success: function (data, textStatus, request) {
+                // Content retrieved. Transform to JSON if supposed to.
+                if (expectJson && request && request.getResponseHeader("Content-Type").indexOf("text/html") > -1) {
+                    // This was sent back as text/html JSON.parse it to a JSON object.
+                    data = JSON.parse(data);
+                }
+                // Resolve the promise.
+                deferred.resolveWith(this, [data, request.status]);
+            },
+            error: function (data, status, request) {
+                // Content could not be retrieved. Reject the promise.
+                handleAuthForWeb(data);
+                deferred.reject(this, [request, data.status]);
+            }
+        });
+    }
     return deferred.promise();
 }
 exports.get = get;
@@ -566,11 +581,7 @@ function post(func, data) {
                 deferred.resolveWith(this, [data, request.status]);
             },
             error: function (data, status, request) {
-                if (device.isWeb() && data.status === 401) {
-                    // Viewer does not have an authenticated session. Take user to Viewer root.
-                    sessionStorage.setItem('returnUrl', window.location.href);
-                    window.location.replace(data.responseJSON.returnUrl);
-                }
+                handleAuthForWeb(data);
                 deferred.reject(this, [request, data.status]);
             }
         });
@@ -608,11 +619,7 @@ function ddelete(func, data) {
                 deferred.resolveWith(this, [data, request.status]);
             },
             error: function (data, status, request) {
-                if (device.isWeb() && data.status === 401) {
-                    // Viewer does not have an authenticated session. Take user to Viewer root.
-                    sessionStorage.setItem('returnUrl', window.location.href);
-                    window.location.replace(data.responseJSON.returnUrl);
-                }
+                handleAuthForWeb(data);
                 deferred.reject(this, [request, data.status]);
             }
         });
@@ -651,11 +658,7 @@ function put(func, data) {
                 deferred.resolveWith(this, [data, request.status]);
             },
             error: function (data, status, request) {
-                if (device.isWeb() && data.status === 401) {
-                    // Viewer does not have an authenticated session. Take user to Viewer root.
-                    sessionStorage.setItem('returnUrl', window.location.href);
-                    window.location.replace(data.responseJSON.returnUrl);
-                }
+                handleAuthForWeb(data);
                 deferred.reject(this, [request, data.status]);
             }
         });
@@ -675,6 +678,13 @@ function showUI(name, x, y, width, height) {
     });
 }
 exports.showUI = showUI;
+function handleAuthForWeb(response) {
+    if (device.isWeb() && (response.status === 401 || response.status === 451)) {
+        // Viewer does not have an authenticated session. Take user to Viewer root.
+        sessionStorage.setItem('returnUrl', window.location.href);
+        window.location.replace(response.responseJSON.returnUrl);
+    }
+}
 
 },{"./async":4,"./commandSupport":6,"./device":10}],21:[function(_dereq_,module,exports){
 "use strict";
@@ -1236,7 +1246,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/favorites":14,"./commands/filter":15,"./commands/folder":16,"./commands/getParentItems":17,"./commands/gpsCoordinates":18,"./commands/interactiveInfo":19,"./commands/item":21,"./commands/localKeyValueStorage":22,"./commands/navigation":23,"./commands/notification":24,"./commands/onlineStatus":25,"./commands/openWindow":26,"./commands/postAction":27,"./commands/postEvent":28,"./commands/search":29,"./commands/syncedKeyValueStorage":30,"./commands/systemInfo":31,"./commands/updateMetadata":32,"./commands/uploadUrl":33,"./commands/version":35}],37:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

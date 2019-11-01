@@ -49,6 +49,7 @@ var mflyCommands = {
 	getSystemInfo,
 	getOnlineStatus,
 	getGpsCoordinates,
+	getRelatedItems,
 	getUploadUrl,
 	getFolder,
 	getParentItems,

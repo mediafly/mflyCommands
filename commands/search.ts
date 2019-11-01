@@ -34,6 +34,12 @@ function getAllSearchResults(term) {
 	return accumulatePages(term)
 }
 
+export function getRelatedItems(id: string, offset: number = 0, limit: number = 100) {
+	
+	const term = `_related:${id}`
+	return search(term, offset, limit)
+}
+
 export function search(term, offset, limit) {
 
 	if (typeof offset == 'undefined') {

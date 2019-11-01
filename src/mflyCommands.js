@@ -1025,6 +1025,13 @@ function getAllSearchResults(term) {
     };
     return accumulatePages(term);
 }
+function getRelatedItems(id, offset, limit) {
+    if (offset === void 0) { offset = 0; }
+    if (limit === void 0) { limit = 100; }
+    var term = "_related:" + id;
+    return search(term, offset, limit);
+}
+exports.getRelatedItems = getRelatedItems;
 function search(term, offset, limit) {
     if (typeof offset == 'undefined') {
         return getAllSearchResults(term);

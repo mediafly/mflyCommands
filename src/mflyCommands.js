@@ -795,6 +795,20 @@ function putValue(key, value) {
     }
 }
 exports.putValue = putValue;
+function putKeyValuePairs(keyValuePairs) {
+    if (useLocalStorage) {
+        return $.Deferred(function (dfd) {
+            $.each(keyValuePairs, function (_index, pair) {
+                localStorage.setItem(pair.key, pair.value);
+            });
+            dfd.resolveWith(this, ['', 200]);
+        });
+    }
+    else {
+        return internalMethods_1.post("info", keyValuePairs);
+    }
+}
+exports.putKeyValuePairs = putKeyValuePairs;
 function deleteKey(key) {
     if (!key) {
         return $.Deferred().rejectWith(this, ['Invalid key provided', 500]);
@@ -810,6 +824,20 @@ function deleteKey(key) {
     }
 }
 exports.deleteKey = deleteKey;
+function deleteKeyValuePairs(keyValuePairs) {
+    if (useLocalStorage) {
+        return $.Deferred(function (dfd) {
+            $.each(keyValuePairs, function (_index, pair) {
+                localStorage.removeItem(pair.key);
+            });
+            dfd.resolveWith(this, ['', 200]);
+        });
+    }
+    else {
+        return internalMethods_1.ddelete("info", keyValuePairs);
+    }
+}
+exports.deleteKeyValuePairs = deleteKeyValuePairs;
 
 },{"./device":10,"./internalMethods":20}],23:[function(_dereq_,module,exports){
 "use strict";
@@ -1080,6 +1108,10 @@ function putSyncedValue(key, value) {
     return internalMethods_1.post("syncedinfo", [{ key: key, value: value }]);
 }
 exports.putSyncedValue = putSyncedValue;
+function putSyncedKeyValuePairs(keyValuePairs) {
+    return internalMethods_1.post("syncedinfo", keyValuePairs);
+}
+exports.putSyncedKeyValuePairs = putSyncedKeyValuePairs;
 function deleteSyncedKey(key) {
     if (!key) {
         return $.Deferred().rejectWith(this, ['Invalid key provided', 500]);
@@ -1087,6 +1119,10 @@ function deleteSyncedKey(key) {
     return internalMethods_1.ddelete("syncedinfo", [key]);
 }
 exports.deleteSyncedKey = deleteSyncedKey;
+function deleteSyncedKeyValuePairs(keyValuePairs) {
+    return internalMethods_1.ddelete("syncedinfo", keyValuePairs);
+}
+exports.deleteSyncedKeyValuePairs = deleteSyncedKeyValuePairs;
 
 },{"./internalMethods":20}],31:[function(_dereq_,module,exports){
 "use strict";
@@ -1247,7 +1283,7 @@ module.exports = mflyCommands;
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/favorites":14,"./commands/filter":15,"./commands/folder":16,"./commands/getParentItems":17,"./commands/gpsCoordinates":18,"./commands/interactiveInfo":19,"./commands/item":21,"./commands/localKeyValueStorage":22,"./commands/navigation":23,"./commands/notification":24,"./commands/onlineStatus":25,"./commands/openWindow":26,"./commands/postAction":27,"./commands/postEvent":28,"./commands/search":29,"./commands/syncedKeyValueStorage":30,"./commands/systemInfo":31,"./commands/updateMetadata":32,"./commands/uploadUrl":33,"./commands/version":35}],37:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {

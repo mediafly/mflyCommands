@@ -77,7 +77,25 @@ export function putValue(key , value) {
 	}
 }
 
+export function putKeyValuePairs(keyValuePairs: { key: string, value: string}[]) {
+
+	if (useLocalStorage) {
+
+		return $.Deferred(function(dfd) {
+
+			$.each(keyValuePairs, (_index, pair) => {
+				localStorage.setItem(pair.key, pair.value)
+			})
+
+			dfd.resolveWith(this, ['', 200])
+		})
+	} else {
+		return post(`info`, keyValuePairs)
+	}
+}
+
 export function deleteKey(key) {
+
 	if(!key) {
 		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
 	}
@@ -89,5 +107,18 @@ export function deleteKey(key) {
 	} else {
 		return ddelete(`info/${key}`)
 	}
+}
 
+export function deleteKeyValuePairs(keyValuePairs: { key: string }[]) {
+
+	if (useLocalStorage) {
+		return $.Deferred(function(dfd) {
+			$.each(keyValuePairs, (_index, pair) => {
+				localStorage.removeItem(pair.key)
+			})
+			dfd.resolveWith(this, ['', 200])
+		})
+	} else {
+		return ddelete(`info`, keyValuePairs)
+	}
 }

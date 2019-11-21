@@ -109,16 +109,16 @@ export function deleteKey(key) {
 	}
 }
 
-export function deleteKeyValuePairs(keyValuePairs: { key: string }[]) {
+export function deleteKeys(keys: string[]) {
 
 	if (useLocalStorage) {
 		return $.Deferred(function(dfd) {
-			$.each(keyValuePairs, (_index, pair) => {
-				localStorage.removeItem(pair.key)
+			$.each(keys, (_index, key) => {
+				localStorage.removeItem(key)
 			})
 			dfd.resolveWith(this, ['', 200])
 		})
 	} else {
-		return ddelete(`info`, keyValuePairs)
+		return ddelete(`info`, keys)
 	}
 }

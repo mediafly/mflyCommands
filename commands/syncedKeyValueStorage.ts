@@ -45,7 +45,7 @@ export function deleteSyncedKey(key) {
 	return ddelete(`syncedinfo`, [ key ])
 }
 
-export function deleteSyncedKeyValuePairs(keyValuePairs: {key: string, value: string}[]) {
+export function deleteSyncedKeys(keys: string[]) {
 
-	return ddelete(`syncedinfo`, keyValuePairs)
+	return ddelete(`syncedinfo`, keys)
 }

@@ -824,20 +824,20 @@ function deleteKey(key) {
     }
 }
 exports.deleteKey = deleteKey;
-function deleteKeyValuePairs(keyValuePairs) {
+function deleteKeys(keys) {
     if (useLocalStorage) {
         return $.Deferred(function (dfd) {
-            $.each(keyValuePairs, function (_index, pair) {
-                localStorage.removeItem(pair.key);
+            $.each(keys, function (_index, key) {
+                localStorage.removeItem(key);
             });
             dfd.resolveWith(this, ['', 200]);
         });
     }
     else {
-        return internalMethods_1.ddelete("info", keyValuePairs);
+        return internalMethods_1.ddelete("info", keys);
     }
 }
-exports.deleteKeyValuePairs = deleteKeyValuePairs;
+exports.deleteKeys = deleteKeys;
 
 },{"./device":10,"./internalMethods":20}],23:[function(_dereq_,module,exports){
 "use strict";
@@ -1119,10 +1119,10 @@ function deleteSyncedKey(key) {
     return internalMethods_1.ddelete("syncedinfo", [key]);
 }
 exports.deleteSyncedKey = deleteSyncedKey;
-function deleteSyncedKeyValuePairs(keyValuePairs) {
-    return internalMethods_1.ddelete("syncedinfo", keyValuePairs);
+function deleteSyncedKeys(keys) {
+    return internalMethods_1.ddelete("syncedinfo", keys);
 }
-exports.deleteSyncedKeyValuePairs = deleteSyncedKeyValuePairs;
+exports.deleteSyncedKeys = deleteSyncedKeys;
 
 },{"./internalMethods":20}],31:[function(_dereq_,module,exports){
 "use strict";

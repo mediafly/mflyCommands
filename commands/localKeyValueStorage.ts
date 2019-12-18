@@ -105,7 +105,7 @@ export function deleteKey(key) {
 			dfd.resolveWith(this, ['', 200])
 		})
 	} else {
-		return ddelete(`info/${key}`)
+		return ddelete(`info`, [key])
 	}
 }
 

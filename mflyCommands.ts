@@ -87,5 +87,5 @@ $.extend(mflyCommands, navigation)
 $.extend(mflyCommands, appFeatures)
 $.extend(mflyCommands, updateMetadata)
 
-window['mflyCommands'] = mflyCommands
-export = mflyCommands
+window['mflyCommands'] = window['mflyCommands'] || mflyCommands
+export = window['mflyCommands']

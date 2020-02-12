@@ -4,6 +4,7 @@
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {
+    "release": "release-it",
     "start": "extension-cli serve",
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
@@ -40,6 +41,7 @@
     "browserify-shim": "3.8.12",
     "chokidar-cli": "1.2.2",
     "derequire": "^2.0.6",
+    "release-it": "^12.4.3",
     "typescript": "2.7.2"
   }
 }

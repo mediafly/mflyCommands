@@ -33,6 +33,11 @@ export function putSyncedValue(key, value) {
 	return post(`syncedinfo`, [{ key, value }])
 }
 
+export function putSyncedKeyValuePairs(keyValuePairs: {key: string, value: string}[]) {
+
+	return post(`syncedinfo`, keyValuePairs)
+}
+
 export function deleteSyncedKey(key) {
 	if(!key) {
 		return $.Deferred().rejectWith(this, ['Invalid key provided', 500])
@@ -40,4 +45,7 @@ export function deleteSyncedKey(key) {
 	return ddelete(`syncedinfo`, [ key ])
 }
 
+export function deleteSyncedKeys(keys: string[]) {
 
+	return ddelete(`syncedinfo`, keys)
+}

@@ -795,6 +795,20 @@ function putValue(key, value) {
     }
 }
 exports.putValue = putValue;
+function putKeyValuePairs(keyValuePairs) {
+    if (useLocalStorage) {
+        return $.Deferred(function (dfd) {
+            $.each(keyValuePairs, function (_index, pair) {
+                localStorage.setItem(pair.key, pair.value);
+            });
+            dfd.resolveWith(this, ['', 200]);
+        });
+    }
+    else {
+        return internalMethods_1.post("info", keyValuePairs);
+    }
+}
+exports.putKeyValuePairs = putKeyValuePairs;
 function deleteKey(key) {
     if (!key) {
         return $.Deferred().rejectWith(this, ['Invalid key provided', 500]);
@@ -810,6 +824,20 @@ function deleteKey(key) {
     }
 }
 exports.deleteKey = deleteKey;
+function deleteKeys(keys) {
+    if (useLocalStorage) {
+        return $.Deferred(function (dfd) {
+            $.each(keys, function (_index, key) {
+                localStorage.removeItem(key);
+            });
+            dfd.resolveWith(this, ['', 200]);
+        });
+    }
+    else {
+        return internalMethods_1.ddelete("info", keys);
+    }
+}
+exports.deleteKeys = deleteKeys;
 
 },{"./device":10,"./internalMethods":20}],23:[function(_dereq_,module,exports){
 "use strict";
@@ -1080,6 +1108,10 @@ function putSyncedValue(key, value) {
     return internalMethods_1.post("syncedinfo", [{ key: key, value: value }]);
 }
 exports.putSyncedValue = putSyncedValue;
+function putSyncedKeyValuePairs(keyValuePairs) {
+    return internalMethods_1.post("syncedinfo", keyValuePairs);
+}
+exports.putSyncedKeyValuePairs = putSyncedKeyValuePairs;
 function deleteSyncedKey(key) {
     if (!key) {
         return $.Deferred().rejectWith(this, ['Invalid key provided', 500]);
@@ -1087,6 +1119,10 @@ function deleteSyncedKey(key) {
     return internalMethods_1.ddelete("syncedinfo", [key]);
 }
 exports.deleteSyncedKey = deleteSyncedKey;
+function deleteSyncedKeys(keys) {
+    return internalMethods_1.ddelete("syncedinfo", keys);
+}
+exports.deleteSyncedKeys = deleteSyncedKeys;
 
 },{"./internalMethods":20}],31:[function(_dereq_,module,exports){
 "use strict";

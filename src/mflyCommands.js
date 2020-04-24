@@ -522,6 +522,9 @@ function get(func, param, expectJson) {
             .then(function (result) {
             var resultJSON = JSON.parse(result);
             if (resultJSON.status < 300) {
+                if (expectJson) {
+                    resultJSON.data = JSON.parse(resultJSON.data);
+                }
                 deferred.resolveWith(_this, [resultJSON.data, resultJSON.status]);
             }
             else {
@@ -820,7 +823,7 @@ function deleteKey(key) {
         });
     }
     else {
-        return internalMethods_1.ddelete("info/" + key);
+        return internalMethods_1.ddelete("info", [key]);
     }
 }
 exports.deleteKey = deleteKey;
@@ -1283,10 +1286,11 @@ module.exports = window['mflyCommands'];
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/favorites":14,"./commands/filter":15,"./commands/folder":16,"./commands/getParentItems":17,"./commands/gpsCoordinates":18,"./commands/interactiveInfo":19,"./commands/item":21,"./commands/localKeyValueStorage":22,"./commands/navigation":23,"./commands/notification":24,"./commands/onlineStatus":25,"./commands/openWindow":26,"./commands/postAction":27,"./commands/postEvent":28,"./commands/search":29,"./commands/syncedKeyValueStorage":30,"./commands/systemInfo":31,"./commands/updateMetadata":32,"./commands/uploadUrl":33,"./commands/version":35}],37:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {
+    "release": "release-it",
     "start": "extension-cli serve",
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",

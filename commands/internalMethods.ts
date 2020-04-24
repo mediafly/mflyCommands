@@ -26,6 +26,11 @@ export function get(func, param = null, expectJson = true) {
 
 				const resultJSON : InteractivesInterfaceResponse = JSON.parse(result)
 				if(resultJSON.status < 300) {
+					
+					if (expectJson) {
+						resultJSON.data = JSON.parse(resultJSON.data)
+					}
+
 					deferred.resolveWith(this, [resultJSON.data, resultJSON.status])
 				} else {
 					deferred.rejectWith(this, [resultJSON.data, resultJSON.status])

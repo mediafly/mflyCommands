@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.mflyCommands = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalMethods_1 = _dereq_("./internalMethods");
@@ -820,7 +820,7 @@ function deleteKey(key) {
         });
     }
     else {
-        return internalMethods_1.ddelete("info/" + key);
+        return internalMethods_1.ddelete("info", [key]);
     }
 }
 exports.deleteKey = deleteKey;
@@ -1283,10 +1283,11 @@ module.exports = window['mflyCommands'];
 },{"./commands/accountInfo":1,"./commands/appFeatures":2,"./commands/applicationSync":3,"./commands/async":4,"./commands/collections":5,"./commands/controls":7,"./commands/copy":8,"./commands/credentials":9,"./commands/device":10,"./commands/downloader":11,"./commands/email":12,"./commands/embed":13,"./commands/favorites":14,"./commands/filter":15,"./commands/folder":16,"./commands/getParentItems":17,"./commands/gpsCoordinates":18,"./commands/interactiveInfo":19,"./commands/item":21,"./commands/localKeyValueStorage":22,"./commands/navigation":23,"./commands/notification":24,"./commands/onlineStatus":25,"./commands/openWindow":26,"./commands/postAction":27,"./commands/postEvent":28,"./commands/search":29,"./commands/syncedKeyValueStorage":30,"./commands/systemInfo":31,"./commands/updateMetadata":32,"./commands/uploadUrl":33,"./commands/version":35}],37:[function(_dereq_,module,exports){
 module.exports={
   "name": "mfly-commands",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "mflyCommands.js for Mediafly Interactives",
   "main": "src/mflyCommands.js",
   "scripts": {
+    "release": "release-it",
     "start": "extension-cli serve",
     "clean": "rm -rf .temp src & mkdir src",
     "compile": "tsc",
@@ -1315,13 +1316,13 @@ module.exports={
     "Interactives"
   ],
   "dependencies": {
-    "jquery": "3.4.0"
+    "jquery": "3.5.0"
   },
   "devDependencies": {
     "@types/jquery": "3.3.1",
-    "browserify": "13.1.0",
-    "browserify-shim": "3.8.12",
-    "chokidar-cli": "1.2.2",
+    "browserify": "16.0.0",
+    "browserify-shim": "3.8.14",
+    "chokidar-cli": "2.1.0",
     "derequire": "^2.0.6",
     "typescript": "2.7.2"
   }

@@ -483,17 +483,26 @@ function getInteractiveInfo() {
                 case 'collection':
                     info.invokedFrom = 'collection';
                     info.invokedFromId = interactiveContext.id;
-                    return info;
+                    break;
                 case 'folder':
                     info.invokedFrom = 'folder';
                     info.invokedFromId = interactiveContext.parentSlug;
-                    return info;
+                    break;
                 case 'search':
                     info.invokedFrom = 'search';
                     info.invokedFromTerm = interactiveContext.term;
-                    return info;
+                    break;
+                case 'search':
+                    info.invokedFrom = 'search';
+                    info.invokedFromTerm = interactiveContext.term;
+                    break;
+                case 'workspace':
+                    info.invokedFrom = 'workspace';
+                    info.invokedFromId = interactiveContext.workspaceSlug;
+                    info.invokedFromPageId = interactiveContext.workspacePageSlug;
+                    break;
                 default:
-                    return info;
+                    break;
             }
         }
         return info;
@@ -875,6 +884,12 @@ function preserveContext(url) {
         }
         if (interactiveContext.type === 'folder') {
             url += '?parentSlug=' + interactiveContext.parentSlug;
+        }
+        if (interactiveContext.type === 'workspace') {
+            url += '?workspaceSlug=' + interactiveContext.workspaceSlug;
+            if (interactiveContext.workspacePageSlug) {
+                url += '&workspacePageSlug=' + interactiveContext.workspacePageSlug;
+            }
         }
     }
     var returnUrl = utils_1.getUrlParameter('returnurl');

@@ -40,6 +40,12 @@ function preserveContext(url) {
 		if (interactiveContext.type === 'folder') {
 			url += '?parentSlug=' + interactiveContext.parentSlug
 		}
+		if (interactiveContext.type === 'workspace') {
+			url += '?workspaceSlug=' + interactiveContext.workspaceSlug
+			if (interactiveContext.workspacePageSlug) {
+				url += '&workspacePageSlug=' + interactiveContext.workspacePageSlug
+			}
+		}
 	}
 
 	const returnUrl = getUrlParameter('returnurl')

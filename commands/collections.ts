@@ -16,6 +16,10 @@ export function addItemToCollection(collectionId, itemId) {
 	return post(`collections/${collectionId}/items`, { ids: [ itemId ] })
 }
 
+export function addItemsToCollection(collectionId, ids) {
+	return post(`collections/${collectionId}/items`, { ids })
+}
+
 export function removeItemFromCollection(collectionId, itemId) {
 	return ddelete(`collections/${collectionId}/items/${itemId}`)
 }

@@ -1,7 +1,7 @@
-import { getCurrentItem, getItem } from './item'
+import { getItem } from './item'
 import { isWeb, isDesktop } from './device'
 import { post } from './internalMethods'
-import { getUrlParameter } from './utils'
+import { getUrlParameter, isInIframe, openUrl } from './utils'
 
 function preserveContext(url) {
 	
@@ -58,17 +58,17 @@ function preserveContext(url) {
 
 export function close() {
 	let url = preserveContext('/interactive-redirect/v5/items/__self__/back')
-	window.location.href = url
+	openUrl(url)
 }
 
 export function next() {
 	let url = preserveContext('/interactive-redirect/v5/items/__self__/next')
-	window.location.href = url
+	openUrl(url)
 }
 
 export function previous() {
 	let url = preserveContext('/interactive-redirect/v5/items/__self__/previous')
-	window.location.href = url
+	openUrl(url)
 }
 
 interface OpenItemOptions {
@@ -86,7 +86,12 @@ export function open(id, options?: number | OpenItemOptions) {
 		var params: OpenItemOptions = {}
 		var url = item.url
 		if (isWeb() || isDesktop()) {
-			params.returnurl = window.location.href
+
+			if (isInIframe()) {
+				params.returnurl = window.top.location.href
+			} else {
+				params.returnurl = window.location.href
+			}
 		}
 		// Backwards compatiblity where bookmark is the second param
 		if (typeof options === 'number') {
@@ -115,8 +120,7 @@ export function open(id, options?: number | OpenItemOptions) {
 			}
 		}
 		url += (url.indexOf('?') > -1 ? '&' : '?') + $.param(params)
-
-		window.location.href = `${window.location.protocol}//${window.location.host}${url}`
+		openUrl(`${window.location.protocol}//${window.location.host}${url}`)
 	})
 }
 
@@ -124,7 +128,7 @@ export var openItem = open
 
 export function openFolder(id) {
 	getItem(id).then(item => {
-		window.location.href = item.url
+		openUrl(item.url)
 	})
 }
 

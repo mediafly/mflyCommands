@@ -24,3 +24,15 @@ export function getUrlParameter(sParam: string): string | undefined {
 		}
 	}
 }
+
+export function isInIframe() {
+	return window.location !== window.top.location
+}
+
+export function openUrl(url: string) {
+	if (isInIframe) {
+		window.top.location.href = url
+	} else {
+		window.location.href = url
+	}
+}

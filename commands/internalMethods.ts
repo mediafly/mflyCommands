@@ -1,6 +1,4 @@
 import device = require('./device')
-import { guid } from './utils'
-import { encode } from './Base64'
 import { isUnsupported } from './commandSupport'
 import {
 	callAsync,
@@ -8,6 +6,7 @@ import {
 	InteractivesInterfaceIsDefined,
 	InteractivesInterfaceResponse
 } from './async'
+import { isInIframe } from './utils'
 
 declare const InteractivesInterface: any
 export function get(func, param = null, expectJson = true) {
@@ -190,6 +189,12 @@ function handleAuthForWeb(response) {
 	if (device.isWeb() && (response.status === 401 || response.status === 451)) {
 		// Viewer does not have an authenticated session. Take user to Viewer root.
 		sessionStorage.setItem('returnUrl', window.location.href)
-		window.location.replace(response.responseJSON.returnUrl)
+
+		if (isInIframe()) {
+			window.top.location.replace(response.responseJSON.returnUrl)
+		} else {
+			window.location.replace(response.responseJSON.returnUrl)
+		}
+
 	}
 }

@@ -58,17 +58,17 @@ function preserveContext(url) {
 
 export function close() {
 	let url = preserveContext('/interactive-redirect/v5/items/__self__/back')
-	openUrl(url)
+	window.location.href = url
 }
 
 export function next() {
 	let url = preserveContext('/interactive-redirect/v5/items/__self__/next')
-	openUrl(url)
+	window.location.href = url
 }
 
 export function previous() {
 	let url = preserveContext('/interactive-redirect/v5/items/__self__/previous')
-	openUrl(url)
+	window.location.href = url
 }
 
 interface OpenItemOptions {

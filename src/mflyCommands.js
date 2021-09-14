@@ -920,17 +920,17 @@ function preserveContext(url) {
 }
 function close() {
     var url = preserveContext('/interactive-redirect/v5/items/__self__/back');
-    utils_1.openUrl(url);
+    window.location.href = url;
 }
 exports.close = close;
 function next() {
     var url = preserveContext('/interactive-redirect/v5/items/__self__/next');
-    utils_1.openUrl(url);
+    window.location.href = url;
 }
 exports.next = next;
 function previous() {
     var url = preserveContext('/interactive-redirect/v5/items/__self__/previous');
-    utils_1.openUrl(url);
+    window.location.href = url;
 }
 exports.previous = previous;
 function open(id, options) {

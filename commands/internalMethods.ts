@@ -191,7 +191,7 @@ function handleAuthForWeb(response) {
 		sessionStorage.setItem('returnUrl', window.location.href)
 
 		if (isInIframe()) {
-			window.top.location.replace(response.responseJSON.returnUrl)
+			window.parent.location.replace(response.responseJSON.returnUrl)
 		} else {
 			window.location.replace(response.responseJSON.returnUrl)
 		}

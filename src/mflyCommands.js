@@ -210,7 +210,7 @@ exports.default = getCredentials;
 },{"./internalMethods":20}],10:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPrefix = exports.isDesktop = exports.isWeb = exports.getDeviceType = exports.isLocalhostForDevelopment = exports.isWindows8 = exports.deviceTypes = void 0;
+exports.getPrefix = exports.isDesktop = exports.isWeb = exports.getDeviceType = exports.isWindows8 = exports.deviceTypes = void 0;
 var developmentPrefix = 'http://localhost:8000/';
 var webPrefix = '/interactive-api/v5/';
 exports.deviceTypes = {
@@ -229,22 +229,13 @@ function isWindows8() {
     return false;
 }
 exports.isWindows8 = isWindows8;
-function isLocalhostForDevelopment() {
-    return (window.location.host.indexOf('localhost:8000') > -1);
-}
-exports.isLocalhostForDevelopment = isLocalhostForDevelopment;
 function getDeviceType() {
-    if (isLocalhostForDevelopment()) {
-        return exports.deviceTypes.development;
+    var deviceTypeCookie = document.cookie.split(';').filter(function (c) { return c.split('=')[0].toLowerCase().trim() === 'devicetype'; });
+    if (deviceTypeCookie.length > 0) {
+        return deviceTypeCookie[0].split('=')[1];
     }
     else {
-        var deviceTypeCookie = document.cookie.split(';').filter(function (c) { return c.split('=')[0].toLowerCase().trim() === 'devicetype'; });
-        if (deviceTypeCookie.length > 0) {
-            return deviceTypeCookie[0].split('=')[1];
-        }
-        else {
-            return exports.deviceTypes.mobile;
-        }
+        return exports.deviceTypes.mobile;
     }
 }
 exports.getDeviceType = getDeviceType;
@@ -536,6 +527,7 @@ exports.showUI = exports.put = exports.ddelete = exports.post = exports.get = vo
 var device = _dereq_("./device");
 var commandSupport_1 = _dereq_("./commandSupport");
 var async_1 = _dereq_("./async");
+var utils_1 = _dereq_("./utils");
 function get(func, param, expectJson) {
     var _this = this;
     if (param === void 0) { param = null; }
@@ -711,11 +703,16 @@ function handleAuthForWeb(response) {
     if (device.isWeb() && (response.status === 401 || response.status === 451)) {
         // Viewer does not have an authenticated session. Take user to Viewer root.
         sessionStorage.setItem('returnUrl', window.location.href);
-        window.location.replace(response.responseJSON.returnUrl);
+        if (utils_1.isInIframe()) {
+            window.parent.location.replace(response.responseJSON.returnUrl);
+        }
+        else {
+            window.location.replace(response.responseJSON.returnUrl);
+        }
     }
 }
 
-},{"./async":4,"./commandSupport":6,"./device":10}],21:[function(_dereq_,module,exports){
+},{"./async":4,"./commandSupport":6,"./device":10,"./utils":34}],21:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRecentlyCreatedContent = exports.getLastViewedContent = exports.getShare = exports.getCurrentItem = exports.getItem = exports.createItem = void 0;
@@ -942,7 +939,7 @@ function open(id, options) {
         var url = item.url;
         if (device_1.isWeb() || device_1.isDesktop()) {
             if (utils_1.isInIframe()) {
-                params.returnurl = window.top.location.href;
+                params.returnurl = window.parent.location.href;
             }
             else {
                 params.returnurl = window.location.href;
@@ -1231,12 +1228,12 @@ function getUrlParameter(sParam) {
 }
 exports.getUrlParameter = getUrlParameter;
 function isInIframe() {
-    return window.location !== window.top.location;
+    return window.location !== window.parent.location;
 }
 exports.isInIframe = isInIframe;
 function openUrl(url) {
     if (isInIframe) {
-        window.top.location.href = url;
+        window.parent.location.href = url;
     }
     else {
         window.location.href = url;
@@ -1318,7 +1315,6 @@ var mflyCommands = {
     getData: embed_1.getData,
     getDeviceType: device_1.getDeviceType,
     getPrefix: device_1.getPrefix,
-    isLocalhostForDevelopment: device_1.isLocalhostForDevelopment,
     isWindows8: device_1.isWindows8,
     openWindow: openWindow_1.default,
     postAction: postAction_1.postAction,

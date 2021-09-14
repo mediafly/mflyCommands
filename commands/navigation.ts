@@ -88,7 +88,7 @@ export function open(id, options?: number | OpenItemOptions) {
 		if (isWeb() || isDesktop()) {
 
 			if (isInIframe()) {
-				params.returnurl = window.top.location.href
+				params.returnurl = window.parent.location.href
 			} else {
 				params.returnurl = window.location.href
 			}

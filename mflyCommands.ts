@@ -30,7 +30,7 @@ import { hideControlBars, showControlBars } from './commands/controls'
 import { embed, embedImage, getData } from './commands/embed'
 import { postAction, postPageView } from './commands/postAction'
 import { postEvent } from './commands/postEvent'
-import { getDeviceType, getPrefix, isLocalhostForDevelopment, isWindows8 } from './commands/device'
+import { getDeviceType, getPrefix, isWindows8 } from './commands/device'
 import openWindow from './commands/openWindow'
 import { getEmailStatus, sendEmail } from './commands/email'
 import getCredentials from './commands/credentials'
@@ -63,7 +63,6 @@ var mflyCommands = {
 	getData,
 	getDeviceType,
 	getPrefix,
-	isLocalhostForDevelopment,
 	isWindows8,
 	openWindow,
 	postAction,

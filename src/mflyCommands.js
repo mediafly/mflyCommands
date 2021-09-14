@@ -3,17 +3,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.getUserInfo = void 0;
 var internalMethods_1 = _dereq_("./internalMethods");
-var utils_1 = _dereq_("./utils");
 function getUserInfo() {
     return internalMethods_1.get('account');
 }
 exports.getUserInfo = getUserInfo;
 function logout() {
-    utils_1.openUrl('/interactive-redirect/v5/account/logout');
+    window.location.href = '/interactive-redirect/v5/account/logout';
 }
 exports.logout = logout;
 
-},{"./internalMethods":20,"./utils":34}],2:[function(_dereq_,module,exports){
+},{"./internalMethods":20}],2:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.takeAndEmailScreenshot = exports.showAnnotations = exports.composeEmail = exports.email = exports.showSecondScreenOptions = exports.showUserManagement = exports.showSettings = void 0;

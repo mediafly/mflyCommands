@@ -6,7 +6,7 @@ import {
 	InteractivesInterfaceIsDefined,
 	InteractivesInterfaceResponse
 } from './async'
-import { isInIframe } from './utils'
+import { isInIframe, openUrl } from './utils'
 
 declare const InteractivesInterface: any
 export function get(func, param = null, expectJson = true) {
@@ -188,13 +188,15 @@ function handleAuthForWeb(response) {
 
 	if (device.isWeb() && (response.status === 401 || response.status === 451)) {
 		// Viewer does not have an authenticated session. Take user to Viewer root.
-		sessionStorage.setItem('returnUrl', window.location.href)
 
-		if (isInIframe()) {
-			window.parent.location.replace(response.responseJSON.returnUrl)
+		let url = response.responseJSON.returnUrl
+
+		if (!isInIframe()) {
+			sessionStorage.setItem('returnUrl', window.location.href)
+			window.location.replace(url)
 		} else {
-			window.location.replace(response.responseJSON.returnUrl)
+			url = `${url}?returnUrl=${encodeURIComponent(window.parent.location.href)}`
+			window.parent.location.replace(url)
 		}
-
 	}
 }

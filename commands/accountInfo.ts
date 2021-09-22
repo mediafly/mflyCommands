@@ -1,6 +1,4 @@
 import { get } from './internalMethods'
-import { getCurrentItem } from './item'
-import { isWeb } from './device'
 
 export function getUserInfo() {
 	return get('account')

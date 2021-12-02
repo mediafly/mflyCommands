@@ -7,3 +7,7 @@ export function getUserInfo() {
 export function logout() {
 	window.location.href = '/interactive-redirect/v5/account/logout'
 }
+
+export function removeUser() {
+	window.location.href = '/interactive-redirect/v5/account/unbind'
+}

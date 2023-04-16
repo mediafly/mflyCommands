@@ -40,7 +40,7 @@
     "browserify": "16.0.0",
     "browserify-shim": "3.8.14",
     "chokidar-cli": "2.1.0",
-    "derequire": "2.0.6",
+    "derequire": "2.1.1",
     "release-it": "15.4.1",
     "typescript": "4.2.4"
   }
